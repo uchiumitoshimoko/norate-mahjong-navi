@@ -1,6 +1,8 @@
 # Database credentials (NEVER commit)
 /app/Config/database.php
 /app/Config/database.php.bak
+/kanri/app/Config/database.php
+/kanri/app/Config/database.php.bak
 
 # Runtime cache, logs, sessions
 /app/tmp/cache/*
