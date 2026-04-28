@@ -1,0 +1,14 @@
+AddType application/x-httpd-php .php .html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+	RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+php_flag apc.cache_by_default off
+
+
+
+

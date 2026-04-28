@@ -1,0 +1,280 @@
+  <div class="boxDetail">
+    <div class="doubleDot">
+      <section class="inner new">
+        <div class="outlineTxt">
+          <h1 class="job"><?=$jobs['Jobs']['title']?>
+          
+          <? if(!empty($syokusyu['Syokusyu']['name'])) { ?>
+          <span>（<?=$syokusyu['Syokusyu']['name']?>）</span>
+          <? } ?>
+          </h1>
+          <div class="date">会社名：<?=$jobs['Jobs']['company_name']?></div>
+          <div class="date">求人ID：<?=$jobs['Jobs']['job_id']?></div>
+          <div class="location">勤務地：<?=$jobs['Jobs']['kinmusaki_name_1']?></div>
+        </div>
+        <dl class="ar">
+          <dt>予定<br>最高年収</dt>
+          <dd><span><?=number_format($jobs['Jobs']['nensyu_max'])?></span>万円</dd>
+        </dl>        
+        <hr class="border">
+        <div class="guidelines">
+          <h2><img src="/resources/images/jobtype/ttl_guidelines.png" alt="募集要項"></h2>
+          <dl>
+            <dt>想定年収</dt>
+            <dd><?=$jobs['Jobs']['nensyu']?></dd>
+            <dt>仕事内容</dt>
+            <dd>
+            	<?=$jobs['Jobs']['kinmu_naiyo']?>
+            </dd>
+            <dt>求める経験</dt>
+            <dd>
+            	<?=$jobs['Jobs']['gyomukeiken']?>
+            </dd>
+
+<?
+	if(!empty($jobs['Jobs']['koyo_keitai'])) {
+?>
+            <dt>雇用形態</dt>
+            <dd>
+            	<?=$jobs['Jobs']['koyo_keitai']?>
+            </dd>
+<?
+	}
+?>
+
+<?
+	if(!empty($jobs['Jobs']['coretime_start']) || !empty($jobs['Jobs']['coretime_end'])) {
+?>
+
+            <dt>コアタイム</dt>
+            <dd>
+            	<?
+	            	if(!empty($jobs['Jobs']['coretime_start'])) {
+						echo $jobs['Jobs']['coretime_start'];
+					}
+					
+					echo "～";
+					
+					if(!empty($jobs['Jobs']['coretime_end'])) {
+						echo $jobs['Jobs']['coretime_end'];
+					}
+				?>
+            </dd>
+<?
+	}
+?>
+
+
+<?
+	if(!empty($jobs['Jobs']['kinmu_start']) || !empty($jobs['Jobs']['kinmu_end'])) {
+?>
+
+            <dt>就業時間</dt>
+            <dd>
+            	<?
+	            	if(!empty($jobs['Jobs']['kinmu_start'])) {
+						echo $jobs['Jobs']['kinmu_start'];
+					}
+					
+					echo "～";
+					
+					if(!empty($jobs['Jobs']['kinmu_end'])) {
+						echo $jobs['Jobs']['kinmu_end'];
+					}
+				?>
+            </dd>
+<?
+	}
+?>
+
+
+<?
+	if(!empty($jobs['Jobs']['hoken'])) {
+?>
+
+            <dt>保険</dt>
+            <dd>
+            	<?=$jobs['Jobs']['hoken']?>
+            </dd>
+<?
+	}
+?>
+
+<?
+	if(!empty($jobs['Jobs']['teate'])) {
+?>
+
+            <dt>諸手当</dt>
+            <dd>
+            	<?=$jobs['Jobs']['teate']?>
+            </dd>
+<?
+	}
+?>
+
+<?
+	if(!empty($jobs['Jobs']['holiday'])) {
+?>
+
+            <dt>休日休暇</dt>
+            <dd>
+            	<?=$jobs['Jobs']['holiday']?>
+            </dd>
+<?
+	}
+?>
+
+          </dl>
+        </div>
+        <div class="btnEntry"><a href="/entry/?jobid=<?=$jobs['Jobs']['id']?>"><img src="/resources/images/game/mv01btn_red.png" alt="無料転職相談へのお申込み" class="imgover"></a></div>
+        
+        <hr class="border">
+        
+        <div class="guidelines">
+          <h2><img src="/resources/images/jobtype/ttl_companyInformation.png" alt="会社情報"></h2>
+          <dl>
+            <dt>会社名</dt>
+            <dd><?=$jobs['Jobs']['company_name']?></dd>
+            <dt>業種</dt>
+            <dd><?=$jobs['Jobs']['gyosyu_name']?></dd>
+            <dt>資本金</dt>
+            <dd><?=$jobs['Jobs']['sihon']?></dd>
+            <dt>売上高</dt>
+            <dd><?=$jobs['Jobs']['uriage']?></dd>
+
+<?
+	if(!empty($jobs['Jobs']['kigyo_pref']) || !empty($jobs['Jobs']['kigyo_sikutyoson'])) {
+?>
+            <dt>所在地</dt>
+            <dd><?=$jobs['Jobs']['kigyo_pref']?><?=$jobs['Jobs']['kigyo_sikutyoson']?></dd>
+<?
+	}
+?>
+            <dt>従業員数</dt>
+            <dd><?=$jobs['Jobs']['jugyoinsu']?></dd>
+            
+            <dt>設立年月</dt>
+            <dd><?=$jobs['Jobs']['seturitu']?></dd>
+            <dt>事業内容</dt>
+            <dd>
+            	<?=$jobs['Jobs']['jigyonaiyo_web']?>
+            </dd>
+            
+			<dt>会社の特徴</dt>
+            <dd>
+            	<?=$jobs['Jobs']['company_tokutyo']?>
+            </dd>
+                      </dl>
+        </div>
+
+        <hr class="border">
+        
+        <div class="guidelines">
+          <dl>
+            <dt>この企業の別の求人</dt>
+            <dd>
+            	<?
+            		foreach($jobs_company as $row) {
+				?>
+					<a href="/search/detail/<?=$row['Jobs']['id']?>"><?=$row['Jobs']['title']?></a><br />
+				<?
+					}
+				?>
+			</dd>
+          </dl>
+        </div>
+        
+        
+        <div class="btnEntry"><a href="/entry/?jobid=<?=$jobs['Jobs']['id']?>"><img src="/resources/images/game/mv01btn_red.png" alt="無料転職相談へのお申込み" class="imgover"></a></div>
+      </section>
+    </div>
+  </div>
+  <a href="javascript:void(0);" onclick="javascript:history.back();" class="btn_backToList"><img src="/global/images/btn_backToList.png" alt="求人一覧へ戻る" class="imgover"></a>
+<br/>
+
+<div style="text-align:center">
+<span style="font-size:18px;color:red;">この求人と似た職種で転職された方の声</span>
+</div>
+   <?
+		$age = Configure::read('age');
+		$sex = Configure::read('sex');
+		
+    	foreach($voices as $voice) {
+
+	?>
+
+<a style="text-decoration: none;"  href="/voices/detail/<?=$voice['Voice']['id']?>?t=<?=$voice['Voice']['type_id']?>">
+	<table width="100%" style="border: solid 1px  #000000">
+		<tr>
+			<td colspan="4" style="background-color:black; color:white;" width="100%">
+			　<?=$syokusyu_type[$voice['Voice']['type_id']]?>
+			</td>
+		</tr>
+		<tr>
+			<td width="3%"></td>
+			<td width="60%" valign="top">
+
+
+	<table>
+		<tr height="100px">
+			
+			<td>
+				<span style="font-size: 20px;color:black;">
+					<br/>
+					<?=$voice['Voice']['list_comment']?>
+					<br/>
+				</span>
+				<div style="font-size: 20px;text-align:right;;color:black;">
+					（<?=$age[$voice['Voice']['age']]?>／<?=$sex[$voice['Voice']['sex']]?>）
+					
+				</div>
+				<div style="font-size: 12px;text-align:left;;color:black;">
+				職種名：<?=$syokusyu_list[$voice['Voice']['syokusyu_id']]?>
+				</div>
+			</td>
+		</tr>
+	
+	</table>
+
+			</td>
+			<td width="2%"></td>
+			<td width="35%">
+				<div style="text-align:center">
+<?
+	if(!empty($voice['Voice']['image_imgdat'])) {
+		echo "<img width='150' src='/voices/read_image_image/" . $voice['Voice']['id'] . "/'>";
+		echo "<br/>";
+		
+	}
+?>
+				</div>
+			</td>
+		</tr>
+	</table>
+</a>
+<br/>
+	<?
+		}
+	?>
+
+
+<!--  製品詳細ページタグ ---->
+<script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+<script type="text/javascript">
+var ua = navigator.userAgent;
+var site_type = "";
+if(ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0){
+    site_type = "m";
+}else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+    site_type = "t";
+}else{
+    site_type = "d";
+}
+
+window.criteo_q = window.criteo_q || [];
+window.criteo_q.push(  
+        { event: "setAccount", account: 37761 },
+        { event: "setSiteType", type: site_type },
+        { event: "viewItem", item: "<?=$jobs['Jobs']['job_id']?>" }
+);
+</script>

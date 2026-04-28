@@ -1,0 +1,337 @@
+<?php
+
+// Excel出力用ライブラリ
+App::import('vendor','phpexcel/phpexcel');
+
+class UtilityComponent extends Component {
+
+	// 呼び出し元のコントローラのインスタンス
+	var $controller = null;
+	
+	/**
+	 * コンポーネントの初期化処理
+	 */
+	function initialize(Controller $controller) {
+		$this->controller = $controller;
+	}
+	
+	/**
+	 * コンポーネントの初期化処理
+	 */
+	function startup(Controller $controller){	
+	}
+	
+	/**
+	 * 都道府県ごとの登録件数を取得する
+	 */
+	public function getPrefsCount() {
+		
+		$this->Prefs = ClassRegistry::init('Prefs');
+		$this->Stores = ClassRegistry::init('Stores');
+		
+		$cond = array();
+		$cond['count >'] = "0";
+		$order = array('count'=>'desc');
+		$prefs = $this->Prefs->find('all', array('conditions'=>$cond, 'order'=>$order));
+		
+		return $prefs;
+	}
+	
+	/**
+	 * 該当条件の店舗一覧を取得する。
+	 */
+	public function getStores($cond = array(), $order = array(), $limit = array()) {
+		
+		$this->Stores = ClassRegistry::init('Stores');
+		
+		$fields = array('id', 'create_date','update_date','pickup_flg','store_name','kenko_flg','norate_flg','kyogi_flg', 'yoyaku_flg', 'visit_flg','visit_date','blog_url','homepage_1_title','homepage_1_url','homepage_2_title','homepage_2_url','homepage_3_title','homepage_3_url','comment','pref_id','mati','address','close_flg', 'status','station','free_word_text','new_flg','twitter', 'store_mime_1', 'store_mime_2', 'store_mime_3', 'store_mime_4');
+		
+		$stores = $this->Stores->find('all', array('conditions'=>$cond, 'fields'=> $fields, 'order'=>$order, 'limit'=>$limit));
+		
+		return $stores;
+		
+	}
+	
+	/**
+	 * パンくずを作成する
+	 */
+	public function createPankuzu($pref_id = "", $mati = "", $store_id = "") {
+		
+		$prefectures_id_list = Configure::read('prefectures_id');
+		
+		$this->Stores = ClassRegistry::init('Stores');
+		$this->Prefs = ClassRegistry::init('Prefs');
+		$this->Matis = ClassRegistry::init('Matis');
+		
+		$pankuzu_pref = array();
+		$pankuzu_mati = array();
+		$pankuzu_store = array();
+		
+		// パンくず
+		$pankuzu = "";
+		
+		// 店舗IDがあれば完成
+		if($store_id != "") {
+			
+			$cond_s = array();
+			$cond_s['id'] = $store_id;
+			
+			$stores = $this->getStores($cond_s);
+			
+			$pankuzu_pref = array('url'=>'/prefs/list/' . $stores[0]['Stores']['pref_id'], 'name'=>$prefectures_id_list[$stores[0]['Stores']['pref_id']]);
+			
+			$pankuzu_mati = array('url'=>'/matis/list/' . $stores[0]['Stores']['pref_id'] . "/" . $stores[0]['Stores']['mati'], 'name'=>$stores[0]['Stores']['mati']);
+			
+			$pankuzu_store = array('url'=>'', 'name'=>$stores[0]['Stores']['store_name']);
+		}
+		
+		// 市区町村が埋まっていなければ処理
+		if(empty($pankuzu_mati) && $mati != "" && $pref_id != "") {
+			
+			$pankuzu_pref = array('url'=>'/prefs/list/' . $pref_id, 'name'=>$prefectures_id_list[$pref_id]);
+			
+			$pankuzu_mati = array('url'=>'', 'name'=>$mati);
+		}
+		
+		// 都道府県が埋まっていなければ処理
+		if(empty($pankuzu_pref) && $pref_id != "") {
+			
+			$pankuzu_pref = array('url'=>'', 'name'=>$prefectures_id_list[$pref_id]);
+		}
+		
+		$pankuzu = '<div class="cp_breadcrumb"><ul class="breadcrumbs">';
+		
+		$pankuzu.= '<li><a href="/">Home</a></li>';
+		
+		if(!empty($pankuzu_pref)) {
+			
+			$pankuzu.= '<li>';
+			
+			if($pankuzu_pref['url'] != "") {
+				$pankuzu.= '<a href=' . $pankuzu_pref['url'] . '>' . $pankuzu_pref['name'] . '</a>';
+			}
+			else {
+				$pankuzu.= $pankuzu_pref['name'];
+			}
+			
+			$pankuzu.= '</li>';
+		}
+		
+		if(!empty($pankuzu_mati)) {
+			
+			$pankuzu.= '<li>';
+			
+			if($pankuzu_mati['url'] != "") {
+				$pankuzu.= '<a href=' . $pankuzu_mati['url'] . '>' . $pankuzu_mati['name'] . '</a>';
+			}
+			else {
+				$pankuzu.= $pankuzu_mati['name'];
+			}
+			
+			$pankuzu.= '</li>';
+		}
+
+		if(!empty($pankuzu_store)) {
+			
+			$pankuzu.= '<li>';
+			
+			if($pankuzu_store['url'] != "") {
+				$pankuzu.= '<a href=' . $pankuzu_store['url'] . '>' . $pankuzu_store['name'] . '</a>';
+			}
+			else {
+				$pankuzu.= $pankuzu_store['name'];
+			}
+			
+			$pankuzu.= '</li>';
+		}
+		
+		$pankuzu.= "</ul></div>";
+		
+		
+		return $pankuzu;
+
+	}
+	
+	public function createSitemaps() {
+		
+		$URI = "https://kenko-norate-mahjong.com";
+		
+		// トランザクション開始
+		$this->Sitemaps = ClassRegistry::init('Sitemaps');
+		$this->Stores = ClassRegistry::init('Stores');
+		$this->Prefs = ClassRegistry::init('Prefs');
+		$this->Matis = ClassRegistry::init('Matis');
+		
+$contents = <<< EOM
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+EOM;
+		
+		$sitemap_list = array();
+		
+		// 固定ページのサイトマップ情報を取得する。
+		$sitemaps = $this->Sitemaps->find('all');
+		
+		foreach($sitemaps as $row) {
+			
+			$sub = array();
+			$sub['loc'] = $URI . $row['Sitemaps']['loc'];
+			$sub['priority'] = $row['Sitemaps']['priority'];
+			$sub['changefreq'] = $row['Sitemaps']['changefreq'];
+			$sub['lastmod'] = $row['Sitemaps']['lastmod'];
+			
+			$sitemap_list[] = $sub;
+			
+		}
+		
+		// 都道府県情報を取得する
+		$cond = array();
+		$fields = array('pref_id');
+		$prefs = $this->Prefs->find('all', array('fields'=>$fields, 'conditions'=>$cond));
+		
+		foreach($prefs as $row) {
+			
+			$lastmod = date('Y-m-d');
+			
+			$sub = array();
+			$sub['loc'] = $URI . "/prefs/list/" . $row['Prefs']['pref_id'];
+			$sub['priority'] = "1.0";
+			$sub['changefreq'] = "daily";
+			$sub['lastmod'] = $lastmod;
+			
+			$sitemap_list[] = $sub;
+		}
+		
+		// 市区町村情報を取得する。
+		foreach($prefs as $row) {
+			
+			$cond = array();
+			$cond['pref_id'] = $row['Prefs']['pref_id'];
+			
+			$matis = $this->Matis->find('all', array('conditions'=>$cond));
+			
+			foreach($matis as $row_m) {
+				
+				$lastmod = date('Y-m-d');
+				
+				$sub = array();
+				$sub['loc'] = $URI . "/matis/list/" . $row_m['Matis']['pref_id'] . "/" . $row_m['Matis']['mati'];
+				$sub['priority'] = "1.0";
+				$sub['changefreq'] = "daily";
+				$sub['lastmod'] = $lastmod;
+				
+				$sitemap_list[] = $sub;
+			}
+		}
+		
+		// 店舗情報を取得する。
+		$stores = $this->getStores();
+		
+		if(!empty($stores)) {
+			foreach($stores as $row_s) {
+				
+				$lastmod = date('Y-m-d', strtotime($row_s['Stores']['update_date']));
+				
+				$sub = array();
+				$sub['loc'] = $URI . "/stores/detail/" . $row_s['Stores']['id'];
+				$sub['priority'] = "1.0";
+				$sub['changefreq'] = "daily";
+				$sub['lastmod'] = $lastmod;
+				
+				$sitemap_list[] = $sub;
+					
+			}
+		}		
+		
+		// 文字列にする。
+		foreach($sitemap_list as $row) {
+
+$contents .= <<< EOM
+<url>
+<loc>{$row['loc']}</loc>
+<priority>{$row['priority']}</priority>
+<lastmod>{$row['lastmod']}</lastmod>
+<changefreq>{$row['changefreq']}</changefreq>
+<lastmod>{$row['lastmod']}</lastmod>
+</url>
+EOM;
+$contents.= "\n";
+
+		}
+		
+		$contents .= "\n</urlset>";
+		
+		// 結果をファイルに書き出す
+		$file = "/home/users/1/oops.jp-kenko-norate-mj/web" . TEST . "/app/webroot/sitemap.xml";
+
+		file_put_contents($file, $contents);
+	}
+	
+	public function countStores() {
+		
+		$this->Prefs = ClassRegistry::init('Prefs');
+		$this->Matis = ClassRegistry::init('Matis');
+		$this->Stores = ClassRegistry::init('Stores');
+		
+		// 一旦新着を消す
+		$sql = "UPDATE m_stores SET new_flg=0 WHERE new_flg=1";
+		$this->Stores->query($sql, false);
+		
+		// 直近の20件を新着扱いにする。
+		$cond_s = array();
+		$cond_s['status'] = "1";
+		$limit_s = "20";
+		$order_s = array('create_date'=>'desc');
+		$fields_s = array('id');
+		$new_stores = $this->Stores->find('all', array('conditions'=>$cond_s, 'order'=>$order_s, 'limit'=>$limit_s, 'fields'=>$fields_s));
+				
+		foreach($new_stores as $row) {
+			
+			$save_s = array();
+			$save_s['id'] = $row['Stores']['id'];
+			$save_s['new_flg'] = "1";
+			$this->Stores->save($save_s);
+		}
+		
+		// 都道府県の件数を調べる
+		$prefs = $this->Prefs->find('all');
+		
+		foreach($prefs as $pref) {
+			
+			$cond_p = array();
+			$cond_p['pref_id'] = $pref['Prefs']['pref_id'];
+			$cond_p['status'] = "1";	// 表示になっているもの
+			
+			$count = $this->Stores->find('count', array('conditions'=>$cond_p));
+			
+			$save_p = array();
+			$save_p['id'] = $pref['Prefs']['id'];
+			$save_p['count'] = $count;
+			
+			$this->Prefs->save($save_p);
+			
+		}
+		
+		// 市区町村の件数を調べる
+		$matis = $this->Matis->find('all');
+		
+		foreach($matis as $mati) {
+			
+			$cond_p = array();
+			$cond_p['pref_id'] = $mati['Matis']['pref_id'];
+			$cond_p['mati'] = $mati['Matis']['mati'];
+			$cond_p['status'] = "1";	// 表示になっているもの
+			
+			$count = $this->Stores->find('count', array('conditions'=>$cond_p));
+			
+			
+			$save_p = array();
+			$save_p['id'] = $mati['Matis']['id'];
+			$save_p['count'] = $count;
+			
+			$this->Matis->save($save_p);
+			
+		}
+	}
+	
+}

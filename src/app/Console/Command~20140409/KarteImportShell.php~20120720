@@ -1,0 +1,106 @@
+<?php
+
+App::uses('ComponentCollection', 'Controller');
+App::uses('KarteComponent', 'Controller/Component');	// カルテ連携コンポーネント
+App::uses('PetsController', 'Controller');
+App::uses('CustomersController', 'Controller');
+
+/*
+ * ベアーレ側のACCOUNTテーブルより、新郎新婦情報を取得し、MYPAGE側に書き込む
+ */
+class KarteImportShell extends Shell {
+	
+	// 使用するモデルを指定する。
+	//var $uses = array("VAccountMp", "TEventSub", "MCustomer", "VEventMp","Couple", "Mypage", "Dummy", "DandoriTask", "MypageTask", "GuestCardReply", "GuestCardPack", "DummyBeare");
+	
+	var $Controller;
+	
+	var $components = array('Karte');
+	
+	/**
+	 * 初期化処理
+	 */
+	function startup(){
+
+		$collection = new ComponentCollection();
+		$this->Karte = new KarteComponent($collection);
+		parent::startup();
+	
+	/*
+		$this->Controller =& new Controller();
+		$this->Karte =& new KarteComponent(null);
+		$this->Karte->initialize($this->Controller);
+		$this->Karte = new KarteComponent($this->Controller);
+	*/
+		/*
+		$this->Controller =& new Controller();
+		$this->BeareCommon =& new BeareCommonComponent(null);
+		$this->BeareCommon->startup($this->Controller);
+        
+		$this->Controller = new Controller();
+        $this->AppController = new AppController();
+		$this->BeareCommon = new BeareCommonComponent($this->Controller);
+		*/
+	}
+
+	/**
+	 * カルテ側の昨日分の更新履歴を取得し、その情報をもとにMYPAGE、ECCUBEの顧客データを更新する。
+	 */
+	function main() {
+		
+		// チェックする日付
+		$check_date = date("Y-m-d",strtotime("-1 day"));
+		//$check_date = date("Y-m-d");
+		
+		// 実在するcustomer_cd
+		$const_customer_cd = "100000000136";
+		
+		// 更新リストを取得する。
+		$customers = $this->Karte->getCustomerModified($const_customer_cd, $check_date);
+		
+		// 更新がなければ終了
+		if(!isset($customers) || empty($customers)) {
+			return true;
+		}
+		
+		$CustomerModel = ClassRegistry::init('Customer');
+		
+		// ループして、MYPAGE側のcustomer_cdが存在していれば、MYPAGE、ECCUBEを更新する。
+		foreach($customers as $customer_info) {
+			
+			print_r($customer_info);
+			exit;
+			
+			$cond = array("customer_cd"=>$customer_info['customer_cd']);
+				
+			$login = $CustomerModel->find('first', array('conditions'=>$cond));
+			
+			// MYPAGEにデータがなければ、スルー
+			if(empty($login)) {
+				continue;
+			}
+			
+			$loginData = $login['Customer'];
+			$loginData['customer_id'] = $login['Customer']['id'];
+			
+			$loginData['karte'] = $customer_info;
+		
+			// 取得したパラメータをもとに、MYPAGE側のECCUBEデータを更新する。
+			$customerctl = new CustomersController();
+			$customerctl->updateCustomerForKarte($customer_info, $loginData);
+			
+			// カルテ情報をループして、ペット配列に格納する。
+			$pet_buf = array();
+			foreach($customer_info['array_pets'] as $item) {
+				$pet_buf[$item['pcd']] = $item;
+			}
+			
+			// 取得したパラメータをもとに、MYPAGE側にペットコードが存在するかどうかしらべて、既にあれば[なにもしない]、なければ[追加]する。
+			$petctl = new PetsController();
+			$petctl->updatePetsForKarte($pet_buf, $loginData['customer_id']);
+		}
+	}
+}
+
+
+?>

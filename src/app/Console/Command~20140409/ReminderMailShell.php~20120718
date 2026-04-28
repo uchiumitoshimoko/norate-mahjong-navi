@@ -1,0 +1,527 @@
+<?php
+
+App::uses('ComponentCollection', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
+App::uses('KarteComponent', 'Controller/Component');	// カルテ連携コンポーネント
+
+/*
+ * リマインダーメールを送信する。
+ *
+ * 【送り方】各メールから送るべきレコードを抽出→c_reminder_mailに格納→c_reminder_mails内をcustomer_idでgroupして送信
+ */
+class ReminderMailShell extends Shell {
+
+	var $Controller;
+
+	// 項目名
+	var $item_list = array(
+	  '1' => '歯磨き',
+	  '2' => '爪切り',
+	  '3' => 'シャンプー',
+	  '4' => '耳掃除',
+	  '5' => '肛門絞り',
+	  '6' => 'メモパッド',
+	  '7' => 'ワクチン',
+	  '8' => 'フィラリア',
+	  '9' => 'ノミ・マダニ',
+	  '10' => '健康診断'
+	);
+	
+	//var $components = array('Karte');
+	
+	/**
+	 * 初期化処理
+	 */
+	function startup(){
+		
+		$collection = new ComponentCollection();
+		$this->Karte = new KarteComponent($collection);
+		parent::startup();
+	
+	}
+
+	/**
+	 * 実行
+	 */
+	function main() {
+
+		$today = date('Y-m-d');	// 本日
+
+		$ReminderMail = ClassRegistry::init('ReminderMail');	// 一時まとめテーブル
+		
+		// 歯磨き(c_toothbrushings)
+		$Toothbrushing = ClassRegistry::init('Toothbrushing');
+		$cond = array("reminder_date"=>$today);
+		
+		$datas = $Toothbrushing->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Toothbrushing']['customer_id'];
+				$saveData['reminder_id'] = $data['Toothbrushing']['id'];
+				$saveData['pet_id'] = $data['Toothbrushing']['pet_id'];
+				$saveData['table_id'] = "1";
+				$saveData['send_estim_date'] = $data['Toothbrushing']['reminder_date'];
+				$saveData['next_date'] = $data['Toothbrushing']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		// 爪切り(c_nailclippers)
+		$Nailclipper = ClassRegistry::init('Nailclipper');
+		$cond = array("reminder_date"=>$today);
+		$datas = $Nailclipper->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Nailclipper']['customer_id'];
+				$saveData['reminder_id'] = $data['Nailclipper']['id'];
+				$saveData['pet_id'] = $data['Nailclipper']['pet_id'];
+				$saveData['table_id'] = "2";
+				$saveData['send_estim_date'] = $data['Nailclipper']['reminder_date'];
+				$saveData['next_date'] = $data['Nailclipper']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		// シャンプー(c_shampoos)
+		$Shampoo = ClassRegistry::init('Shampoo');
+		$cond = array("reminder_date"=>$today);
+		$datas = $Shampoo->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Shampoo']['customer_id'];
+				$saveData['reminder_id'] = $data['Shampoo']['id'];
+				$saveData['pet_id'] = $data['Shampoo']['pet_id'];
+				$saveData['table_id'] = "3";
+				$saveData['send_estim_date'] = $data['Shampoo']['reminder_date'];
+				$saveData['next_date'] = $data['Shampoo']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		// 耳掃除(c_earcleanings)
+		$Earcleaning = ClassRegistry::init('Earcleaning');
+		$cond = array("reminder_date"=>$today);
+		$datas = $Earcleaning->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Earcleaning']['customer_id'];
+				$saveData['reminder_id'] = $data['Earcleaning']['id'];
+				$saveData['pet_id'] = $data['Earcleaning']['pet_id'];
+				$saveData['table_id'] = "4";
+				$saveData['send_estim_date'] = $data['Earcleaning']['reminder_date'];
+				$saveData['next_date'] = $data['Earcleaning']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		// 肛門腺絞り(c_diaphragms)
+		$Diaphragm = ClassRegistry::init('Diaphragm');
+		$cond = array("reminder_date"=>$today);
+		$datas = $Diaphragm->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Diaphragm']['customer_id'];
+				$saveData['reminder_id'] = $data['Diaphragm']['id'];
+				$saveData['pet_id'] = $data['Diaphragm']['pet_id'];
+				$saveData['table_id'] = "5";
+				$saveData['send_estim_date'] = $data['Diaphragm']['reminder_date'];
+				$saveData['next_date'] = $data['Diaphragm']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		// メモパッド(c_memopads)
+		$Memopad = ClassRegistry::init('Memopad');
+		$cond = array("reminder_date"=>$today, "notice_flg"=>"1");
+		
+		$datas = $Memopad->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Memopad']['customer_id'];
+				$saveData['reminder_id'] = $data['Memopad']['id'];
+				$saveData['pet_id'] = $data['Memopad']['pet_id'];
+				$saveData['table_id'] = "6";
+				$saveData['send_estim_date'] = $data['Memopad']['reminder_date'];
+				$saveData['next_date'] = $data['Memopad']['estim_date1'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		// ワクチン(c_vaccines)
+		$Vaccine = ClassRegistry::init('Vaccine');
+		$cond = array("reminder_date_1"=>$today, "reminder_flg_1"=>"1");
+		
+		$datas = $Vaccine->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Vaccine']['customer_id'];
+				$saveData['reminder_id'] = $data['Vaccine']['id'];
+				$saveData['pet_id'] = $data['Vaccine']['pet_id'];
+				$saveData['table_id'] = "7";
+				$saveData['send_estim_date'] = $data['Vaccine']['reminder_date_1'];
+				$saveData['next_date'] = $data['Vaccine']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		$cond = array("reminder_date_2"=>$today, "reminder_flg_2"=>"1");
+		
+		$datas = $Vaccine->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Vaccine']['customer_id'];
+				$saveData['reminder_id'] = $data['Vaccine']['id'];
+				$saveData['pet_id'] = $data['Vaccine']['pet_id'];
+				$saveData['table_id'] = "7";
+				$saveData['send_estim_date'] = $data['Vaccine']['reminder_date_2'];
+				$saveData['next_date'] = $data['Vaccine']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		$cond = array("reminder_date_3"=>$today, "reminder_flg_3"=>"1");
+		
+		$datas = $Vaccine->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Vaccine']['customer_id'];
+				$saveData['reminder_id'] = $data['Vaccine']['id'];
+				$saveData['pet_id'] = $data['Vaccine']['pet_id'];
+				$saveData['table_id'] = "7";
+				$saveData['send_estim_date'] = $data['Vaccine']['reminder_date_3'];
+				$saveData['next_date'] = $data['Vaccine']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		// フィラリア(c_filarias)
+		$Filaria = ClassRegistry::init('Filaria');
+		$cond = array("reminder_date_1"=>$today, "reminder_flg_1"=>"1");
+		
+		$datas = $Filaria->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Filaria']['customer_id'];
+				$saveData['reminder_id'] = $data['Filaria']['id'];
+				$saveData['pet_id'] = $data['Filaria']['pet_id'];
+				$saveData['table_id'] = "8";
+				$saveData['send_estim_date'] = $data['Filaria']['reminder_date_1'];
+				$saveData['next_date'] = $data['Filaria']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		$cond = array("reminder_date_2"=>$today, "reminder_flg_2"=>"1");
+		
+		$datas = $Filaria->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Filaria']['customer_id'];
+				$saveData['reminder_id'] = $data['Filaria']['id'];
+				$saveData['pet_id'] = $data['Filaria']['pet_id'];
+				$saveData['table_id'] = "8";
+				$saveData['send_estim_date'] = $data['Filaria']['reminder_date_2'];
+				$saveData['next_date'] = $data['Filaria']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		$cond = array("reminder_date_3"=>$today, "reminder_flg_3"=>"1");
+		
+		$datas = $Filaria->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Filaria']['customer_id'];
+				$saveData['reminder_id'] = $data['Filaria']['id'];
+				$saveData['pet_id'] = $data['Filaria']['pet_id'];
+				$saveData['table_id'] = "8";
+				$saveData['send_estim_date'] = $data['Filaria']['reminder_date_3'];
+				$saveData['next_date'] = $data['Filaria']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		// ノミ・マダニ(c_nomis)
+		$Nomi = ClassRegistry::init('Nomi');
+		$cond = array("reminder_date_1"=>$today, "reminder_flg_1"=>"1");
+		
+		$datas = $Nomi->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Nomi']['customer_id'];
+				$saveData['reminder_id'] = $data['Nomi']['id'];
+				$saveData['pet_id'] = $data['Nomi']['pet_id'];
+				$saveData['table_id'] = "9";
+				$saveData['send_estim_date'] = $data['Nomi']['reminder_date_1'];
+				$saveData['next_date'] = $data['Nomi']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		$cond = array("reminder_date_2"=>$today, "reminder_flg_2"=>"1");
+		
+		$datas = $Nomi->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Nomi']['customer_id'];
+				$saveData['reminder_id'] = $data['Nomi']['id'];
+				$saveData['pet_id'] = $data['Nomi']['pet_id'];
+				$saveData['table_id'] = "9";
+				$saveData['send_estim_date'] = $data['Nomi']['reminder_date_2'];
+				$saveData['next_date'] = $data['Nomi']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		$cond = array("reminder_date_3"=>$today, "reminder_flg_3"=>"1");
+		
+		$datas = $Nomi->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Nomi']['customer_id'];
+				$saveData['reminder_id'] = $data['Nomi']['id'];
+				$saveData['pet_id'] = $data['Nomi']['pet_id'];
+				$saveData['table_id'] = "9";
+				$saveData['send_estim_date'] = $data['Nomi']['reminder_date_3'];
+				$saveData['next_date'] = $data['Nomi']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		// 健康診断(c_medicals)
+		$Medical = ClassRegistry::init('Medical');
+		$cond = array("reminder_date_1"=>$today, "reminder_flg_1"=>"1");
+		
+		$datas = $Medical->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Medical']['customer_id'];
+				$saveData['reminder_id'] = $data['Medical']['id'];
+				$saveData['pet_id'] = $data['Medical']['pet_id'];
+				$saveData['table_id'] = "9";
+				$saveData['send_estim_date'] = $data['Medical']['reminder_date_1'];
+				$saveData['next_date'] = $data['Medical']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+		$cond = array("reminder_date_2"=>$today, "reminder_flg_2"=>"1");
+		
+		$datas = $Medical->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Medical']['customer_id'];
+				$saveData['reminder_id'] = $data['Medical']['id'];
+				$saveData['pet_id'] = $data['Medical']['pet_id'];
+				$saveData['table_id'] = "9";
+				$saveData['send_estim_date'] = $data['Medical']['reminder_date_2'];
+				$saveData['next_date'] = $data['Medical']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+
+		$cond = array("reminder_date_3"=>$today, "reminder_flg_3"=>"1");
+		
+		$datas = $Medical->find('all', array('conditions'=>$cond));
+		
+		if(!empty($datas)) {
+			foreach($datas as $data) {
+				$saveData = array();
+				$saveData['customer_id'] = $data['Medical']['customer_id'];
+				$saveData['reminder_id'] = $data['Medical']['id'];
+				$saveData['pet_id'] = $data['Medical']['pet_id'];
+				$saveData['table_id'] = "9";
+				$saveData['send_estim_date'] = $data['Medical']['reminder_date_3'];
+				$saveData['next_date'] = $data['Medical']['next_date'];
+				$ReminderMail->create(array('ReminderMail'=>$saveData));
+				$ReminderMail->save();
+			}
+		}
+		
+
+		/** ここからメール送信 **/
+		
+		// c_reminder_mailsから、送信予定日時が今日のものを取得し、customer_idでグルーピングして、送信する。
+		
+		$cond = "ReminderMail.send_estim_date='" . $today . "' AND ReminderMail.send_flg=0";
+		$datas = $ReminderMail->find('all', array('conditions'=>$cond, 'order'=>array('customer_id')));
+		
+		// 一件もなければ処理終了。
+		if(empty($datas)) {
+			return;
+		}
+		
+		// customer_idごとにデータを集約する。
+		$customers = array();
+		
+		foreach($datas as $data) {
+			$customers[$data['ReminderMail']['customer_id']][] = $data;
+		}
+		
+		$Pet = ClassRegistry::init('Pet');
+		
+		$call_list['0'] = "ちゃん";
+		$call_list['1'] = "ちゃん";
+		$call_list['2'] = "くん";
+		
+		// customer_idごとにメールを送信する。
+		foreach($customers as $customer) {
+			
+			// リマインダーメール送信フラグがたっていなければ、スルーする。
+			if($customer[0]['Customer']['reminder_pc'] != "1" && $customer[0]['Customer']['reminder_m'] != "1") {
+				continue;
+			}
+			
+			
+			$mail_str = "";
+			
+			// 件数分ループして本文を作成する。
+			foreach($customer as $value) {
+				
+				// ペットIDからペット名を取得する。
+				$cond = "Pet.id=" . $value['ReminderMail']['pet_id'];
+				$result = $Pet->find('first', array('conditions'=>$cond));
+				
+				$customer_info = $this->Karte->getCustomerInfo($result['Pet']['customer_cd']);
+				
+				$pet_info = $customer_info['array_pets'][intval($result['Pet']['pcd'])-1];
+				
+				$item_str = "☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆\n";
+				$item_str.= date('Y年m月d日', strtotime($value['ReminderMail']['next_date'])) . "は\n";
+				$item_str.= $pet_info['pname'] . $call_list[$result['Pet']['yobikata']] . "の\n" . $this->item_list[$value['ReminderMail']['table_id']] . "予定日です!\n";
+				$item_str.= "---------------------------------------\n\n";
+				
+				$mail_str.= $item_str;
+			}
+			
+			
+			$customer_info = $this->Karte->getCustomerInfo($customer[0]['Customer']['customer_cd']);
+			
+			// メール送信（PC)
+			$subject = "【Anicli24】リマインダーメール";
+			if($customer[0]['Customer']['reminder_pc'] == "1") {
+				$this->mailSend($customer_info['email'], $customer_info['name'], $subject, $mail_str);
+			}
+			
+			// メール送信（モバイル）
+			if($customer[0]['Customer']['reminder_m'] == "1") {
+				$this->mailSend($customer[0]['Customer']['email_m'], $customer_info['name'], $subject, $mail_str);
+			}
+		}
+		
+		// 送信したら、送信フラグを更新する。（send_flg=1）
+		$cond = "ReminderMail.send_estim_date='" . $today . "'";
+		$setdata = array();
+		$setdata['send_flg'] = "'1'";	// 送信フラグ
+		$setdata['send_date'] = "'" . date('Y-m-d H:i:s') . "'";	// 送信時間
+		
+		$ReminderMail->updateAll($setdata, $cond);
+		
+	}
+	
+	/**
+	 * メール送信
+	 */
+	function mailSend($mailaddress, $name, $subject, $comment) {
+		
+	    // テンプレートに送る変数
+	    $ary_vars = array (
+	        'name' => $name,
+	        'comment' => $comment
+	    );
+
+	    // 送受信者設定
+	    $from_mail = 'info@anicli24.com';
+	    $from_name = 'Anicli24 事務局';
+	    $to_mail = $mailaddress;
+	    $to_name = $name;
+		
+		//$to_mail = "haizuka@a-sel.com";
+		//$to_mail = "f94017@yahoo.co.jp";
+
+		$config = array (
+		        'host'      => '127.0.0.1',
+		        'port'      => 25,
+		        'username'  => 'wladmin',
+		        'password'  => 'WLP@ssw0rd',
+		        'transport' => 'Mail'
+		    );
+
+	    // 送信処理
+	    $email = new CakeEmail($config);
+	    
+	    /*
+		$email->attachments(array(
+		    'bill.pdf' => array(
+		        'file' => $pdf_file,
+		        'mimetype' => 'application/pdf'
+		    )
+		));
+	    */
+	    
+	    $email
+	                ->template('reminder_mail', 'reminder_mail')
+	                ->viewVars($ary_vars)
+	                ->emailFormat('text')
+	                ->from(array($from_mail => $from_name))
+	                ->to(array($to_mail => $to_name))
+	                ->subject($subject)
+	                ->send();
+	                	                
+	}
+	
+}
+
+
+?>

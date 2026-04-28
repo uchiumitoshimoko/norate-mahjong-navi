@@ -1,0 +1,722 @@
+
+<script>
+$(function(){
+	
+	$(".nensyu").on('click', function() {
+		
+		// 現在のチェック状況を確認する。
+		var nensyu = $(this).attr("value");
+		
+		var now_value = $("#nensyu" + nensyu).val();
+		
+		// チェックされていなければ、チェックを付ける。
+		if(now_value == "0") {
+			$("#nensyu" + nensyu).val("1");
+			$(this).addClass("active");
+		}
+		else {
+			$("#nensyu" + nensyu).val("0");
+			$(this).removeClass("active");
+		}
+	});
+});
+</script>
+
+        <!-- MAIN CONTENT -->
+
+        <div>
+            <div class="module__page-header">
+                <div class="container ">
+                    <div class="mobile-row">
+                        <h2 class="title">求人情報</h2>
+                        <div class="button-back">
+                            <a href="javascript:history.back();">戻る</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module__page-breadcrumb">
+                <div class="container "><a href="#">トップページ</a><a href="/search/">求人検索</a><a href="#"><?=$jobs['Jobs']['company_name']?> / <?=$jobs['Jobs']['title']?></a></div>
+            </div>
+
+            <!-- 2Column -->
+            <div class="module__page-2column">
+                <div class="container row">
+                
+                    <!-- Sidebar -->
+                    <aside class="sidebar detail">
+                    	
+                    	<!-- Searchs -->
+                       <div class="module__search-box">
+                       
+							<form action="/search/job_list/" name="frm1" method='POST'>
+								
+								<?
+									$search = $this->Session->read('search');
+
+									$free_word = "";
+											
+									if(isset($search['free_word'])) {
+										if(!empty($search['free_word'])) {
+											$free_word = $search['free_word'];
+										}
+									}
+								?>
+                                <div class="division-search">
+                                    <h2 class="title">フリーワード検索</h2>
+                                    <label for="" class="search-module">
+                                    	<?=$this->Form->input('free_word',array('name'=>'free_word', 'class'=>'search-module-input', 'id'=>'search_freewords', 'type'=>'text','label'=>false,'div'=>false, 'placeholder'=>'例 : 東京 iOSエンジニア', 'default'=>$free_word))?>
+                                   
+                            		</label>
+
+                                </div>
+
+                                <div class="division-income">
+                                    <h2 class="title">年収から探す</h2>
+                                    <div class="row">
+
+
+									<? 
+										$nensyu = Configure::read('nensyu');
+									?>
+									
+									<?
+										foreach($nensyu as $key => $row) {
+											
+											$active_flg = "";
+											
+											if(isset($search['nensyu'])) {
+												if(isset($search['nensyu'][$key])) {
+													if($search['nensyu'][$key] == "1") {
+														$active_flg = "active";
+													}
+												}
+											}
+									?>
+											<a  class="grid  nensyu <?=$active_flg?>" value="<?=$key?>"><?=$row?></a>
+											<?=$this->Form->input('nensyu.' . $key,array('type'=>'hidden','value'=>'0'))?>
+											
+									<?
+										}
+									?>
+
+                                    </div>
+                                </div>
+                                <div class="division-type">
+                                    <h2 class="title">職種から探す</h2>
+
+
+									<? 
+										$jobtype = Configure::read('jobtype');
+										array_unshift($jobtype, array("all"=>"こだわらない"));
+
+									?>
+
+									<label for="" class="select-module">
+										
+										<?
+											$default = "all";
+											
+											if(isset($search['syokusyu_id'])) {
+												if(!empty($search['syokusyu_id'])) {
+													
+													$default = $search['syokusyu_id'][0][0];
+												}
+											}
+										?>
+										
+										<?=$this->Form->input('syokusyu_id.][',array('id'=>'search_job', 'showParents' => true, 'type'=>'select', 'label'=>false, 'options'=>$jobtype ,'div'=>false, 'default'=>$default))?>
+										
+									</label>
+                                </div>
+                                <div class="division-button">
+                                    <button class="search-button">検索する</button>
+                                </div>
+
+                            <?=$this->Form->end(); ?>
+                        </div>
+                        
+                    	
+                    	
+                        <!--another -->
+                        <div class="detail__another-offer">
+
+
+                            <h2 class="title">この企業の求人</h2>
+
+                            <ul class="detail__another-offer-list">
+
+            	<?
+            		foreach($jobs_company as $job) {
+						$new_flg = "";
+						if($job['Jobs']['new_flg'] == "1") {
+							$new_flg = "is--new";
+						}
+				?>
+                                <!-- item -->
+                                <li class="detail__another-offer-item <?=$new_flg?>">
+                                    <a href="/search/detail/<?=$job['Jobs']['id']?>">
+                                        <h3 class="subject"><?=$job['Jobs']['title']?></h3>
+		                                 <ul>
+		                                    <li class="is--corp"><?=$job['Jobs']['company_name']?></li>
+		                                    <li class="is--map"><?=$job['Jobs']['kinmusaki_name_1']?></li>
+		                                    <li class="is--income">予定最高年収 <strong><?=number_format($job['Jobs']['nensyu_max'])?>万円</strong></li>
+		                                </ul>
+                                    </a>
+                                </li>
+                                <!-- item -->
+				<?
+					}
+				?>
+                                <li class="detail__another-offer-item">
+                                    <a href="">
+                                        <h3 class="subject">SNSマーケター2</h3>
+                                        <ul>
+                                            <li class="is--corp">社名非公開</li>
+                                            <li class="is--map">東京都中目黒</li>
+                                            <li class="is--income">予定最高年収 <strong>600万円</strong></li>
+                                        </ul>
+                                    </a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+
+
+
+                        </div>
+                        <!-- /another -->
+
+                    </aside>
+                    <!-- /Sidebar -->
+                                <script>
+                                 $(function(){
+                                 	
+                                 	$(".corporate-info").hide();
+                                 	
+                                    $('.select-tab .tab-job-info').click(function(){
+                                        $('.select-tab > li').removeClass('active');
+                                        $(this).addClass('active');
+                                        
+                                        $('.select-info > div').hide();
+                                        $('.select-info .job-info').show();
+                                    });
+                                    $('.select-tab .tab-corporate-info').on('click',function(){
+                                        $('.select-tab > li').removeClass('active');
+                                        $(this).addClass('active');
+                                        $('.select-info > div').hide();
+                                        $('.select-info .corporate-info').show();
+                                    });
+                                });                                     
+                                </script>                    
+                    
+                    <!-- content -->
+                    <div class="content">
+
+                            <div class="image-main" style="background:url(/img_test/apcTOP_01.jpg);">
+                                <h3 class="title">株式会社エーピーコミュニケーションズ</h3>
+                                <h3 class="logo-image"><img src="/img_test/apc.jpg" alt=""></h3>
+                            </div>
+                            
+                                                    
+                                                                                                    <!-- Corporate Item -->
+                        <div class="detail__item">
+
+                            <div class="item-main">
+
+<?
+	$company_name = "";
+	if($jobs['Jobs']['company_name'] != "社名：非公開企業") {
+		$company_name = "会社名：" . $jobs['Jobs']['company_name'];
+	}
+	else {
+		$company_name = "非公開企業";
+	}
+?>
+
+                           
+                               
+                               
+                                <div class="title">職種：<?=$jobs['Jobs']['title']?></div>
+                                <div class="catchcopy"><?=$company_name?></div>
+                                <div class="intro-income">予定最高年収 <strong><?=number_format($jobs['Jobs']['nensyu_max'])?>万円</strong></div>
+                                <div class="intro-map">勤務地:<?=$jobs['Jobs']['kinmusaki_name_1']?></div>
+								<div class="catchcopy">職種コード：<?=$syokusyu_name?></div>
+
+                                
+                             
+                                
+                                
+
+
+                            <div class="image-one" >
+                               <img src="/img_test/c_admire_04.jpg" alt="">
+                            </div>
+                            <div class="image-two" >
+                                <img src="/img_test/c_index_03.jpg" alt="">
+                                <img src="/img_test/c_index_05.jpg" alt="">
+                            </div>   
+                            
+                            <ul class="select-tab">    
+                                <li class="tab-job-info active">募集要項</li>
+                                <li class="tab-corporate-info ">会社情報</li>
+                            </ul>  
+                                                               
+                                <div class="select-info">
+                        　　<div class="job-info">    
+                                <table class="resume">
+                                    <tr>
+                                        <th>年収</th>
+                                        <td><?=$jobs['Jobs']['nensyu']?></td>
+                                    </tr>
+
+
+                                    <!---->
+
+
+                                    <tr class="pcs">
+                                        <th>仕事内容</th>
+                                        <td>
+                                            <div class="movable" id="movable001">
+                                                <p>
+                                                    <?=$jobs['Jobs']['kinmu_naiyo']?>
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="smps">
+                                        <td colspan="2" class="smps-td" id="smps-td001">
+                                            <h3 class="mobile-th">仕事内容</h3>
+                                        </td>
+                                    </tr>
+
+                                    <!---->
+                                    <!---->
+                                    <tr class="disable">
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="pcs">
+                                        <th>求める経験</th>
+                                        <td>
+                                            <div class="movable" id="movable002">
+                                                <?=$jobs['Jobs']['gyomukeiken']?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="smps">
+                                        <td colspan="2" class="smps-td" id="smps-td002">
+                                            <h3 class="mobile-th">求める経験</h3>
+                                        </td>
+                                    </tr>
+                                    <tr class="disable">
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <!---->
+
+<?
+	if(!empty($jobs['Jobs']['koyo_keitai'])) {
+?>
+                                    <tr>
+                                        <th>
+                                            雇用形態
+
+                                        </th>
+                                        <td>
+                                            <?=$jobs['Jobs']['koyo_keitai']?>
+                                        </td>
+                                    </tr>
+<?
+	}
+?>
+<?
+	if(!empty($jobs['Jobs']['coretime_start']) || !empty($jobs['Jobs']['coretime_end'])) {
+?>
+
+                                    <tr>
+                                        <th>
+                                            コアタイム
+                                        </th>
+                                        <td>
+            	<?
+	            	if(!empty($jobs['Jobs']['coretime_start'])) {
+						echo $jobs['Jobs']['coretime_start'];
+					}
+					
+					echo "～";
+					
+					if(!empty($jobs['Jobs']['coretime_end'])) {
+						echo $jobs['Jobs']['coretime_end'];
+					}
+				?>
+                                        </td>
+                                    </tr>
+<?
+	}
+?>
+<?
+	if(!empty($jobs['Jobs']['kinmu_start']) || !empty($jobs['Jobs']['kinmu_end'])) {
+?>
+
+                                    <tr>
+                                        <th>
+                                            就業時間
+                                        </th>
+                                        <td>
+            	<?
+	            	if(!empty($jobs['Jobs']['kinmu_start'])) {
+						echo $jobs['Jobs']['kinmu_start'];
+					}
+					
+					echo "～";
+					
+					if(!empty($jobs['Jobs']['kinmu_end'])) {
+						echo $jobs['Jobs']['kinmu_end'];
+					}
+				?>
+                                        </td>
+                                    </tr>
+<?
+	}
+?>
+<?
+	if(!empty($jobs['Jobs']['hoken'])) {
+?>
+                                    <tr>
+                                        <th>
+                                            保険
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['hoken']?>
+                                        </td>
+                                    </tr>
+<?
+	}
+?>
+<?
+	if(!empty($jobs['Jobs']['teate'])) {
+?>
+                                    <tr>
+                                        <th>
+                                            諸手当
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['teate']?>
+                                        </td>
+                                    </tr>
+<?
+	}
+?>
+<?
+	if(!empty($jobs['Jobs']['holiday'])) {
+?>
+                                    <tr>
+                                        <th>休日休暇</th>
+                                        <td><?=$jobs['Jobs']['holiday']?></td>
+                                    </tr>
+<?
+	}
+?>
+
+
+                                </table>
+                            </div>    
+                                
+                                
+
+                                
+                                
+                                
+                           <div class="corporate-info">
+                                <table class="resume">
+                                    <tr>
+                                        <th>
+                                            求人ID
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['job_id']?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            会社名
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['company_name']?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            業種
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['gyosyu_name']?>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            資本金
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['sihon']?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            売上高
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['uriage']?>
+                                        </td>
+                                    </tr>
+<?
+	if(!empty($jobs['Jobs']['kigyo_pref']) || !empty($jobs['Jobs']['kigyo_sikutyoson'])) {
+?>
+                                    <tr>
+                                        <th>所在地
+                                        </th>
+                                        <td><?=$jobs['Jobs']['kigyo_pref']?><?=$jobs['Jobs']['kigyo_sikutyoson']?>
+                                        </td>
+                                    </tr>
+<?
+	}
+?>
+                                    <tr>
+                                        <th>従業員数
+                                        </th>
+                                        <td><?=$jobs['Jobs']['jugyoinsu']?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            設立
+
+                                        </th>
+                                        <td><?=$jobs['Jobs']['seturitu']?></td>
+                                    </tr>
+                                    <!---->
+                                    <tr class="pcs">
+                                        <th>事業内容</th>
+                                        <td>
+                                            <div class="movable" id="movable003">
+                                                <p><?=$jobs['Jobs']['jigyonaiyo_web']?></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="smps">
+                                        <td colspan="2" class="smps-td" id="smps-td003">
+                                            <h3 class="mobile-th">事業内容</h3>
+                                        </td>
+                                    </tr>
+                                    <tr class="disable">
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <!---->
+                                    <!---->
+									
+									<?
+										if(!empty($jobs['Jobs']['company_tokutyo'])) {
+									?>
+                                    <tr class="pcs">
+                                        <th>会社の特徴</th>
+                                        <td>
+                                            <div class="movable" id="movable004">
+                                                <p>
+                                                    <?=$jobs['Jobs']['company_tokutyo']?>
+                                                </p>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="smps">
+                                        <td colspan="2" class="smps-td" id="smps-td004">
+                                            <h3 class="mobile-th">会社の特徴</h3>
+                                        </td>
+                                    </tr>
+	                                <?
+                                    	}
+                                    ?>
+                                    <!---->
+
+                                </table>
+
+								      <section class="inner ">
+
+								        <div class="guidelines">
+								         <dl class="item_category">
+
+								          <h1 class="title01" style="background:#2F3E92;color:#FFF;padding:5px 10px;margin-bottom:1rem;">求人</h1>
+								            
+								            <div class="inner">
+								            <dt></dt>
+								            
+								            	<?
+								            		foreach($jobs_company as $row) {
+												?>
+								             <dd><a href="/search/detail/<?=$row['Jobs']['id']?>"><?=$row['Jobs']['title']?></a></dd>
+												<?
+													}
+												?>
+								             </div>
+								             
+								             
+								          </dl>
+								        </div>
+								          
+								      	</section>
+								      	
+                            </div>
+                                </div>
+                                
+                                
+                                
+                                
+                                <!--Form button-->
+                                <div class="module__form-button ">
+                                    <div class="form-button">
+                                        <a href="/entry/?jobid=<?=$jobs['Jobs']['id']?>">
+		                             	   <span class="balloon">1分で簡単入力！</span> <strong>無料</strong>で今すぐ相談する
+		                                </a>
+                                    </div>
+                                    <p class="proviso">登録すると非公開求人を含むすべての求人がご覧になれます</p>
+
+                                </div>
+                                <!--/Form button-->
+                            </div>
+
+ 
+
+                        </div>
+                        <!-- / Corporate Item -->
+
+
+
+                    </div>
+                    <!-- / content -->
+                </div>
+
+            </div>
+
+            <!-- /2Column -->
+
+            <!-- Nearly -->
+            <div class="detail__nearly-offer">
+                <div class="container">
+                    <h2 class="title">この求人と似た求人</h2>
+
+                    <ul class="detail__nearly-offer-list">
+
+<?
+	foreach($same_job as $job) {
+		
+		$new_flg = "";
+		if($job['Jobs']['new_flg'] == "1") {
+			$new_flg = "is--new";
+		}
+?>
+                        <!-- item -->
+                        <li class="detail__nearly-offer-item <?=$new_flg?>">
+                            <a href="/search/detail/<?=$job['Jobs']['id']?>">
+                                <h3 class="subject"><?=$job['Jobs']['title']?></h3>
+                                <ul>
+                                    <li class="is--corp"><?=$job['Jobs']['company_name']?></li>
+                                    <li class="is--map"><?=$job['Jobs']['kinmusaki_name_1']?></li>
+                                    <li class="is--income">予定最高年収 <strong><?=number_format($job['Jobs']['nensyu_max'])?>万円</strong></li>
+                                </ul>
+                            </a>
+                        </li>
+<?
+	}
+?>
+
+                    </ul>
+
+
+
+                </div>
+
+            </div>
+            <!-- /Nearly -->
+
+            <!-- testimonials -->
+            <div class="toppage__testimonials">
+                <div class="container">
+                    <h2 class="title">この求人と似た職種で転職された方の声</h2>
+
+                    <ul class="toppage__testimonials-list">
+                    
+                  	<?
+                  		$age = Configure::read('age');
+						
+                  		foreach($voices as $voice) {
+							$sex = "";
+							$sex_name = "";
+							if($voice['Voice']['sex'] == "1") {
+								$sex = "is--male";
+								$sex_name = "男性";
+							}
+							else if($voice['Voice']['sex'] == "2") {
+								$sex = "is--female";
+								$sex_name = "女性";
+							}
+					?>
+                        <!-- item -->
+                        <li class="toppage__testimonials-item <?=$sex?>">
+                            <a style="color:black" href="/voices/detail/<?=$voice['Voice']['id']?>">
+                                <p class="toppage__testimonials-comment">
+                                    <?=$voice['Voice']['list_comment']?>
+                                </p>
+
+
+                                <div class="speaker">
+                                    <div class="post"><?=$voice['Voice']['syokusyu_name']?></div>
+                                    <div class="status"><?=$age[$voice['Voice']['age']]?> / <?=$sex_name?></div>
+                                </div>
+
+                            </a>
+                        </li>
+                    <?
+                    	}
+                    ?>
+
+
+                    </ul>
+					<!--
+                    <div class="new-button"><a href="#">すべての新着をみる</a></div>
+					-->
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- MAIN CONTENT END -->
+
+<!--  製品詳細ページタグ ---->
+<script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+<script type="text/javascript">
+var ua = navigator.userAgent;
+var site_type = "";
+if(ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0){
+    site_type = "m";
+}else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+    site_type = "t";
+}else{
+    site_type = "d";
+}
+
+window.criteo_q = window.criteo_q || [];
+window.criteo_q.push(  
+        { event: "setAccount", account: 37761 },
+        { event: "setSiteType", type: site_type },
+        { event: "viewItem", item: "<?=$jobs['Jobs']['job_id']?>" }
+);
+</script>

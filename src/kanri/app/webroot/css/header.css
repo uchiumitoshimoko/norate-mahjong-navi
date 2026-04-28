@@ -1,0 +1,181 @@
+/* ===============================================
+	▼HEADER CSS設定
+=============================================== */
+
+/* -----------------------------------------
+	▼ header01
+----------------------------------------- */
+#header01 {
+	width: 100%;
+	height: 99px;
+	background: url(../img/common/header01_bk.png) repeat-x center top;
+}
+#header01 .frame {
+	width: 930px;
+	margin: 0 auto;
+}
+#header01 h1 {
+	float: left;
+	width: 118px;
+	padding: 20px 0 0;
+}
+#header01 #headMenu {
+	float: right;
+	width: 430px;
+	padding: 15px 0 0;
+}
+#header01 #headMenu #help {
+	float: left;
+	width: 140px;
+}
+#header01 #headMenu #help a {
+	color: #C60B18;
+	font-size: 80%;
+	line-height: 16px;
+	text-decoration: none;
+	background: url(../img/common/icon_q.png) no-repeat left center;
+	padding: 0 0 0 20px;
+}
+#header01 #headMenu #help a:hover {
+	text-decoration: underline;
+}
+#header01 #headMenu #user {
+	float: left;
+	width: 190px;
+}
+#header01 #headMenu #user #hmName span {
+	font-weight: bold;
+	margin: 0 0.5em 0 0;
+}
+#header01 #headMenu #user #conf {
+	padding: 5px 0 0;
+}
+#header01 #headMenu #user #conf a {
+	color: #C60B18;
+	font-size: 80%;
+	line-height: 11px;
+	text-decoration: none;
+	background: url(../img/common/arrow01.png) no-repeat left center;
+	padding: 0 0 0 15px;
+}
+#header01 #headMenu #user #conf a:hover {
+	text-decoration: underline;
+}
+#header01 #headMenu #logout {
+	float: right;
+	width: 91px;
+}
+
+/* -----------------------------------------
+	▼ header02
+----------------------------------------- */
+#header02 {
+	width: 100%;
+	height: 99px;
+	background: url(../img/common/header02_bk.png) repeat-x center top;
+}
+#header02 .frame {
+	width: 930px;
+	padding: 28px 0 0;
+}
+#header02 .frame dl {
+	float: left;
+	width: 310px;
+}
+#header02 .frame dl dt {
+	float: left;
+	width: 75px;
+	position: relative;
+	padding: 3px 0 0;
+}
+#header02 .frame dl dt p.icon {
+	width: 60px;
+	text-align: center;
+}
+#header02 .frame dl dt p.coverR {
+	width: 60px;
+	height: 60px;
+	background: url(../img/common/head_icon_cover_red.png) no-repeat center top;
+	position: absolute;
+	top: 3px;
+	left: 0;
+}
+#header02 .frame dl dt p.coverB {
+	width: 60px;
+	height: 60px;
+	background: url(../img/common/head_icon_cover_blue.png) no-repeat center top;
+	position: absolute;
+	top: 3px;
+	left: 0;
+}
+#header02 .frame dl dt p.coverH {
+	width: 60px;
+	height: 60px;
+	background: url(../img/common/head_icon_cover_hb.png) no-repeat center top;
+	position: absolute;
+	top: 3px;
+	left: 0;
+}
+#header02 .frame dl dt p.coverPH {
+	width: 60px;
+	height: 60px;
+	background: url(../img/common/head_icon_cover_prehb.png) no-repeat center top;
+	position: absolute;
+	top: 3px;
+	left: 0;
+}
+
+#header02 .frame dl dd {
+	float: left;
+	width: 220px;
+	padding: 12px 0 0;
+}
+#header02 .frame h1 {
+	float: left;
+	width: 310px;
+	color: #7F252B;
+	font-weight: bold;
+	font-size: 140%;
+	text-align: center;
+}
+#header02 .frame #headMenu {
+	float: right;
+	width: 310px;
+	padding: 7px 0 0;
+}
+#header02 .frame #headMenu #user {
+	float: left;
+	width: 200px;
+	text-align: right;
+	padding: 3px 0 0;
+}
+#header02 .frame #headMenu #user span {
+	font-weight: bold;
+	margin: 0 0.5em 0 0;
+}
+#header02 .frame #headMenu #btn {
+	float: right;
+	width: 91px;
+}
+
+/* ===============================================
+	▼GLOBAL NAVI 設定
+=============================================== */
+#gnavi {
+	width: 100%;
+	background: #BE3C46 url(../img/common/gn_bk.gif) repeat-x left top;
+}
+#gnavi .frame {
+	width: 968px;
+	margin: 0 auto;
+}
+#gnavi li {
+	float: left;
+	font-size: 0;
+	line-height: 0;
+}
+#gnavi #cap {
+	color: #fff;
+	padding: 10px 0;
+}
+cap

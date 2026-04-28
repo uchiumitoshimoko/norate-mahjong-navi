@@ -1,0 +1,179 @@
+<?php
+
+App::uses('ComponentCollection', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
+App::uses('KarteComponent', 'Controller/Component');
+
+/*
+ * 未付保の状態で、年払いなら１年、月額なら申込日の次月末を過ぎてしまっていた場合は退会扱いにする。
+ */
+class HuhoCustomerCancelShell extends Shell {
+
+	var $Controller;
+	
+	/**
+	 * 初期化処理
+	 */
+	function startup(){
+
+		$collection = new ComponentCollection();
+		$this->Karte = new KarteComponent($collection);
+		parent::startup();
+	
+	}
+
+	/**
+	 * メイン処理
+	 */
+	function main() {
+		
+		$Customer = ClassRegistry::init('Customer');
+		
+		// 未付保の会員で、代理店マスタで「auto_cancel_flg=1」の人を抽出する。
+		$sql = "SELECT customer_cd, account_type, application_date, auto_cancel_flg, koza_flg FROM m_customers, m_contractors WHERE customer_status=1 AND huho_status=0 AND m_customers.ccd=m_contractors.ccd AND m_contractors.auto_cancel_flg!=0 AND (cancel_date IS NULL OR cancel_date = '')";
+		
+		//$sql.= " AND account_type='MONTHLY'";
+		$sql.= " ORDER BY application_date DESC";
+		
+		$result = $Customer->query($sql);
+		
+		$fp = fopen("/var/www/c_system/app/tmp/huhocancel/" . date('Y-m-d') . ".txt", "a");
+		
+		$cancel_list = "";
+		
+		foreach($result as $data) {
+			
+			$check_date = "";
+			$cancel_date2 = "";
+			
+			// 年払いなら１年
+			if($data['m_contractors']['account_type'] == "ANNUAL") {
+				
+				$check_date = date('Y-m-d',mktime(0,0,0,substr($data['m_customers']['application_date'],5,2),substr($data['m_customers']['application_date'],8,2)+1,substr($data['m_customers']['application_date'],0,4)+1));
+				
+				$cancel_date2 = date('Y-m-d',mktime(0,0,0,substr($data['m_customers']['application_date'],5,2),substr($data['m_customers']['application_date'],8,2)-1,substr($data['m_customers']['application_date'],0,4)+1));
+			}
+			else if($data['m_contractors']['account_type'] == "MONTHLY") {
+				
+				$check_date = date('Y-m-d',mktime(0,0,0,substr($data['m_customers']['application_date'],5,2)+2,1,substr($data['m_customers']['application_date'],0,4)));
+				
+				$cancel_date2 = date('Y-m-t',mktime(0,0,0,substr($data['m_customers']['application_date'],5,2)+1,1,substr($data['m_customers']['application_date'],0,4)));
+			}
+			
+			if($check_date <= date('Y-m-d')) {
+			//if($check_date <= "2014-01-23") {
+				
+				// auto_cancel_flg=2  する（口座情報不備の場合削除しない）であり
+				// koza_flg=1 決済情報不備の場合は、削除しない
+				if($data['m_contractors']['auto_cancel_flg']=="2" && $data['m_customers']['koza_flg'] == "1") {
+				}
+				else {
+				
+					//print $data['m_customers']['customer_cd'] . "=" . $cancel_date2 . "\n";
+					
+					fwrite($fp, $data['m_customers']['customer_cd'] . "=" . $cancel_date2 . "\n");
+					$cancel_list.= $data['m_customers']['customer_cd'] . "=" . $cancel_date2 . "\n";
+					
+					// 電話番号を移動する。
+					$customer_info = array();
+					$customer_info = $this->Karte->getCustomerInfo($data['m_customers']['customer_cd']);
+
+					$c_data = array();
+					$c_data['customer_cd'] = $customer_info['customer_cd'];
+					
+					// ①登録電話番号１～３を、メモ欄に移動
+					$c_data['tel1'] = "";
+					$c_data['tel2'] = "";
+					$c_data['tel3'] = "";
+					$c_data['memo'] = "\r\n" . $customer_info['memo'] . "\r\n";
+					
+					if(!empty($customer_info['tel1'])) {
+						$c_data['memo'].= $customer_info['tel1'] . "\r\n";
+					}
+					if(!empty($customer_info['tel2'])) {
+						$c_data['memo'].= $customer_info['tel2'] . "\r\n";
+					}
+					if(!empty($customer_info['tel3'])) {
+						$c_data['memo'].= $customer_info['tel3'] . "\r\n";
+					}
+					
+					// ②代理店をカルテ削除にする。
+					$c_data['ccd'] = "C06";
+					$customer_info = $this->Karte->registCustomerInfo($c_data);
+					
+					// 退会にする。
+					$sql = "UPDATE m_customers SET cancel_date='" . $cancel_date2 . "', customer_status=0, bill_flg2=0 WHERE customer_cd='" . $data['m_customers']['customer_cd'] . "'";
+					$re = $Customer->query($sql);
+					
+					// 解約登録する。
+					$sql = "INSERT INTO t_cancels SET customer_cd='" . $data['m_customers']['customer_cd'] . "', report_date='" . $cancel_date2 . "', cancel_date='" . $cancel_date2 . "', cancel_pattern=4, taikai_pattern=2, cancel_kibou_pattern=0, cancel_memo='申込書未付保により登録削除'";
+
+					$re = $Customer->query($sql);
+					
+				}
+				
+			}
+			
+		
+
+		}
+		fclose($fp);
+		
+		// メール送信する。
+		$today_param = date("Y-m-d");
+		
+	    // テンプレートに送る変数
+	    $ary_vars = array (
+	    	'cancel_date' => $today_param,
+	        'cancel_list' => $cancel_list,
+	    );
+
+	    // 送受信者設定
+	    $from_mail = 'info@anicli24.com';
+	    $from_name = 'Anicli24 事務局';
+	    $to_mail = "youko@cherish-life.co.jp";
+	    $to_name = "馬場陽子";
+		
+		//$to_mail = "haizuka@a-sel.com";
+		//$to_mail = "f94017@yahoo.co.jp";
+		
+		$subject = "【Anicli24】自動カルテ削除（自動送信）";
+		
+		$config = array (
+		        'host'      => '127.0.0.1',
+		        'port'      => 25,
+		        'username'  => 'wladmin',
+		        'password'  => 'WLP@ssw0rd',
+		        'transport' => 'Mail'
+		    );
+
+	    // 送信処理
+	    $email = new CakeEmail($config);
+	    
+	    
+	    $email
+	                ->template('huhocancel', 'huhocancel')
+	                ->viewVars($ary_vars)
+	                ->emailFormat('text')
+	                ->from(array($from_mail => $from_name))
+	                ->to(array($to_mail => $to_name))
+	                ->subject($subject)
+	                ->send();
+		
+		
+		$to_mail = "uchiumi@a-sel.com";
+		
+	    $email
+	                ->template('huhocancel', 'huhocancel')
+	                ->viewVars($ary_vars)
+	                ->emailFormat('text')
+	                ->from(array($from_mail => $from_name))
+	                ->to(array($to_mail => $to_name))
+	                ->subject($subject)
+	                ->send();
+	                
+	}
+}
+
+
+?>

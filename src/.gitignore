@@ -1,0 +1,22 @@
+# Database credentials (NEVER commit)
+/app/Config/database.php
+/app/Config/database.php.bak
+
+# Runtime cache, logs, sessions
+/app/tmp/cache/*
+/app/tmp/logs/*
+/app/tmp/sessions/*
+
+# Keep empty directories
+!/app/tmp/cache/.gitkeep
+!/app/tmp/logs/.gitkeep
+!/app/tmp/sessions/.gitkeep
+
+# CakePHP defaults
+/lib/Cake/Console/Templates/skel/tmp/
+/plugins
+/vendors
+/build
+/dist
+.DS_Store
+/tags

@@ -1,0 +1,181 @@
+<?php
+
+App::uses('ComponentCollection', 'Controller');
+
+/*
+ * カルテ側から日時処理で、全顧客データを取得し、C_SYSTEM側顧客データを更新する。
+ */
+class CustomerImportShell extends Shell {
+	
+	// 使用するモデルを指定する。
+	//var $uses = array("VAccountMp", "TEventSub", "MCustomer", "VEventMp","Couple", "Mypage", "Dummy", "DandoriTask", "MypageTask", "GuestCardReply", "GuestCardPack", "DummyBeare");
+	
+	var $Controller;
+	
+	//var $components = array('Karte');
+	
+	// カルテ連携データの入っているディレクトリ
+	const KARTEMASTER_DIR = "/var/www/c_system/app/tmp/kartemaster";
+	
+	// 顧客、ペット情報データファイル名
+	const CUSTOMER_FILE_NAME = "anicli24_pet_CustomerAndPet.txt";
+	
+	/**
+	 * 初期化処理
+	 */
+	function startup(){
+
+		$collection = new ComponentCollection();
+		//$this->Karte = new KarteComponent($collection);
+		parent::startup();
+	
+	}
+
+	/**
+	 * メイン処理
+	 */
+	function main() {
+		
+		$check_file = CustomerImportShell::KARTEMASTER_DIR . "/" . CustomerImportShell::CUSTOMER_FILE_NAME;
+		$line = file($check_file);
+		
+		$CustomerModel = ClassRegistry::init('Customer');
+		
+		// 前の行のcustomer_cd。customer_cdの変わり目で更新をかける。
+		$pre_customer_cd = "";
+		
+		for($i = 0; $i < count($line); $i++) {
+			
+			// １行目はヘッダ情報なので読み飛ばす
+			if($i==0) continue;
+			
+			// データはすべてタブ区切り
+			$data = explode("\t", mb_convert_encoding($line[$i], "UTF-8", "EUC-JP"));
+			
+			$customer_cd = $data[0];
+			
+			// customer_cdが同じならペットだけ追加する。違っていれば、顧客データを登録する。
+			if($customer_cd != $pre_customer_cd) {
+				
+				// 既にm_customersにcustomer_cdがあればUPDATE。なければ、INSERT
+				//$cond = array("customer_cd"=>$customer_cd);
+				
+				$sql = "SELECT * FROM m_customers WHERE customer_cd='" . $customer_cd . "'";
+				$result = $CustomerModel->query($sql, false);
+				
+				$saveData = array();
+								
+				if(!empty($result)) {
+					
+					$saveData['Customer']["id"] = $result[0]['m_customers']["id"];
+				}
+				else {
+					
+					$CustomerModel->create();
+					
+					// 更新時は代理店コードは更新しない。（カルテ削除になったものを、更新しないため）
+					$saveData['Customer']['ccd'] = $data[1];
+					
+					// 初回収フラグ有の代理店については、全て確定済みにする。
+					$sql = "SELECT initial_payed_flg FROM m_contractors WHERE ccd='" . $data[1] . "'";
+					$result2 = $CustomerModel->query($sql, false);
+					if($result2[0]['m_contractors']["initial_payed_flg"] == 'TRUE') {
+						$saveData['Customer']['kakutei_status'] = '1';
+					}
+					
+					// C01, C02の代理店については、オンラインなので付保済みにして、申込日＝付保日にする。
+					if($data[1] == "C01" || $data[1] == "C02") {
+						$saveData['Customer']['huho_date'] = $data[35];
+						$saveData['Customer']['huho_status'] = "1";
+					}
+				}
+				
+				
+				
+				// 各項目をsaveDataに格納する。
+				$saveData['Customer']['customer_cd'] = $data[0];
+				$saveData['Customer']['name'] = $data[2];
+				$saveData['Customer']['name_kana'] = $data[3];
+				$saveData['Customer']['sex'] = $data[6];
+				$saveData['Customer']['birthday'] = $data[7];
+				$saveData['Customer']['zip_code'] = $data[14];
+				$saveData['Customer']['addr1'] = $data[16];
+				$saveData['Customer']['addr2'] = $data[17];
+				$saveData['Customer']['addr3'] = $data[18];
+				$saveData['Customer']['addr_kana'] = $data[15];
+				$saveData['Customer']['tel'] = $data[9];
+				$saveData['Customer']['fax'] = $data[13];
+				$saveData['Customer']['email'] = $data[19];
+				$saveData['Customer']['caller01'] = $data[10];
+				$saveData['Customer']['caller02'] = $data[11];
+				$saveData['Customer']['caller03'] = $data[12];
+				$saveData['Customer']['bill_send'] = $data[33];
+				$saveData['Customer']['bill_send_method'] = $data[34];
+				$saveData['Customer']['payment_type'] = $data[24];
+				$saveData['Customer']['regist_stat'] = $data[25];
+				$saveData['Customer']['application_date'] = $data[35];
+				$saveData['Customer']['pet_info'] = $data[50];
+				$saveData['Customer']['modified'] = false;
+				
+				if($data[51] == "DOG") {
+					$saveData['Customer']['pet_info'].= "(犬)";
+				}
+				else if($data[51] == "CAT") {
+					$saveData['Customer']['pet_info'].= "(猫)";
+				}
+				
+				$saveData['Customer']['alarm'] = $data[4];
+				$saveData['Customer']['stat'] = $data[5];
+				$saveData['Customer']['memo'] = str_replace("__LF_CR__", "\\r\\n", $data[39]);
+				
+				// １頭目のペットの「備考（既往歴）」に店舗名が含まれる場合は、storeに登録する。
+				// （例） ■プードルＸマルチーズ：店舗：空港ドッグセンター豊中本店　イヨマル
+				// 店舗：からはじまって、次の全角スペースまでの間 or 文字列の最後が店舗にあたる
+				
+				
+				$ret = preg_match('/店舗：(.*)/', $data[66], $match);
+				if($ret != 0) {
+					
+					$ret = preg_match('/(.*)：/', $match[1], $match2);
+					if($ret != 0) {
+						$saveData['Customer']['store'] = $match2[1];
+					}
+					else {
+						$pos = strpos($match[1], "　");
+						$saveData['Customer']['store'] = substr($match[1], 0, $pos);
+					}
+				}
+				
+				$CustomerModel->set($saveData);
+				$CustomerModel->save();
+				
+				// 支払方法が変更されたら、今ある請求データの支払タイプも同期する。
+				$sql = "UPDATE t_bills SET payment_type='" . $data[24] . "' WHERE customer_cd='" . $data[0] . "'";
+				$CustomerModel->query($sql);
+				$CustomerModel->commit();
+				
+				$pre_customer_cd = $customer_cd;
+			}
+			else {
+				// 前の行とcustomer_cdが同じ場合は、ペット情報だけ更新する。
+				$aa = $data[50];
+
+				if($data[51] == "DOG") {
+					$aa.= "(犬)";
+				}
+				else if($data[51] == "CAT") {
+					$aa.= "(猫)";
+				}
+				
+				$sql = "UPDATE m_customers SET pet_info=CONCAT(pet_info, '、" . $aa . "') WHERE customer_cd='" . $customer_cd . "'";
+				$CustomerModel->query($sql);
+				$CustomerModel->commit();
+				
+			}
+		}
+	
+	}
+}
+
+
+?>

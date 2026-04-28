@@ -1,0 +1,230 @@
+/* ===============================================
+	▼共通（基本情報）
+=============================================== */
+body {
+	font-family: "メイリオ","Meiryo","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","ＭＳ Ｐゴシック","MS PGothic",Sans-Serif;
+	color: #333;
+	font-size: 100%;
+	line-height: 1.4;
+	background: #f9f9f9;
+	text-align: center;
+}
+body#login {
+	background: #eee;
+}
+
+html>/**/body {
+	font-size: 100%;
+}
+* + html body {
+	font-family: "メイリオ","Meiryo","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","ＭＳ Ｐゴシック","MS PGothic",Sans-Serif;
+}
+html {
+	width: 100%;
+	height: 100%;
+}
+body {
+	width: 100%;
+	height: 100%;
+}
+
+/* リンクスタイル */
+a {
+	color: #3366cc;
+	text-decoration: underline;
+}
+a:hover {
+	color: #99bbff;
+	text-decoration: underline;
+}
+
+/* ===============================================
+	▼共通（余白）
+=============================================== */
+/* 上余白 */
+.tsp5 { padding-top: 5px; }
+.tsp10 { padding-top: 10px; }
+.tsp15 { padding-top: 15px; }
+.tsp20 { padding-top: 20px; }
+.tsp25 { padding-top: 25px; }
+.tsp30 { padding-top: 30px; }
+.tsp35 { padding-top: 35px; }
+.tsp40 { padding-top: 40px; }
+
+/* 左余白 */
+.lsp5 { padding-left: 5px; }
+.lsp10 { padding-left: 10px; }
+.lsp15 { padding-left: 15px; }
+.lsp20 { padding-left: 20px; }
+.lsp25 { padding-left: 25px; }
+.lsp30 { padding-left: 30px; }
+.lsp35 { padding-left: 35px; }
+.lsp40 { padding-left: 40px; }
+
+/* 右余白 */
+.rsp5 { padding-right: 5px; }
+.rsp10 { padding-right: 10px; }
+.rsp15 { padding-right: 15px; }
+.rsp20 { padding-right: 20px; }
+.rsp25 { padding-right: 25px; }
+.rsp30 { padding-right: 30px; }
+.rsp35 { padding-right: 35px; }
+.rsp40 { padding-right: 40px; }
+
+/* 下余白 */
+.bsp5 { padding-bottom: 5px; }
+.bsp10 { padding-bottom: 10px; }
+.bsp15 { padding-bottom: 15px; }
+.bsp20 { padding-bottom: 20px; }
+.bsp25 { padding-bottom: 25px; }
+.bsp30 { padding-bottom: 30px; }
+.bsp35 { padding-bottom: 35px; }
+.bsp40 { padding-bottom: 40px; }
+.bsp100 { padding-bottom: 100px; }
+
+/* 全体余白 */
+.pad5 { padding: 5px; }
+.pad10 { padding: 10px; }
+.pad15 { padding: 15px; }
+.pad20 { padding: 20px; }
+.pad25 { padding: 25px; }
+.pad30 { padding: 30px; }
+
+/* 余白なし */
+.no_pad { padding: 0; }
+
+/* ===============================================
+	▼共通（横幅）
+=============================================== */
+.w10 { width: 10%; }
+.w20 { width: 20%; }
+.w30 { width: 30%; }
+.w40 { width: 40%; }
+.w50 { width: 50%; }
+.w60 { width: 60%; }
+.w70 { width: 70%; }
+.w80 { width: 80%; }
+.w90 { width: 90%; }
+
+/* ===============================================
+	▼共通（背景色）
+=============================================== */
+.bgcG { background-color: #b2ffb2; }
+.bgcO { background-color: #ffd8b2; }
+.bgcY { background-color: #ffffb2; }
+
+/* ===============================================
+	▼共通（文字スタイル）
+=============================================== */
+/* 太さ・色 */
+.small { font-size: 10px; font-weight: normal; }
+.bold { font-weight: bold; }
+.blue { color: #0068b8; }
+.red { color: #ff0000; }
+.org { color: #ff6600; }
+.error { font-size: 10px; color: #dd0000; font-weight: bold; }
+.error-message { font-size: 14px; color: #dd0000; font-weight: bold; }
+
+/* 文字大きさ */
+.fontL { font-size: 140%; }
+
+/* 文字高さ */
+.line2 { line-height: 2; }
+
+/* 文字位置 */
+.center { text-align: center; }
+.indent01 { text-indent: -1em; padding-left: 1em; }
+
+/* ===============================================
+	▼共通（画像スタイル）
+=============================================== */
+img.middle { vertical-align: middle; }
+
+/* ===============================================
+	▼共通（フロート）
+=============================================== */
+/* フロート解除 */
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+	height: 0;
+	line-height: 0;
+	font-size: 0;
+	visibility: hidden;
+}
+.clearfix {
+	zoom:1;
+}
+* html .clearfix { height: 0px;
+	/*\*//*/
+	height: auto;
+	overflow: hidden;
+	/**/
+}
+.clear { clear: both; line-height: 0; font-size: 0; }
+
+/* ===============================================
+	▼共通（リンク）
+=============================================== */
+/* リンクスタイル */
+a.black { color: #333333; text-decoration: underline; }
+a:hover.black { color: #777777; text-decoration: underline; }
+
+/* マウスオーバー */
+body:nth-of-type(1) a img.over{
+	filter:alpha(opacity=100);
+	-moz-opacity: 1.0;
+	opacity: 1.0;
+}
+body:nth-of-type(1) a:hover img.over{
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+}
+
+/* ===============================================
+	▼共通（フォーム）
+=============================================== */
+/* テキストフォームスタイル */
+input.text10 { width: 10px; vertical-align: middle; padding: 2px; }
+input.text20 { width: 20px; vertical-align: middle; padding: 2px; }
+input.text30 { width: 30px; vertical-align: middle; padding: 2px; }
+input.text40 { width: 40px; vertical-align: middle; padding: 2px; }
+input.text50 { width: 50px; vertical-align: middle; padding: 2px; }
+input.text60 { width: 60px; vertical-align: middle; padding: 2px; }
+input.text70 { width: 70px; vertical-align: middle; padding: 2px; }
+input.text80 { width: 80px; vertical-align: middle; padding: 2px; }
+input.text90 { width: 90px; vertical-align: middle; padding: 2px; }
+input.text100 { width: 100px; vertical-align: middle; padding: 2px; }
+input.text150 { width: 150px; vertical-align: middle; padding: 2px; }
+input.text200 { width: 200px; vertical-align: middle; padding: 2px; }
+input.text250 { width: 250px; vertical-align: middle; padding: 2px; }
+input.text300 { width: 300px; vertical-align: middle; padding: 2px; }
+input.text350 { width: 350px; vertical-align: middle; padding: 2px; }
+input.text400 { width: 400px; vertical-align: middle; padding: 2px; }
+
+/* ファイルフォームスタイル */
+input.file {
+	*width: 250px;
+	padding: 2px;
+}
+
+/* サブミットスタイル */
+input.submit { padding: 5px; }
+
+/* テキストエリアスタイル */
+textarea.textarea60 {
+	width: 74%;
+	height: 40px;
+	border: 1px solid #ccc;
+	vertical-align: top;
+	padding: 2px;
+}
+textarea.textarea100 {
+	width: 96%;
+	height: 100px;
+	border: 1px solid #ccc;
+	padding: 2px;
+}
+

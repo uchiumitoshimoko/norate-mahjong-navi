@@ -1,0 +1,44 @@
+/* ===============================================
+	▼リセットCSS
+=============================================== */
+html {
+	overflow-y: scroll;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6,
+pre, form, fieldset, input, textarea, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+}
+table {
+	margin: 0;
+	padding: 0;
+}
+tr {
+	vertical-align: top;
+}
+caption, th {
+	text-align: left;
+}
+q:before ,q:after {
+	content: '';
+}
+object, embed {
+	vertical-align: top;
+}
+hr, legend {
+	display: none;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+}
+img, abbr, acronym, fieldset {
+	border: 0;
+}
+img { -ms-interpolation-mode: bicubic; }
+li {
+	list-style-type: none;
+	zoom: 1;
+}

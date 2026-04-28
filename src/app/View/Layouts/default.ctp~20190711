@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        <? if(@$page_name != "") { ?>
+            <?=@$page_name?>
+        <? } else { ?>
+            IT・ウェブ・ゲーム業界専門の転職エージェント- Geekly(ギークリー）
+        <? } ?>
+    </title>
+
+    <? if(@$keywords != "") { ?>
+        <meta name="keywords" content="<?=@$keywords?>">
+    <? } ?>
+        
+    <? if(@$description != "") { ?>
+        <meta name="description" content="<?=@$description?>">
+    <? } ?>
+
+    <!-- <script src="js/jquery-1.8.1.min.js" type="text/javascript"></script>-->
+
+
+<?php include("header.ctp");?>
+
+    <?
+// PCのコンバージョンタグ
+if(!$this->request->isMobile()) {
+?>
+
+
+        <!-- Google Tag Manager -->
+        <script>
+            (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-TBQ4JMH');
+
+        </script>
+        <!-- End Google Tag Manager -->
+
+        <script src="/global/scripts/modernizr.custom.js?v=201406190830"></script>
+        <script>
+            /*
+               $(function() {
+                 if (Modernizr.cssvhunit == false) {
+                   location.href='/sp';
+                 }
+               });
+            */
+
+        </script>
+
+        <!--[if lt IE 9]>
+<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-27421114-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+
+        </script>
+
+        <?
+	$url = $_SERVER['REQUEST_URI'];
+	
+	if(!strstr($url,'/entry')){
+?>
+            <script type="text/javascript" src="https://www.tcs-asp.net/tcsalink.js"></script>
+            <?
+	}
+?>
+
+                <script src="//statics.a8.net/a8sales/a8sales.js"></script>
+
+
+                <?
+// スマホのコンバージョンタグ
+}else {
+?>
+
+                    <!-- Google Tag Manager -->
+                    <script>
+                        (function(w, d, s, l, i) {
+                            w[l] = w[l] || [];
+                            w[l].push({
+                                'gtm.start': new Date().getTime(),
+                                event: 'gtm.js'
+                            });
+                            var f = d.getElementsByTagName(s)[0],
+                                j = d.createElement(s),
+                                dl = l != 'dataLayer' ? '&l=' + l : '';
+                            j.async = true;
+                            j.src =
+                                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                            f.parentNode.insertBefore(j, f);
+                        })(window, document, 'script', 'dataLayer', 'GTM-TBQ4JMH');
+
+                    </script>
+                    <!-- End Google Tag Manager -->
+
+                    <script type="text/javascript">
+                        var _gaq = _gaq || [];
+                        _gaq.push(['_setAccount', 'UA-27421114-1']);
+                        _gaq.push(['_trackPageview']);
+
+                        (function() {
+                            var ga = document.createElement('script');
+                            ga.type = 'text/javascript';
+                            ga.async = true;
+                            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+                            var s = document.getElementsByTagName('script')[0];
+                            s.parentNode.insertBefore(ga, s);
+                        })();
+
+                    </script>
+
+                    <?
+	$url = $_SERVER['REQUEST_URI'];
+	
+	if(!strstr($url,'/entry')){
+?>
+                        <script type="text/javascript" src="https://www.tcs-asp.net/tcsalink.js"></script>
+                        <?
+	}
+?>
+
+                            <script src="//statics.a8.net/a8sales/a8sales.js"></script>
+
+
+                            <?
+}
+?>
+
+
+</head>
+
+<body>
+
+
+    <?
+// PCのコンバージョンタグ
+if(!$this->request->isMobile()) {
+?>
+
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBQ4JMH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <?
+// スマホのコンバージョンタグ
+}else {
+?>
+
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBQ4JMH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+
+            <?
+}
+?>
+
+                <div class="site " id="top">
+                    <!-- HAEDER -->
+                    
+<?php include("header2.ctp");?>
+                    
+
+
+                    <?php echo $this->fetch('content'); ?>
+
+
+                    
+                    
+                    
+                    <div style="background:#F2F3F7; text-align:center;"><a href="/entry/"><img src="/img/03_footer_pc.jpg" class="has-view--pc" style="max-width:100%;"><img src="/img/03_footer_sp.jpg" style="max-width:100%;" class="has-view--mobile"></a></div>
+
+                    
+                    
+                    
+                    <!-- FOOTER -->
+<?php include("footer.ctp");?>
+
+
+
+                    <?
+	// 以下のページのみ表示するのみ表示するようにする。
+	$view_name = array('Search');
+	
+	if(in_array($this->name, $view_name)) {
+?>
+                        <div class="footer__sp-space"></div>
+
+                        <!--/Form button-->
+                        <div class="footer__sp-button">
+                            <div class="module__form-button ">
+                                <p>＼あなたの転職を全面サポート！／ </p>
+
+                                <div class="form-button">
+                                    <a href="/entry/?jobid=<?=@$jobs['Jobs']['id']?>">
+                   <span class="balloon">1分で簡単入力！</span> <strong>無料</strong>で今すぐ相談する
+                </a>
+                                </div>
+                                <!--<p class="proviso">登録すると非公開求人を含むすべての求人がご覧になれます</p>-->
+
+                            </div>
+                        </div>
+                        <!--/Form button-->
+                        <?
+	}	// end of 表示制御
+?>
+
+
+
+
+                </div>
+
+
+
+
+                <?
+// PCのコンバージョンタグ
+if(!$this->request->isMobile()) {
+?>
+
+                    <script type="text/javascript">
+                        var _trackingid = 'LFT-10242-1';
+
+                        (function() {
+                            var lft = document.createElement('script');
+                            lft.type =
+                                'text/javascript';
+                            lft.async = true;
+                            lft.src = document.location.protocol +
+                                '//track.list-finder.jp/js/ja/track.js';
+                            var snode = document.getElementsByTagName('script')[0];
+                            snode.parentNode.insertBefore(lft, snode);
+                        })();
+
+                    </script>
+
+                    <!-- Yahoo Universal Tag START -->
+                    <script type="text/javascript">
+                        (function() {
+                            var tagjs = document.createElement("script");
+                            var s = document.getElementsByTagName("script")[0];
+                            tagjs.async = true;
+                            tagjs.src = "//s.yjtag.jp/tag.js#site=2lAGVpF,khLwaSd";
+                            s.parentNode.insertBefore(tagjs, s);
+                        }());
+
+                    </script>
+                    <noscript>
+  <iframe src="//b.yjtag.jp/iframe?c=2lAGVpF,khLwaSd" width="1" height="1" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+</noscript>
+                    <!-- Yahoo Universal Tag END -->
+
+                    <?
+// スマホのコンバージョンタグ
+}else {
+?>
+
+                        <!-- Yahoo Universal Tag START -->
+                        <script type="text/javascript">
+                            (function() {
+                                var tagjs = document.createElement("script");
+                                var s = document.getElementsByTagName("script")[0];
+                                tagjs.async = true;
+                                tagjs.src = "//s.yjtag.jp/tag.js#site=2lAGVpF";
+                                s.parentNode.insertBefore(tagjs, s);
+                            }());
+
+                        </script>
+                        <noscript>
+  <iframe src="//b.yjtag.jp/iframe?c=2lAGVpF" width="1" height="1" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+</noscript>
+                        <!-- Yahoo Universal Tag END -->
+
+                        <?
+}
+?>
+
+
+
+
+</body>
+
+</html>

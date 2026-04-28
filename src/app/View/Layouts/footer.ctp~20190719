@@ -1,0 +1,110 @@
+<footer>
+
+<div id="footermenu" class="inner">
+<?
+
+	// 都道府県のリスト
+	foreach($prefs_count as $key => $pref) {
+		
+		if($key % 5 == 0) {
+			
+			if($key != 0) {
+				echo "</ul>";
+			}
+			echo "<ul>";
+		}
+?>		
+		<li><a href="<?=TEST?>/prefs/list/<?=$pref['Prefs']['pref_id']?>"><?=$pref['Prefs']['pref_name']?>の健康麻雀・ノーレート麻雀店(<?=$pref['Prefs']['count']?>件)</a></li>
+<?
+	} 
+?>
+
+</ul>
+</div>
+<!--/footermenu-->
+
+<div id="copyright">
+<small>Copyright&copy; <a href="<?=TEST?>/">健康麻雀＆ノーレート麻雀検索</a> All Rights Reserved.</small>
+<span class="pr"><a href="https://template-party.com/" target="_blank">《Web Design:Template-Party》</a></span>
+</div>
+
+</footer>
+
+<style>
+.footer {
+  margin-bottom: 48px;
+}
+.global-nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: white;
+}
+.nav-list {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.nav-item {
+  display: table-cell;
+  border: solid 0px gray;
+  padding: 4px 0px;
+}
+.nav-item a {
+  text-decoration: none;
+}
+.nav-item i {
+  display: block;
+  font-size: 24px;
+}
+.nav-item a span {
+  display: block;
+  font-size: 10px;
+}
+</style>
+
+<?
+	if($this->request->isMobile()) {
+?>
+
+<footer class="footer">
+  <nav class="global-nav">
+    
+    <ul class="nav-list">
+      <li class="nav-item" >
+        <a href="<?=TEST?>/">
+          <i class="fas fa-home" style="color:black;"></i>
+          <span style="color:black;">Home</span>
+        </a>
+      </li>
+      <li class="nav-item" style="background:#ffffff">
+        <a href="<?=TEST?>/prefs/pref_list">
+          <i class="fas fa-search-location" style="color:green;"></i>
+          <span style="color:green;">都道府県</span>
+        </a>
+      </li>
+      <li class="nav-item" style="background:#ffffff">
+        <a href="<?=TEST?>/google_maps">
+          <i class="fas fa-map-marker-alt" style="color:red;"></i>
+          <span style="color:red;">GoogleMap検索</span>
+        </a>
+      </li>
+      <li class="nav-item" style="background:#ffffff">
+        <a href="<?=TEST?>/search/">
+          <i class="fas fa-search" style="color:green;"></i>
+          <span style="color:green;">店舗検索</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+</footer>
+
+<?
+	}
+?>
+    

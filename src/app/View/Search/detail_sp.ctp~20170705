@@ -1,0 +1,241 @@
+  <h1 class="ttl"><img src="/sp/resources/images/search/title_detail.png" alt="求人詳細" width="114" height="24"></h1>
+  <div class="boxDetail">
+  <div id="jobDetail" class="jobDetail">
+      <section class="new">
+        <div class="inner">
+        	<div class="date">会社名：<?=$jobs['Jobs']['company_name']?></div>
+          <div class="date">求人ID：<?=$jobs['Jobs']['job_id']?></div>
+          <h1 class="job"><?=$jobs['Jobs']['title']?><span>（<?=$syokusyu['Syokusyu']['name']?>）</span></h1>
+          <dl class="ar">
+            <dt>予定最高年収</dt>
+            <dd><span><?=number_format($jobs['Jobs']['nensyu_max'])?></span>万円</dd>
+          </dl>
+          <div class="location">勤務地：<?=$jobs['Jobs']['kinmusaki_name_1']?></div>
+        </div>
+        <div class="guidelines">
+          <h2><img src="/sp/resources/images/search/ttl_guidelines.png" alt="募集要項" width="78" height="18"></h2>
+          <dl>
+            <dt>想定年収</dt>
+            <dd><?=$jobs['Jobs']['nensyu']?></dd>
+            <dt class="nofloat">仕事内容</dt>
+            <dd><?=$jobs['Jobs']['kinmu_naiyo']?></dd>
+            <dt class="nofloat">求める経験</dt>
+            <dd><?=$jobs['Jobs']['gyomukeiken']?></dd>
+
+
+
+<?
+	if(!empty($jobs['Jobs']['koyo_keitai'])) {
+?>
+            <dt>雇用形態</dt>
+            <dd>
+            	<?=$jobs['Jobs']['koyo_keitai']?>
+            </dd>
+<?
+	}
+?>
+
+<?
+	if(!empty($jobs['Jobs']['coretime_start']) || !empty($jobs['Jobs']['coretime_end'])) {
+?>
+
+            <dt>コアタイム</dt>
+            <dd>
+            	<?
+	            	if(!empty($jobs['Jobs']['coretime_start'])) {
+						echo $jobs['Jobs']['coretime_start'];
+					}
+					
+					echo "～";
+					
+					if(!empty($jobs['Jobs']['coretime_end'])) {
+						echo $jobs['Jobs']['coretime_end'];
+					}
+				?>
+            </dd>
+<?
+	}
+?>
+
+
+<?
+	if(!empty($jobs['Jobs']['kinmu_start']) || !empty($jobs['Jobs']['kinmu_end'])) {
+?>
+
+            <dt>就業時間</dt>
+            <dd>
+            	<?
+	            	if(!empty($jobs['Jobs']['kinmu_start'])) {
+						echo $jobs['Jobs']['kinmu_start'];
+					}
+					
+					echo "～";
+					
+					if(!empty($jobs['Jobs']['kinmu_end'])) {
+						echo $jobs['Jobs']['kinmu_end'];
+					}
+				?>
+            </dd>
+<?
+	}
+?>
+
+
+<?
+	if(!empty($jobs['Jobs']['hoken'])) {
+?>
+
+            <dt>保険</dt>
+            <dd>
+            	<br/>
+            	<?=$jobs['Jobs']['hoken']?>
+            </dd>
+<?
+	}
+?>
+
+<?
+	if(!empty($jobs['Jobs']['teate'])) {
+?>
+
+            <dt>諸手当</dt>
+            <dd>
+            	<?=$jobs['Jobs']['teate']?>
+            </dd>
+<?
+	}
+?>
+
+<?
+	if(!empty($jobs['Jobs']['holiday'])) {
+?>
+
+            <dt>休日休暇</dt>
+            <dd>
+            	<br/>
+            	<?=$jobs['Jobs']['holiday']?>
+            </dd>
+<?
+	}
+?>
+
+
+          </dl>
+        </div>
+      </section>
+    </div>
+  <div class="btnEntry"><a href="/entry/?jobid=<?=$jobs['Jobs']['id']?>"><img src="/sp/resources/images/search/btn_entry.png" alt="無料転職相談へのお申込み" width="225" height="18"></a></div>
+  <div class="guidelines companyInformation">
+      <h2><img src="/sp/resources/images/search/ttl_companyInformation.png" alt="会社情報" width="78" height="18"></h2>
+      <dl>
+        <dt>会社名</dt>
+        <dd><?=$jobs['Jobs']['company_name']?></dd>
+        <dt>業種</dt>
+        <dd><?=$jobs['Jobs']['gyosyu_name']?></dd>
+        <dt>資本金</dt>
+        <dd><?=$jobs['Jobs']['sihon']?></dd>
+
+        <dt>売上高</dt>
+        <dd><?=$jobs['Jobs']['uriage']?></dd>
+
+<?
+if(!empty($jobs['Jobs']['kigyo_pref']) || !empty($jobs['Jobs']['kigyo_sikutyoson'])) {
+?>
+        <dt>所在地</dt>
+        <dd><?=$jobs['Jobs']['kigyo_pref']?><?=$jobs['Jobs']['kigyo_sikutyoson']?></dd>
+<?
+}
+?>
+        <dt>従業員数</dt>
+        <dd><?=$jobs['Jobs']['jugyoinsu']?></dd>
+            
+        <dt>設立年月</dt>
+        <dd><?=$jobs['Jobs']['seturitu']?></dd>
+        <dt class="nofloat">事業内容</dt>
+        <dd><?=$jobs['Jobs']['jigyonaiyo_web']?></dd>
+        
+                <dt class="nofloat">会社の特徴</dt>
+        <dd><?=$jobs['Jobs']['company_tokutyo']?></dd>
+        </dl>
+
+          <hr class="border" />
+          <dl class="ex">
+            <dt>この企業の別求人</dt>
+            <dd>
+
+            	<?
+            		foreach($jobs_company as $row) {
+				?>
+					<a href="/search/detail/<?=$row['Jobs']['id']?>"><?=$row['Jobs']['title']?></a><br />
+				<?
+					}
+				?>
+				
+ 			</dd>
+          </dl>
+          
+  </div>
+  <div class="btnEntry"><a href="/entry/?jobid=<?=$jobs['Jobs']['id']?>"><img src="/sp/resources/images/search/btn_entry.png" alt="無料転職相談へのお申込み" width="225" height="18"></a></div>
+  </div>
+  <a href="javascript:void(0);" class="btn_backToList" onclick="javascript:history.back();"><img src="/sp/resources/images/search/btn_backToList.png" alt="求人一覧へ戻る" width="149" height="17"></a>
+
+<br/>
+
+<div style="text-align:center">
+<span style="font-size:16px;color:red;">この求人と似た職種で転職された方の声</span>
+</div>
+
+    <div id="voicesList" class="voicesList">
+
+    <?
+		$age = Configure::read('age');
+		$sex = Configure::read('sex');
+		
+    	foreach($voices as $voice) {
+
+	?>
+	
+      <section class="engineer">
+        <div class="inner">
+
+<a style="text-decoration: none;"  href="/voices/detail/<?=$voice['Voice']['id']?>?t=<?=$voice['Voice']['type_id']?>" >
+
+          <div class="jobtype" style="height:auto;"><span style="color:white"><?=$syokusyu_type[$voice['Voice']['type_id']]?></span></div>
+          <div class="status"><?=$age[$voice['Voice']['age']]?>／<?=$sex[$voice['Voice']['sex']]?></div>
+
+          <dl class="category">
+            <dt>職種名</dt>
+            <dd><?=$syokusyu_list[$voice['Voice']['syokusyu_id']]?></dd>
+          </dl>
+          
+          <h1><?=$voice['Voice']['list_comment']?></h1>
+
+        </div>
+      </section>
+
+	<?
+		}
+	?>
+	
+	</div>
+
+<!--  製品詳細ページタグ ---->
+<script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+<script type="text/javascript">
+var ua = navigator.userAgent;
+var site_type = "";
+if(ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0){
+    site_type = "m";
+}else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+    site_type = "t";
+}else{
+    site_type = "d";
+}
+
+window.criteo_q = window.criteo_q || [];
+window.criteo_q.push(  
+        { event: "setAccount", account: 37761 },
+        { event: "setSiteType", type: site_type },
+        { event: "viewItem", item: "<?=$jobs['Jobs']['job_id']?>" }
+);
+</script>

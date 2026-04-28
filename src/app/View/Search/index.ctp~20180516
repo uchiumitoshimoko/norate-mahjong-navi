@@ -1,0 +1,451 @@
+<link rel="stylesheet" href="/global/lib/iCheck-master/skins/flat/blue.css">
+<script src="/global/lib/carouFredSel-6.2.1/jquery.carouFredSel-6.2.1.js"></script>
+<script src="/global/lib/trunk8/trunk8.js"></script>
+<script src="/resources/scripts/top.js?v=20130704"></script>
+<script src="/global/lib/isotope/jquery.isotope.min.js"></script>
+
+<script>
+    $(function() {
+
+        $(".submit").on('click', function() {
+            $("#SyokusyuIndexForm").submit();
+            return;
+        });
+    });
+
+</script>
+
+<script>
+    $(function() {
+        $('input[type=checkbox]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+    })
+
+</script>
+
+<?=$this->Form->create('Syokusyu', array('url'=>'/search/joblist', 'method'=>'POST')); ?>
+
+
+    <div class="main searchjob__page" id="oneColumn__block" style="visibility: visible; opacity: 1;">
+        <div class="header">
+            <h2 class="htitle">SEARCH JOB<span>求人検索</span></h2>
+        </div>
+
+
+        <form action="/voices/voicelist" method="post" id="VoiceIndexForm" accept-charset="utf-8">
+            <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+            <div class="content__blockA item__block">
+                <div class="item__box">
+                    <div class="itemlist__block">
+
+
+                        <section class="js_freewords">
+                            <dl class="item_category">
+
+                                <dt>フリーワードから探す</dt>
+                                <dd>
+                                    <div class="formSet">
+
+                                        <?=$this->Form->input('free_word',array('name'=>'free_word', 'type'=>'text','label'=>false,'div'=>false))?>
+
+                                    </div>
+                                </dd>
+                            </dl>
+                        </section>
+
+
+
+
+
+                        <dl class="item_category">
+                            <dt>年収から探す</dt>
+                            <dd>
+                                <div class="itemlist__box">
+
+                                        <ul>
+                                            <li>
+                                                <label>
+                                                <input type="hidden" name="data[nensyu][][]" id="nensyu][_" value="0"><input type="radio" name="data[nensyu][][]" class="itemcheck-input" value="500" id="nensyu][">											
+                                                <span class="itemcheck-parts">～500万円以下</span>
+                                            </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                <input type="hidden" name="data[nensyu][][]" id="nensyu][_" value="0"><input type="radio" name="data[nensyu][][]" class="itemcheck-input" value="501" id="nensyu][">											
+                                                <span class="itemcheck-parts">501万円以上～</span>
+                                            </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                <input type="hidden" name="data[nensyu][][]" id="nensyu][_" value="0"><input type="radio" name="data[nensyu][][]" class="itemcheck-input" value="601" id="nensyu][">											
+                                                <span class="itemcheck-parts">601万円以上～</span>
+                                            </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                <input type="hidden" name="data[nensyu][][]" id="nensyu][_" value="0"><input type="radio" name="data[nensyu][][]" class="itemcheck-input" value="701" id="nensyu][">											
+                                                <span class="itemcheck-parts">701万円以上～</span>
+                                            </label>
+                                            </li>
+
+                                            <!--                                                
+                                        <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="500" id="ar_500"><label for="ar_500" class="CheckBoxLabelClass">～500万円以下</label></div>
+                                        <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="501" id="ar_501"><label for="ar_501" class="CheckBoxLabelClass">501万円以上～</label></div>
+                                        <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="601" id="ar_601"><label for="ar_601" class="CheckBoxLabelClass">601万円以上～</label></div>
+                                        <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="701" id="ar_701"><label for="ar_701" class="CheckBoxLabelClass">701万円以上～</label></div>                                                
+-->
+
+
+
+                                        </ul>
+                                </div>
+                            </dd>
+                        </dl>
+
+                        <dl class="item_category">
+
+                            <dt>職種から探す</dt>
+                            <dd>
+
+
+
+                                <div class="itemlist__box">
+
+
+
+
+
+
+
+
+                                        <?
+	// 職種タイプでループ
+	foreach($syokusyu_type as $type_id => $type_name) {
+?>
+                                            <h2>
+                                                <?=$type_name?>
+                                            </h2>
+                                            <ul>
+
+                                                <?
+          	foreach($syokusyu[$type_id] as $syokusyu_id => $syokusyu_name) {
+		?>
+
+
+
+
+
+
+
+                                                    <li><label>
+                                                    <?=$this->Form->input('syokusyu_id.][',array('type'=>'checkbox','class'=>'itemcheck-input','label'=>false,'div'=>false, 'value'=>$syokusyu_id))?>
+                                                <span class="itemcheck-parts">
+	              
+	              <?
+	              	if($syokusyu_name == "COO・CFO・エグゼクティブ") {
+						$syokusyu_name = "新規事業立ち上げ・エグゼクティブ";
+					}
+					
+					echo $syokusyu_name;
+				?>
+	              
+                                            </span></label></li>
+                                                    <?
+			}
+		?>
+                                            </ul>
+
+                                                        <?
+	}
+?>
+                                    </div>
+                            </dd>
+                        </dl>
+
+
+                        </dl>
+
+
+
+
+
+
+
+
+
+
+                        <div class="voice__button submit">
+                            <div class="freeButton"><a href="#">この条件で検索する</a></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+        <div class="content__blockB voicesresult__block">
+            <div class="result__block">
+
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/163">
+                                <div class="result_left">
+                                    <div class="result_category02">社内SE</div>
+                                    <p class="result_txt">他社利用なしでしたが、非常にスピード感があったと思います。</p>
+                                    <p class="result_ago">40代～ / 男性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/163/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/187">
+                                <div class="result_left">
+                                    <div class="result_category02">サーバエンジニア</div>
+                                    <p class="result_txt">レスポンスが早いのと、希望する案件が多い点。</p>
+                                    <p class="result_ago">40代～ / 女性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/187/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/168">
+                                <div class="result_left">
+                                    <div class="result_category02">デザイナー</div>
+                                    <p class="result_txt">イサマツ様には大変お世話になり、フルサポートしていただき本当に感謝しております！</p>
+                                    <p class="result_ago">20代　 / 女性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/168/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/174">
+                                <div class="result_left">
+                                    <div class="result_category02">営業職</div>
+                                    <p class="result_txt">他のエージェントに比べ、私の意図をくんだ紹介を多くいただき、とても助かりました。</p>
+                                    <p class="result_ago">30代　 / 男性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/174/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/181">
+                                <div class="result_left">
+                                    <div class="result_category02">サーバーエンジニア</div>
+                                    <p class="result_txt">Web業界を志望していたので、自分の知らなかった多くの会社を教えていただけた。</p>
+                                    <p class="result_ago">20代　 / 男性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/181/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/160">
+                                <div class="result_left">
+                                    <div class="result_category02">UIデザイナー</div>
+                                    <p class="result_txt">Webのシステムがしっかり作られているので、効率的に転職活動ができた</p>
+                                    <p class="result_ago">30代　 / 男性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/160/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/87">
+                                <div class="result_left">
+                                    <div class="result_category02">ソフトウエア開発</div>
+                                    <p class="result_txt">面接前にメールで事前予想質問で、面接時の不安を解消できる点はとても良かった</p>
+                                    <p class="result_ago">30代　 / 女性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/87/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result_voice02">
+                    <div class="resultballoon__block">
+                        <div class="result_contens">
+                            <a style="color:black" href="/voices/detail/28">
+                                <div class="result_left">
+                                    <div class="result_category02">社内SE</div>
+                                    <p class="result_txt">個人用の進捗ページがwebで見れる</p>
+                                    <p class="result_ago">30代　 / 男性</p>
+                                </div>
+
+                                <div class="voice_img"><img width="150" src="/voices/read_image_image/28/" alt=""></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+<!-- オリジナル　問題なければ削除してくださいませ。
+
+
+        <div class="main searchjob__page" id="oneColumn__block" style="visibility: visible; opacity: 1;">
+            <div class="header">
+                <h2 class="htitle">SEARCH JOB<span>求人検索</span></h2>
+            </div>
+            <div class="content__blockA item__block">
+                <div class="item__box">
+                    <div class="itemlist__block">
+
+
+
+                        <div class="boxGray">
+
+                            <section class="js_freewords">
+                                <dl class="item_category">
+
+                                    <dt>フリーワードから探す</dt>
+                                    <dd>
+                                        <div class="formSet">
+
+                                            <?=$this->Form->input('free_word',array('name'=>'free_word', 'type'=>'text','label'=>false,'div'=>false))?>
+
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </section>
+
+
+
+
+                            <hr class="border" />
+                            <section id="annualSalary" class="js_ar">
+                                <dl class="item_category">
+
+                                    <dt>年収から探す</dt>
+                                    <dd>
+                                        <div class="formSet">
+                                            <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="500" id="ar_500"><label for="ar_500" class="CheckBoxLabelClass">～500万円以下</label></div>
+                                            <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="501" id="ar_501"><label for="ar_501" class="CheckBoxLabelClass">501万円以上～</label></div>
+                                            <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="601" id="ar_601"><label for="ar_601" class="CheckBoxLabelClass">601万円以上～</label></div>
+                                            <div class="opnTop"><input type="checkbox" class="checkbox" name="nensyu_c[]" value="701" id="ar_701"><label for="ar_701" class="CheckBoxLabelClass">701万円以上～</label></div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </section>
+                            <hr class="border" />
+                            <section id="jobType" class="js_type">
+                                <dl class="item_category">
+
+                                    <dt>職種から探す</dt>
+                                    <dd>
+
+                                        <?
+	// 職種タイプでループ
+	foreach($syokusyu_type as $type_id => $type_name) {
+?>
+                                            <h2>
+                                                <?=$type_name?>
+                                            </h2>
+                                            <div class="formSet">
+
+                                                <?
+          	foreach($syokusyu[$type_id] as $syokusyu_id => $syokusyu_name) {
+		?>
+                                                    <div class="opnTop">
+                                                        <?=$this->Form->input('syokusyu_id.][',array('type'=>'checkbox','class'=>'checkbox','label'=>false,'div'=>false, 'value'=>$syokusyu_id))?>
+                                                            <label for="job40" class="CheckBoxLabelClass">
+	              
+	              <?
+	              	if($syokusyu_name == "COO・CFO・エグゼクティブ") {
+						$syokusyu_name = "新規事業立ち上げ・エグゼクティブ";
+					}
+					
+					echo $syokusyu_name;
+				?>
+	              
+	              </label>
+                                                    </div>
+                                                    <?
+			}
+		?>
+                                            </div>
+                                            <?
+	}
+?>
+                                    </dd>
+                                </dl>
+                            </section>
+
+
+                        </div>
+
+
+
+                        <div class="contact__button submit">
+                            <div class="freeButton"><a>この条件で検索する</a></div>
+                        </div>
+
+
+
+
+
+
+                        <?=$this->Form->end(); ?>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+-->

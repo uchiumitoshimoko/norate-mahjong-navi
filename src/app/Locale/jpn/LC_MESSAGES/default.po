@@ -1,0 +1,29 @@
+msgid "notempty"
+msgstr "必須入力の項目です。"
+
+msgid "numeric"
+msgstr "数値入力の項目です。"
+
+msgid "isUnique"
+msgstr "重複入力ができない項目です。"
+
+msgid "decimal"
+msgstr "数値(小数点含む)入力の項目です。"
+
+msgid "Add"
+msgstr "新規登録"
+
+msgid "View"
+msgstr "詳細"
+
+msgid "Edit"
+msgstr "修正"
+
+msgid "Delete"
+msgstr "削除"
+
+
+
+msgid "Are you sure you want to delete # %s?"
+msgstr "本当に削除してよろしいですか？"
+

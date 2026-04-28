@@ -1,0 +1,102 @@
+/* ===============================================
+# トップニュース
+=============================================== */
+$(function() {
+		$("#myPage #myPageL .otherFamily li:nth-child(5n)").css('margin-right', '0');
+});
+/* ===============================================
+# class="imgover" の要素に、マウスオーバーで
+　"_o.gif" の画像と入れ替える
+=============================================== */
+function initRollovers() {
+	if (!document.getElementById) return
+	
+	var aPreLoad = new Array();
+	var sTempSrc;
+	var aImages = document.getElementsByTagName('img');
+
+	for (var i = 0; i < aImages.length; i++) {		
+		if (aImages[i].className == 'imgover') {
+			var src = aImages[i].getAttribute('src');
+			var ftype = src.substring(src.lastIndexOf('.'), src.length);
+			var hsrc = src.replace(ftype, '_o'+ftype);
+
+			aImages[i].setAttribute('hsrc', hsrc);
+			
+			aPreLoad[i] = new Image();
+			aPreLoad[i].src = hsrc;
+			
+			aImages[i].onmouseover = function() {
+				sTempSrc = this.getAttribute('src');
+				this.setAttribute('src', this.getAttribute('hsrc'));
+			}	
+			
+			aImages[i].onmouseout = function() {
+				if (!sTempSrc) sTempSrc = this.getAttribute('src').replace('_o'+ftype, ftype);
+				this.setAttribute('src', sTempSrc);
+			}
+		}
+	}
+}
+window.onload = initRollovers;
+try{
+	window.addEventListener("load",initRollovers,false);
+}catch(e){
+	window.attachEvent("onload",initRollovers);
+}
+
+/* ===============================================
+# pageTop スムーズスクロール
+=============================================== */
+$(function(){
+		// #で始まるアンカーをクリックした場合に処理
+		$('a[href^=#]').click(function() {
+			// スクロールの速度
+			var speed = 400;// ミリ秒
+			// アンカーの値取得
+			var href= $(this).attr("href");
+			// 移動先を取得
+			var target = $(href == "#" || href == "" ? 'html' : href);
+			// 移動先を数値で取得
+			var position = target.offset().top;
+			// スムーススクロール
+      $($.browser.safari ? 'body' : 'html').animate({scrollTop:position}, speed, 'swing');
+			return false;
+		});
+});
+
+/* ===============================================
+# ポップアップ
+=============================================== */
+window.onload=autoPOP;
+
+function autoPOP(){
+	var x = document.getElementsByTagName('a');
+	for (var i=0;i<x.length;i++)
+	{
+		if (x[i].getAttribute('className') == 'popup' || x[i].getAttribute('class') == 'popup')
+		{
+			x[i].onclick = function () {
+			return winOpen(this.href,'popup')
+			}
+			x[i].title += '別窓で開きます';
+		}
+		if (x[i].getAttribute('className') == 'help' || x[i].getAttribute('class') == 'help')
+		{
+			x[i].onclick = function () {
+			return winOpen(this.href,'help')
+			}
+			x[i].title += '別窓で開きます';
+		}
+	}
+};
+
+function winOpen(url,name) {
+	window.open(
+		url,
+		name,
+		'width=500,height=500,scrollbars=1,resizable=1'
+	);
+
+	return false;
+};

@@ -1,0 +1,1367 @@
+@charset "utf-8";
+/* ===============================================
+	▼各CSS設定
+		+ ログイン
+		+ マイページ
+		+ ヘルプ
+		+ 日常のケア
+		+ メモパッド
+		+ 体重/体脂肪率BCS
+		+ お薬手帳
+		+ ワクチンの記録
+		+ フィラリアの記録
+		+ ノミ・マダニ予防記録
+		+ 健康診断の記録
+		+ 証明書の管理
+
+=============================================== */
+
+/* -----------------------------------------
+	▼ ログイン
+----------------------------------------- */
+#loginPage {
+	width: 480px;
+	text-align: left;
+	padding: 50px 0 0;
+	margin: 0 auto;
+}
+#loginPage #info {
+	color: #C60B18;
+	text-align: center;
+	padding: 0 0 20px;
+}
+#loginPage #loginBox {
+	width: 100%;
+	height: 300px;
+	background: url(../img/common/login_box_bk.png) no-repeat center top;
+	margin: 0 0 20px;
+}
+#loginPage #loginBox #loginBoxPad {
+	width: 440px;
+	padding: 50px 0 0;
+	margin: 0 auto;
+}
+#loginPage #loginTable {
+	width: 100%;
+}
+#loginPage #loginTable th {
+	width: 40%;
+	font-weight: normal;
+	text-align: right;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+#loginPage #loginTable td {
+	vertical-align: middle;
+	padding: 5px 10px;
+}
+#loginPage #loginTable td input.mail,
+#loginPage #loginTable td input.password {
+	width: 92%;
+	padding: 5px;
+}
+#loginPage #loginTable td.right {
+	text-align: right;
+	padding: 0 4% 20px 0;
+}
+#loginPage #loginTable td.right a {
+	color: #333;
+	font-size: 80%;
+}
+#loginPage #loginTable td input.checkbox {
+	vertical-align: middle;
+	margin: 0 5px 0 0;
+}
+#loginPage #regist {
+	color: #C60B18;
+	text-align: center;
+	vertical-align: middle;
+}
+#loginPage #regist img {
+	vertical-align: middle;
+	margin: 0 0 0 5px;
+}
+
+/* -----------------------------------------
+	▼ マイページ
+----------------------------------------- */
+#myPage {
+	width: 930px;
+	text-align: left;
+	padding: 20px 0 50px;
+	margin: 0 auto;
+}
+/* ━━━━ ▼左側 ━━━━ */
+#myPage #myPageL {
+	float: left;
+	width: 430px;
+}
+#myPage #myPageL #infoBox {
+	width: 100%;
+	margin: 0 0 30px;
+}
+#myPage #myPageL #infoBox dt {
+	float: left;
+	width: 180px;
+	position: relative;
+}
+#myPage #myPageL #infoBox dt p.mainImg {
+	width: 180px;
+	text-align: center;
+	margin: 0 auto;
+}
+#myPage #myPageL #infoBox dt p.coverR {
+	width: 180px;
+	height: 180px;
+	background: url(../img/common/mypage_mainimg_cover_red.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#myPage #myPageL #infoBox dt p.coverB {
+	width: 180px;
+	height: 180px;
+	background: url(../img/common/mypage_mainimg_cover_blue.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#myPage #myPageL #infoBox dt p.coverH {
+	width: 180px;
+	height: 180px;
+	background: url(../img/common/mypage_mainimg_cover_hb.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#myPage #myPageL #infoBox dt p.coverPH {
+	width: 180px;
+	height: 180px;
+	background: url(../img/common/mypage_mainimg_cover_prehb.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#myPage #myPageL #infoBox dd {
+	float: right;
+	width: 214px;
+	padding: 15px 0 0;
+}
+#myPage #myPageL #infoBox dd .info span {
+	font-weight: bold;
+}
+#myPage #myPageL #infoBox dd .btnNote {
+	margin: -5px 0 0 -5px;
+}
+#myPage #myPageL #infoBox dd .btn {
+	padding: 0 0 5px;
+}
+#myPage #myPageL #infoBox dd .btn a {
+	color: #C60B18;
+	font-size: 90%;
+	text-decoration: none;
+	background: url(../img/common/arrow01.png) no-repeat left center;
+	padding: 0 0 0 15px;
+}
+#myPage #myPageL #infoBox dd .btn a:hover {
+	text-decoration: underline;
+}
+
+#myPage #myPageL .otherFamily {
+	width: 100%;
+	font-size: 80%;
+	text-align: center;
+	padding: 10px 0 0;
+}
+#myPage #myPageL .otherFamily li {
+	float: left;
+	width: 70px;
+	position: relative;
+	margin: 0 17px 20px 0;
+}
+#myPage #myPageL .otherFamily li p.icon {
+	width: 70px;
+	text-align: center;
+	margin: 0 auto;
+}
+#myPage #myPageL .otherFamily li p.coverR {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_red.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#myPage #myPageL .otherFamily li p.coverB {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_blue.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#myPage #myPageL .otherFamily li p.coverH {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_hb.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#myPage #myPageL .otherFamily li p.coverPH {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_prehb.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#myPage #myPageL .otherFamily li a {
+	color: #333;
+	text-decoration: none;
+}
+#myPage #myPageL #otherFamily li a:hover {
+	color: #777;
+}
+#myPage #myPageL .otherFamily li p.name {
+	padding: 3px 0 0;
+}
+/* ━━━━ ▼右側 ━━━━ */
+#myPage #myPageR {
+	float: right;
+	width: 451px;
+}
+#myPage #myPageR .newsBox {
+	width: 100%;
+	position: relative;
+	margin: 0 0 20px;
+}
+#myPage #myPageR .newsBox h3 {
+	background: url(../img/common/ttl01_bk.png) no-repeat left bottom;
+	padding: 10px 0;
+}
+#myPage #myPageR .newsBox .btnList {
+	position: absolute;
+	top: 12px;
+	right: 0;
+}
+#myPage #myPageR .newsBox .news {
+	padding: 10px;
+}
+#myPage #myPageR .newsBox .news li {
+	position: relative;
+	padding: 0 0 10px 120px;
+}
+
+#myPage #myPageR .newsBox .news li a {
+	color: #333;
+	text-decoration: none;
+}
+#myPage #myPageR .newsBox .news li a:hover {
+	color: #777;
+	text-decoration: underline;
+}
+#myPage #myPageR .newsBox .news li span.date {
+	border-right: 1px solid #333;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0 25px 0 0;
+}
+
+/* -----------------------------------------
+	▼ ヘルプ
+----------------------------------------- */
+#helpPage {
+	width: 930px;
+	text-align: left;
+	padding: 20px 0 50px;
+	margin: 0 auto;
+}
+
+/* -----------------------------------------
+	▼ 日常のケア
+----------------------------------------- */
+#dailyPage {
+	width: 968px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+#dailyPage #info {
+	margin: 0 0 20px;
+}
+#dailyPage #info img {
+	margin: 0 5px 0 0;
+}
+
+/* ━━━━ ▼タブメニュー ━━━━ */
+#dailyPage #tabMenu {
+	width: 100%;
+	background: url(../img/common/border01.gif) repeat-x left bottom;
+}
+#dailyPage #tabMenu li {
+	float: left;
+	width: 187px;
+	text-align: center;
+	cursor: pointer;
+	background: url(../img/common/tabmenu_bk.png) no-repeat left top;
+	padding: 10px 0 0;
+	margin: 0 8px 0 0;
+}
+#dailyPage #tabMenu li.end {
+	float: right;
+	margin: 0;
+}
+#dailyPage #tabMenu li .tabMenuPad {
+	background: url(../img/common/tabmenupad_bk.png) repeat-y left top;
+}
+#dailyPage #tabMenu li.select {
+	background: url(../img/common/tabmenu_bk_o.png) no-repeat left top;
+}
+#dailyPage #tabMenu li.select .tabMenuPad {
+	background: url(../img/common/tabmenupad_bk_o.png) repeat-y left top;
+}
+#dailyPage #tabMenu li h3 {
+	color: #8C2829;
+	font-size: 20px;
+	font-weight: bold;
+	vertical-align: middle;
+	border-bottom: 1px dotted #A19779;
+	padding: 0 0 2px;
+}
+#dailyPage #tabMenu li h3 img {
+	margin: 2px 0 0;
+}
+#dailyPage #tabMenu li p.prev {
+	color: #8C2829;
+	font-size: 12px;
+	border-bottom: 1px dotted #A19779;
+	padding: 10px 0;
+}
+#dailyPage #tabMenu li p.next {
+	color: #8C2829;
+	font-size: 12px;
+	font-weight: bold;
+	border-bottom: 1px dotted #A19779;
+	padding: 10px 0;
+}
+#dailyPage #tabMenu li p.btnList {
+	padding: 10px 0;
+	background: url(../img/common/dotline.gif) repeat-x left bottom;
+}
+#dailyPage #tabMenu li p.btnList {
+	padding: 10px 0;
+	background: url(../img/common/border01.gif) repeat-x left bottom;
+}
+#dailyPage #tabMenu li.select p.btnList {
+	padding: 10px 0;
+	background: url(../img/common/dotline.gif) repeat-x left bottom;
+}
+
+/* ━━━━ ▼コンテンツ ━━━━ */
+#dailyPage .disnon {
+	display: none;
+}
+#dailyPage .tabContents {
+	background: #fff;
+	border: 1px solid #A19779;
+	border-top: none;
+	-moz-border-radius-bottomleft: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-khtml-border-radius-bottomleft: 15px;
+	border-bottom-left-radius: 15px;
+	-moz-border-radius-bottomright: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-khtml-border-radius-bottomright: 15px;
+	border-bottom-right-radius: 15px;
+	padding: 15px 30px;
+}
+#dailyPage .tabContents .tabContentsPad {
+	_height: 261px;
+	min-height: 261px;
+	background: url(../img/daily/bk_img.png) no-repeat right bottom;
+}
+
+#dailyPage .tabContents .tabContentsPad .contLeft {
+	float: left;
+	color: #8C2829;
+	font-weight: bold;
+	width: 400px;
+}
+#dailyPage .tabContents .tabContentsPad .contLeft p {
+	padding: 0 0 0 25px;
+}
+#dailyPage .tabContents .tabContentsPad .contLeft p img {
+	margin: 0 0 0 10px;
+}
+#dailyPage .tabContents .tabContentsPad .contLeft p span {
+	font-weight: normal;
+}
+#dailyPage .tabContents .tabContentsPad .contLeft div.calendar {
+	padding: 10px 0 25px 25px;
+}
+#dailyPage .tabContents .tabContentsPad .contLeft select {
+	color: #8C2829;
+	font-size: 16px;
+	padding: 5px 15px;
+	margin: 0 5px;
+}
+#dailyPage .tabContents .tabContentsPad .contRight {
+	float: right;
+	width: 230px;
+	color: #8C2829;
+	font-size: 16px;
+	padding: 90px 0 0;
+}
+#dailyPage .tabContents .tabContentsPad .contRight p {
+	padding: 0 0 5px;
+}
+
+/* -----------------------------------------
+	▼ メモパッド
+----------------------------------------- */
+#memopadPage {
+	width: 934px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#memopadPage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#memopadPage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#memopadPage #searchBlock #searchBox {
+	float: left;
+	width: 660px;
+	padding: 5px 0 0;
+}
+#memopadPage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#memopadPage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#memopadPage #searchBlock #searchBox #searchBtm {
+	vertical-align: middle;
+	padding: 10px 0 0 13px;
+}
+#memopadPage #searchBlock #searchBox #searchBtm #searchBtn {
+	vertical-align: middle;
+}
+#memopadPage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#memopadPage #memopadList {
+	width: 100%;
+	background: url(../img/memopad/memopad_bk.png) no-repeat left top;
+	position: relative;
+	padding: 25px 0 0;
+}
+#memopadPage #memopadList .pager {
+	width: 770px;
+	padding: 0 0 22px;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#memopadPage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#memopadPage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#memopadPage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#memopadPage a.prev,
+#memopadPage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#memopadPage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#memopadPage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#memopadPage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#memopadPage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#memopadPage a.prev span, a.next span {
+	display: none;
+}
+
+/* ━━━━ ▼メモパッドpopup ━━━━ */
+#memoEditPage input#titleText,
+#memoEditPage input#scheduleS,
+#memoEditPage input#scheduleE {
+	color: #999999;
+}
+
+/* -----------------------------------------
+	▼ 体重/体脂肪率BCS
+----------------------------------------- */
+#weightPage {
+	width: 968px;
+	text-align: left;
+	background: url(../img/weight/weight_bk.png) no-repeat 97% 40px;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+#weightPage #registBox {
+	width: 100%;
+	margin: 0 0 20px;
+}
+
+/* ━━━━ ▼タブメニュー ━━━━ */
+#weightPage #tabMenu {
+	width: 100%;
+}
+#weightPage #tabMenu li {
+	float: left;
+	width: 187px;
+	text-align: center;
+	cursor: pointer;
+	background: url(../img/common/tabmenu_bk.png) no-repeat left top;
+	padding: 10px 0 0;
+	margin: 0 8px 0 0;
+}
+#weightPage #tabMenu li.end {
+	float: right;
+	margin: 0;
+}
+#weightPage #tabMenu li .tabMenuPad {
+	background: url(../img/common/tabmenupad_bk.png) repeat-y left top;
+}
+#weightPage #tabMenu li.select {
+	background: url(../img/common/tabmenu_bk_o.png) no-repeat left top;
+}
+#weightPage #tabMenu li.select .tabMenuPad {
+	background: url(../img/common/tabmenupad_bk_o.png) repeat-y left top;
+}
+#weightPage #tabMenu li h3 {
+	color: #8C2829;
+	font-size: 20px;
+	font-weight: bold;
+	vertical-align: middle;
+	border-bottom: 1px solid #A19779;
+	padding: 0 0 2px;
+}
+#weightPage #tabMenu li.select h3 {
+	border-left: 1px solid #A19779;
+	border-bottom: 1px solid #fff;
+}
+
+/* ━━━━ ▼コンテンツ ━━━━ */
+#weightPage .disnon {
+	display: none;
+}
+#weightPage .tabContents {
+	background: #fff;
+	border: 1px solid #A19779;
+	-moz-border-radius-bottomleft: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-khtml-border-radius-bottomleft: 15px;
+	border-bottom-left-radius: 15px;
+	-moz-border-radius-bottomright: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-khtml-border-radius-bottomright: 15px;
+	border-bottom-right-radius: 15px;
+	-moz-border-radius-topright: 15px;
+	-webkit-border-top-right-radius: 15px;
+	-khtml-border-radius-topright: 15px;
+	border-top-right-radius: 15px;
+	padding: 15px 30px;
+	margin: -1px 0 0;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#weightPage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#weightPage #searchBlock #searchBox {
+	float: left;
+	width: 740px;
+	padding: 5px 0 0;
+}
+#weightPage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#weightPage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#weightPage #searchBlock #searchBox #searchBtn {
+	vertical-align: middle;
+}
+#weightPage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#weightPage #weightList {
+	width: 100%;
+	position: relative;
+}
+#weightPage #weightList .pager {
+	width: 100%;
+	padding: 0 0 22px;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#weightPage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#weightPage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#weightPage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#weightPage a.prev,
+#weightPage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#weightPage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#weightPage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#weightPage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#weightPage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#weightPage a.prev span, a.next span {
+	display: none;
+}
+
+/* ━━━━ ▼グラフ ━━━━ */
+#weightPage #graf {
+	width: 100%;
+	text-align: center;
+	padding: 20px 0;
+}
+
+/* -----------------------------------------
+	▼ お薬手帳
+----------------------------------------- */
+#medicinePage {
+	width: 934px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#medicinePage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#medicinePage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#medicinePage #searchBlock #searchBox {
+	float: left;
+	width: 660px;
+	padding: 5px 0 0;
+}
+#medicinePage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#medicinePage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#medicinePage #searchBlock #searchBox #searchBtm {
+	vertical-align: middle;
+	padding: 10px 0 0 0;
+}
+#medicinePage #searchBlock #searchBox #searchBtm #searchBtn {
+	vertical-align: middle;
+}
+#medicinePage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#medicinePage #medicineList {
+	width: 100%;
+	background: url(../img/memopad/memopad_bk.png) no-repeat left top;
+	position: relative;
+	padding: 25px 0 0;
+}
+#medicinePage #medicineList .pager {
+	width: 770px;
+	padding: 0 0 22px;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#medicinePage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#medicinePage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#medicinePage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#medicinePage a.prev,
+#medicinePage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#medicinePage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#medicinePage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#medicinePage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#medicinePage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#medicinePage a.prev span, a.next span {
+	display: none;
+}
+
+/* -----------------------------------------
+	▼ ワクチンの記録
+----------------------------------------- */
+#vaccinePage {
+	width: 934px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#vaccinePage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#vaccinePage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#vaccinePage #searchBlock #searchBox {
+	float: left;
+	width: 660px;
+	padding: 5px 0 0;
+}
+#vaccinePage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#vaccinePage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#vaccinePage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#vaccinePage #vaccineList {
+	width: 100%;
+	position: relative;
+	padding: 25px 0 0;
+}
+#vaccinePage #vaccineList .pager {
+	/*position: absolute;*/
+	top: 200px;
+	right: 0;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#vaccinePage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#vaccinePage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#vaccinePage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#vaccinePage a.prev,
+#vaccinePage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#vaccinePage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#vaccinePage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#vaccinePage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#vaccinePage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#vaccinePage a.prev span, a.next span {
+	display: none;
+}
+
+/* -----------------------------------------
+	▼ フィラリアの記録
+----------------------------------------- */
+#filariaPage {
+	width: 968px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#filariaPage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#filariaPage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#filariaPage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼タブメニュー ━━━━ */
+#filariaPage #tabMenu {
+	width: 100%;
+}
+#filariaPage #tabMenu li {
+	float: left;
+	width: 120px;
+	text-align: center;
+	cursor: pointer;
+	margin: 0 3px 0 0;
+}
+#filariaPage #tabMenu li .tabMenuPad {
+	border: 1px solid #A19779;
+	border-bottom: none;
+	-moz-border-radius-topleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-khtml-border-radius-topleft: 6px;
+	border-top-left-radius: 6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-khtml-border-radius-topright: 6px;
+	border-top-right-radius: 6px;
+}
+#filariaPage #tabMenu li.select .tabMenuPad {
+	background-color: #273E72;
+}
+#filariaPage #tabMenu li h3 {
+	color: #555;
+	font-weight: bold;
+	vertical-align: middle;
+	border-bottom: 1px solid #A19779;
+	padding: 10px 0;
+}
+#filariaPage #tabMenu li.select h3 {
+	color: #fff;
+	border-bottom: 1px solid #273E72;
+}
+
+/* ━━━━ ▼コンテンツ ━━━━ */
+#filariaPage .disnon {
+	display: none;
+}
+#filariaPage .tabContents {
+	background: #fff;
+	border: 1px solid #A19779;
+	-moz-border-radius-bottomleft: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-khtml-border-radius-bottomleft: 15px;
+	border-bottom-left-radius: 15px;
+	-moz-border-radius-bottomright: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-khtml-border-radius-bottomright: 15px;
+	border-bottom-right-radius: 15px;
+	-moz-border-radius-topright: 15px;
+	-webkit-border-top-right-radius: 15px;
+	-khtml-border-radius-topright: 15px;
+	border-top-right-radius: 15px;
+	padding: 15px 15px;
+	margin: -1px 0 0;
+}
+#filariaPage .listInfo {
+	vertical-align: middle;
+	padding: 0 0 20px;
+}
+#filariaPage .listInfo img {
+	vertical-align: middle;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#filariaPage .filariaList {
+	width: 100%;
+	position: relative;
+}
+#filariaPage .filariaList .btnEntry {
+	position: absolute;
+	top: -10px;
+	left: 0;
+}
+#filariaPage .filariaList .pager {
+	width: 100%;
+	padding: 0 0 20px 150px;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#filariaPage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#filariaPage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#filariaPage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#filariaPage a.prev,
+#filariaPage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#filariaPage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#filariaPage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#filariaPage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#filariaPage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#filariaPage a.prev span, a.next span {
+	display: none;
+}
+
+/* -----------------------------------------
+	▼ ノミ・マダニ予防記録
+----------------------------------------- */
+#fleaPage {
+	width: 934px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#fleaPage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#fleaPage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#fleaPage #searchBlock #searchBox {
+	float: left;
+	width: 660px;
+	padding: 5px 0 0;
+}
+#fleaPage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#fleaPage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#fleaPage #searchBlock #searchBox #searchBtm {
+	vertical-align: middle;
+	padding: 10px 0 0 0;
+}
+#fleaPage #searchBlock #searchBox #searchBtm #searchBtn {
+	vertical-align: middle;
+}
+#fleaPage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#fleaPage #fleaList {
+	width: 100%;
+	background: url(../img/memopad/memopad_bk.png) no-repeat left top;
+	position: relative;
+	padding: 25px 0 0;
+}
+#fleaPage #fleaList .pager {
+	width: 770px;
+	padding: 0 0 22px;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#fleaPage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#fleaPage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#fleaPage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#fleaPage a.prev,
+#fleaPage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#fleaPage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#fleaPage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#fleaPage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#fleaPage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#fleaPage a.prev span, a.next span {
+	display: none;
+}
+
+/* -----------------------------------------
+	▼ 健康診断の記録
+----------------------------------------- */
+#healthPage {
+	width: 934px;
+	text-align: left;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#healthPage #searchBlock {
+	width: 100%;
+	margin: 0 auto 10px;
+}
+#healthPage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#healthPage #searchBlock #searchBox {
+	float: left;
+	width: 660px;
+	padding: 5px 0 0;
+}
+#healthPage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#healthPage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#healthPage #searchBlock #searchBox #searchBtm {
+	vertical-align: middle;
+	padding: 10px 0 0 0;
+}
+#healthPage #searchBlock #searchBox #searchBtm #searchBtn {
+	vertical-align: middle;
+}
+#healthPage #searchBlock #infoBox {
+	float: right;
+	width: 120px;
+	padding: 5px 0 0;
+}
+
+/* ━━━━ ▼ページャー ━━━━ */
+#healthPage #healthList {
+	width: 100%;
+	background: url(../img/memopad/memopad_bk.png) no-repeat left top;
+	position: relative;
+	padding: 25px 0 0;
+}
+#healthPage #healthList .pager {
+	width: 770px;
+	padding: 0 0 22px;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#healthPage .imageSlide {
+	width: 100%;
+	position: relative;
+	margin: 20px 0 0;
+}
+#healthPage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 15px;
+}
+#healthPage .imageSlide li {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+#healthPage a.prev,
+#healthPage a.next {
+	width: 15px;
+	height: 111px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#healthPage a.prev {
+	background: url(../img/common/btn_prev.png) no-repeat left top;
+	left: 0;
+}
+#healthPage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev_o.png) no-repeat left top !important;
+}
+#healthPage a.next {
+	background: url(../img/common/btn_next.png) no-repeat left top;
+	right: 0;
+}
+#healthPage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next_o.png) no-repeat left top !important;
+}
+#healthPage a.prev span, a.next span {
+	display: none;
+}
+
+/* -----------------------------------------
+	▼ 証明書の管理
+----------------------------------------- */
+#certificatePage {
+	width: 934px;
+	text-align: left;
+	background: url(../img/certificate/certificate_bk.png) no-repeat right 20px;
+	padding: 20px 0 0;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼検索 ━━━━ */
+#certificatePage #searchBlock {
+	width: 100%;
+	margin: 0 auto 70px;
+}
+#certificatePage #searchBlock #registBox {
+	float: left;
+	width: 140px;
+}
+#certificatePage #searchBlock #searchBox {
+	float: left;
+	width: 700px;
+	padding: 5px 0 0;
+}
+#certificatePage #searchBlock #searchBox select {
+	padding: 2px 5px;
+	margin: 0 5px;
+}
+#certificatePage #searchBlock #searchBox .wine {
+	color: #8C2829;
+}
+#certificatePage #searchBlock #searchBox #searchBtm {
+	vertical-align: middle;
+	padding: 10px 0 0 13px;
+}
+#certificatePage #searchBlock #searchBox #searchBtm #searchBtn {
+	vertical-align: middle;
+}
+
+/* ━━━━ ▼画像カルーセル ━━━━ */
+#certificatePage .imageSlide {
+	width: 100%;
+	position: relative;
+}
+#certificatePage .imageSlide ul {
+	padding: 3px 0 0;
+	margin: 0 17px;
+}
+#certificatePage .imageSlide li {
+	float: left;
+	width: 224px;
+	text-align: center;
+}
+#certificatePage .imageSlide p.ttl {
+	position: relative;
+	padding: 0 40px 5px;
+}
+#certificatePage .imageSlide p.ttl span {
+	display: block;
+	color: #7F252B;
+	position: absolute;
+	top: 0;
+	left: 20px;
+}
+#certificatePage .imageSlide p.img {
+	padding: 0 0 5px;
+}
+#certificatePage a.prev,
+#certificatePage a.next {
+	width: 17px;
+	height: 291px;
+	display: block;
+	position: absolute;
+	top: 0;
+}
+#certificatePage a.prev {
+	background: url(../img/common/btn_prev02.png) no-repeat left top;
+	left: 0;
+}
+#certificatePage a.prev.disabled {
+	cursor: default;
+	background: url(../img/common/btn_prev02_o.png) no-repeat left top !important;
+}
+#certificatePage a.next {
+	background: url(../img/common/btn_next02.png) no-repeat left top;
+	right: 0;
+}
+#certificatePage a.next.disabled {
+	cursor: default;
+	background: url(../img/common/btn_next02_o.png) no-repeat left top !important;
+}
+#certificatePage a.prev span, a.next span {
+	display: none;
+}
+
+/*開発サイドにて必要*/
+.calendar img.ui-datepicker-trigger{
+	margin:0 0 -4px 0;
+}
+/*
+div#popupContents div#myPageInfo table.tableStyle03 td p.icon {
+	width: 70px;
+	text-align: center;
+	position: relative;
+	margin: 0 auto;
+}
+div#popupContents div#myPageInfo table.tableStyle03 td p.coverR {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_red.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+div#popupContents div#myPageInfo table.tableStyle03 td p.coverB {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_blue.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+div#popupContents div#myPageInfo table.tableStyle03 td p.coverH {
+	width: 70px;
+	height: 70px;
+	background: url(../img/common/mypage_icon_cover_hb.png) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+*/

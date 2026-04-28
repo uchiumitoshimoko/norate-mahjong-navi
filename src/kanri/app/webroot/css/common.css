@@ -1,0 +1,371 @@
+/* ===============================================
+	▼共通 (大枠・小枠)
+=============================================== */
+/* ━━━━ ▼大枠 ━━━━ */
+#wrapper {
+	width: 100%;
+	font-size: 50%;
+	text-align: center;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	position: relative;
+	margin: 0 auto;
+}
+#container {
+	width: 100%;
+	padding: 0 0 130px;
+	margin: 0 auto;
+}
+
+/* ━━━━ ▼小枠 ━━━━ */
+.frame {
+	width: 980px;
+	text-align: left;
+	position: relative;
+	margin: 0 auto;
+}
+
+/* ===============================================
+	▼共通 (ポップアップ)
+=============================================== */
+#popupContents {
+	text-align: left;
+	padding: 15px;
+}
+
+/* ===============================================
+	▼共通 (ページトップ)
+=============================================== */
+.pagetop {
+	width: 100%;
+	text-align: right;
+	padding: 10px 0;
+}
+
+/* ===============================================
+	▼共通 (ページング)
+=============================================== */
+.pager {
+	padding: 5px 0;
+}
+.pager li {
+	display: inline;
+	text-align: center;
+	padding: 0 1px;
+}
+.pager li a {
+	color: #333;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 2px 5px;
+}
+.pager li a:hover {
+	background-color: #c9d9e4;
+}
+.pager li#back a,
+.pager li#next a {
+	color: #fff;
+	background-color: #aaa;
+}
+.pager li#back a:hover,
+.pager li#next a:hover {
+	color: #fff;
+	background-color: #ccc;
+}
+
+/* hai add */
+.pager li.current {
+	background-color: #c9d9e4;
+	border: 1px solid #ccc;
+	padding: 2px 5px;
+}
+
+/* ===============================================
+	▼共通 (リスト)
+=============================================== */
+ol.number li {
+	list-style-type: decimal;
+	padding: 0 0 10px;
+	margin: 0 0 0 2em;
+}
+ol.number02 li {
+	list-style-type: cjk-ideographic;
+	padding: 0 0 10px;
+	margin: 0 0 0 2em;
+}
+ul.disc li {
+	font-weight: normal;
+	list-style-type: disc;
+	padding: 5px 0 5px;
+	margin: 0 0 0 1em;
+}
+ul.circle li {
+	font-weight: normal;
+	list-style-type: circle;
+	padding: 5px 0 5px;
+	margin: 0 0 0 1em;
+}
+
+/* ===============================================
+	▼共通 (テーブル)
+=============================================== */
+table th.center {
+	text-align: center;
+	vertical-align: middle;
+}
+table td.center {
+	text-align: center;
+	vertical-align: middle;
+}
+table td.right {
+	text-align: right;
+}
+
+/* ━━━━ ▼tableStyle01 ━━━━ */
+.tableStyle01 {
+	width: 100%;
+	background-color: #ddd;
+}
+.tableStyle01 th {
+	color: #35080a;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #f2c2c4;
+	border-bottom: 1px solid #fff;
+	padding: 8px;
+}
+.tableStyle01 td {
+	vertical-align: middle;
+	background-color: #fff;
+	padding: 8px;
+}
+.tableStyle01 tr.even td {
+	background-color: #fbf1f2;
+}
+.tableStyle01 td img,
+.tableStyle01 td input {
+	vertical-align: middle;
+}
+
+/* ━━━━ ▼tableStyle02 ━━━━ */
+.tableStyle02 {
+	width: 100%;
+	background-color: #ccc;
+}
+.tableStyle02 th {
+	font-weight: normal;
+	background-color: #E9E8DF;
+	padding: 10px;
+}
+.tableStyle02 td {
+	background-color: #fff;
+	padding: 10px;
+}
+
+/* ━━━━ ▼tableStyle03 ━━━━ */
+.tableStyle03 {
+	width: 100%;
+	background-color: #ccc;
+}
+.tableStyle03 th {
+	font-weight: normal;
+	background-color: #E9E8DF;
+	vertical-align: middle;
+	padding: 10px;
+}
+.tableStyle03 td {
+	background-color: #fff;
+	vertical-align: middle;
+	padding: 10px;
+}
+
+/* ━━━━ ▼tableStyle04 ━━━━ */
+.tableStyle04 {
+	width: 100%;
+	background-color: #ddd;
+}
+.tableStyle04 th {
+	color: #35080a;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #f2c2c4;
+	border-bottom: 1px solid #fff;
+	padding: 8px;
+}
+.tableStyle04 td {
+	text-align: center;
+	vertical-align: middle;
+	background-color: #fff;
+	padding: 8px;
+}
+.tableStyle04 tr.even td {
+	background-color: #fbf1f2;
+}
+.tableStyle04 td img,
+.tableStyle04 td input {
+	vertical-align: middle;
+}
+.tableStyle04 td.noPad {
+	padding: 0;
+}
+.tableStyle04 td table {
+	width: 100%;
+}
+.tableStyle04 tr td table td {
+	border-right: 1px solid #ddd;
+}
+.tableStyle04 tr.even td table td {
+	background-color: #fff;
+	border-right: 1px solid #ddd;
+}
+.tableStyle04 tr td table td.end {
+	border-right: none;
+}
+
+/* ━━━━ ▼tableStyle05 ━━━━ */
+.tableStyle05 {
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+}
+.tableStyle05 th {
+	color: #35080a;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #f2c2c4;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #fff;
+	padding: 8px;
+	position: relative;
+}
+.tableStyle05 th.none {
+	background: none;
+	border: none;
+	padding: 0 0 200px;
+}
+.tableStyle05 th.ttl {
+	width: 1.5em;
+	vertical-align: bottom;
+}
+/*.tableStyle05 th.ttl p {
+
+	-webkit-transform: rotate(-90%);
+	-moz-transform: rotate(-90%);
+	writing-mode:tb-rl;
+	direction:ltr;
+	font-family: "ＭＳ Ｐ明朝";
+	margin: 0 auto;
+}*/
+.tableStyle05 th.ttl p {
+	width:1.05em;
+	line-height:1.05em;
+	margin-right:0.3em;
+	margin-left:0.3em;
+	word-wrap:break-word;
+	direction:ltr;
+}
+.tableStyle05 th.ttl p span.tate-kuto{
+	display: block;
+	width: 0.4em;
+	line-height: 0.1em !Important;
+	margin-bottom: 0.9em;
+	margin-left: 0.6em !Important;
+}
+.tableStyle05 th.ttl p span.tate-cho {
+	display: block;
+	-moz-transform: matrix(0, 1, 1, 0, 0, 0);
+	-webkit-transform: matrix(0, 1, 1, 0, 0, 0);
+	-o-transform: matrix(0, 1, 1, 0, 0, 0);
+	transform: matrix(0, 1, 1, 0, 0, 0);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1, mirror=1);
+}
+.tableStyle05 th.ttl p span.tate-komoji{
+	display: block;
+	line-height: 0.75em !Important;
+	margin-bottom: 0.3em;
+	margin-left: 0.11em !Important;
+}
+.tableStyle05 th.ttl p span.tate-kakko{
+	display: block;
+	-moz-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	transform: rotate(90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+.tableStyle05 td {
+	text-align: center;
+	vertical-align: middle;
+	background-color: #fff;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	padding: 8px 5px;
+}
+.tableStyle05 .end {
+	border-right: 1px solid #ddd;
+	padding: 8px 0px;
+}
+.tableStyle05 tr.even td {
+	background-color: #fbf1f2;
+}
+.tableStyle05 td img,
+.tableStyle05 td input {
+	vertical-align: middle;
+}
+
+/* ━━━━ ▼tableStyle06 ━━━━ */
+.tableStyle06 {
+	width: 100%;
+	background-color: #ccc;
+}
+.tableStyle06 th {
+	font-weight: normal;
+	background-color: #faffe2;
+	vertical-align: middle;
+	padding: 10px;
+}
+.tableStyle06 td {
+	background-color: #fff;
+	vertical-align: middle;
+	padding: 10px;
+}
+
+/* ━━━━ ▼tableStyle07 ━━━━ */
+.tableStyle07 {
+	width: 100%;
+	background-color: #ccc;
+}
+.tableStyle07 th {
+	font-weight: normal;
+	background-color: #e2f9ff;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5px;
+}
+.tableStyle07 td {
+	background-color: #fff;
+	vertical-align: middle;
+	padding: 5px;
+}
+
+/* ━━━━ ▼tableStyle08 ━━━━ */
+.tableStyle08 {
+	width: 100%;
+	background-color: #ccc;
+}
+.tableStyle08 th {
+	font-weight: normal;
+	background-color: #ffede2;
+	vertical-align: middle;
+	padding: 10px;
+}
+.tableStyle08 td {
+	background-color: #fff;
+	vertical-align: middle;
+	padding: 10px;
+}

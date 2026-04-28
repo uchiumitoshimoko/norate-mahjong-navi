@@ -1,0 +1,292 @@
+
+<script>
+$(document).ready(function(){
+/*
+	strCnt=0 + <?=$count_rows?>;
+// 2013-05-14 saito add s---------------
+	while ( strCnt <= <?=$timecard_default_rows?> ) {
+		$("#com_table tbody").append(getDetailRow());
+		strCnt++;
+	}
+// 2013-05-14 saito add e---------------
+*/
+});
+function addRows(){
+	$("#com_table tbody").append(getComRow());
+	return false;
+}
+function getComRow(){
+	str = "";
+        str+= "<tr>";
+	str+= "<td><div class=\"input-append\"><div class=\"calendar\">";
+	str+= "<input type=\"hidden\" name=\"data[Commission][id][]\" value=\"\" id=\"CommissionId\"/>";
+	str+= "<select name=\"data[Commission][year][]\" id=\"DailiesExecDateYear\" class=\"input-small\">";
+	str+= "<option value=\"\">---</option>";
+	str+= "<?foreach($years as $key=>$value){?>";
+	str+= "<option value=\"<?=$key?>\"><?=$value?></option>";
+	str+= "<?}?>";
+	str+= "</select>年";
+	str+= "<select name=\"data[Commission][month][]\" id=\"DailiesExecDateMonth\" class=\"input-mini\">";
+	str+= "<option value=\"\">---</option>";
+	str+= "<?foreach($months as $key=>$value){?>";
+	str+= "<option value=\"<?=$key?>\"><?=$value?></option>";
+	str+= "<?}?>";
+	str+= "</select>月";
+	str+= "<select name=\"data[Commission][day][]\" id=\"DailiesExecDateDay\" class=\"input-mini\">";
+	str+= "<option value=\"\">---</option>";
+	str+= "<?foreach($days as $key=>$value){?>";
+	str+= "<option value=\"<?=$key?>\"><?=$value?></option>";
+	str+= "<?}?>";
+	str+= "</select>日</div>";
+	str+= "</div></td>";
+	str+= "<td><div class=\"input-append\">";
+	str+= "<input name=\"data[Commission][ijo][]\" value=\"\" class=\"input-mini\" id=\"ijo\" type=\"text\" maxlength=\"4\">";
+	str+= "<span class=\"add-on\">人</span>";
+	str+= "</div></td>";
+	str+= "<td><div class=\"input-append\">";
+	str+= "<input name=\"data[Commission][miman][]\" value=\"\" class=\"input-mini\" id=\"miman\" type=\"text\" maxlength=\"4\">";
+	str+= "<span class=\"add-on\">人</span>";
+	str+= "</div></td>";
+	str+= "<td><div class=\"input-append\">";
+	str+= "<input name=\"data[Commission][first_rate][]\" value=\"\" class=\"input-mini\" id=\"first_rate\" type=\"text\" maxlength=\"4\">";
+	str+= "<span class=\"add-on\">％</span>";
+	str+= "</div></td>";
+	str+= "<td><div class=\"input-append\">";
+	str+= "<input name=\"data[Commission][after_rate][]\" value=\"\" class=\"input-mini\" id=\"after_rate\" type=\"text\" maxlength=\"4\">";
+	str+= "<span class=\"add-on\">％</span>";
+	str+= "</div></td>";
+	str+= "<td><div class=\"input-append\">";
+	str+= "<input name=\"data[Commission][unit_price][]\" value=\"\" class=\"input-mini\" id=\"unit_price\" type=\"text\">";
+	str+= "<span class=\"add-on\">円</span>";
+	str+= "</div></td>";
+	str+= "<td><div class=\"input-append\">";
+	str+= "<input name=\"data[Commission][tax_rate][]\" value=\"\" class=\"input-mini\" id=\"tax_rate\" type=\"text\">";
+	str+= "<span class=\"add-on\">％</span>";
+	str+= "</div></td>";
+	str+= "<td></td>";
+	str+= "<td></td>";
+	str+= "<td><a class=\"btn btn-danger btn-small\" onClick=\"deleteComRow(this)\"><i class=\"icon-remove\"></i></a></td>";
+	str+= "</tr>"
+	return str;
+}
+
+function deleteComRow(obj){
+	$(obj).closest('tr').empty();
+}
+
+</script>
+
+
+		<div class="header">
+			<h1 class="page-title">代理店詳細</h1>
+		</div>
+		
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+
+
+<?php echo $this->Form->create('Contractor'); ?>
+<?=$this->Form->input('id');?>
+<div class="btn-toolbar">
+    <button class="btn btn-primary"><i class="icon-save"></i> 保存</button>
+    <a href="/c_system/contractors?backflg=1" data-toggle="modal" class="btn">戻る</a>
+</div>
+
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="home">
+	<div class="block">
+	<a href="#contractor" class="block-heading" data-toggle="collapse">代理店情報</a>
+	  <div id="contractor" class="block-body collapse in"><h3></h3>
+			<table class="table table-bordered">
+				<?=$this->Form->input('ccd',array('type'=>'hidden','class'=>'input-small','label'=>false))?>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">代理店コード</td>
+					<td align="left" bgcolor="#ffffff"><?=$this->request->data['Contractor']['ccd']?></td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">商品名</td>
+					<td align="left" bgcolor="#ffffff"><?=$this->request->data['Contractor']['cname']?></td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">代理店名</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('cname2',array('type'=>'text','class'=>'input-small','label'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">支払書代理店名</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('cname3',array('type'=>'text','class'=>'input-normal','label'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">金融機関</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('bank',array('type'=>'text','class'=>'input-small','label'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">支店名</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('siten',array('type'=>'text','class'=>'input-small','label'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">口座番号</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('koza',array('type'=>'text','class'=>'input-small','label'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">名義</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('meigi',array('type'=>'text','class'=>'input-small','label'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">課金方式</td>
+					<td align="left" bgcolor="#ffffff"><?=$accountArr[$this->request->data['Contractor']['account_type']]?></td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">引き落とし方法</td>
+					<td align="left" bgcolor="#ffffff"><?=$debitArr[$this->request->data['Contractor']['debit_type']]?></td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">初回収済フラグ</td>
+					<td align="left" bgcolor="#ffffff"><?if(isset($initialArr[$this->request->data['Contractor']['initial_payed_flg']])){?><?=$initialArr[$this->request->data['Contractor']['initial_payed_flg']]?><?}?></td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">解約届出日判定基準</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('cancel_report_pattern',array('type'=>'radio','options'=>$optCancel,'legend'=>false,'div'=>false))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">支払書まとめ先</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('pay_matome_ccd',array('type'=>'select','label'=>false,'div'=>false,'options'=>$contArr,'style'=>'width:100px','empty'=>'---'))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">総代理店設定</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('parent_ccd',array('type'=>'select','label'=>false,'div'=>false,'options'=>$contArr,'style'=>'width:100px','empty'=>'---'))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">支払サイト</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('pay_site',array('type'=>'select','label'=>false,'div'=>false,'options'=>$siteArr,'empty'=>'---'))?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" bgcolor="#ececec" class="td-title">自動カルテ削除</td>
+					<td align="left" bgcolor="#ffffff">
+						<?=$this->Form->input('auto_cancel_flg',array('type'=>'radio','options'=>$optAutoCancel,'legend'=>false,'div'=>false))?>
+					</td>
+				</tr>
+			</table>
+	  </div>
+	</div>
+
+	<div class="block">
+	<a href="#commission" class="block-heading" data-toggle="collapse">マージン設定</a>
+	  <div id="commission" class="block-body collapse in"><h3></h3>
+	<div class="btn-toolbar">
+	    <a class="btn btn-primary" href="javascript:addRows();"><i class="icon-plus"></i>行追加</a>
+	    <!--button class="btn btn-primary" id="add_detail" onclick="addRows();return false;"><i class="icon-plus"></i>行追加</button-->
+	</div>
+		<table class="table table-bordered" id="com_table">
+			<thead>
+			<tr>
+				<th>開始日</th><th>登録(以上)</th><th>登録(未満)</th><th>初年度</th><th>次年度</th><th>単価</th><th>消費税</th><th>更新者</th><th>更新日</th><th>削除</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?foreach($Commissions as $row){?>
+			<tr>
+				<td>
+				<div class="input-append">
+						<input type="hidden" name="data[Commission][id][]" value="<?=$row['Commission']['id']?>" id="CommissionId"/>
+						<div class="calendar">
+						<select name="data[Commission][year][]" id="CommissionExecDateYear" class="input-small">
+						<option value="">---</option>
+						<?foreach($years as $key=>$value){?>
+							<option value="<?=$key?>" <?if($key==substr($row['Commission']['start_date'],0,4)){?>selected<?}?>><?=$value?></option>
+						<?}?>
+						</select>年
+						<select name="data[Commission][month][]" id="CommissionExecDateMonth" class="input-mini">
+						<option value="">---</option>
+						<?foreach($months as $key=>$value){?>
+							<option value="<?=$key?>" <?if($key==substr($row['Commission']['start_date'],5,2)){?>selected<?}?>><?=$value?></option>
+						<?}?>
+						</select>月
+						<select name="data[Commission][day][]" id="CommissionExecDateDay" class="input-mini">
+						<option value="">---</option>
+						<?foreach($days as $key=>$value){?>
+							<option value="<?=$key?>" <?if($key==substr($row['Commission']['start_date'],8,2)){?>selected<?}?>><?=$value?></option>
+						<?}?>
+						</select>日</div>
+				</div>
+				</td>
+				<td>
+				<div class="input-append">
+					<input name="data[Commission][ijo][]" value="<?=$row['Commission']['ijo']?>" class="input-mini" id="ijo" type="text" maxlength="4">
+					<span class="add-on">人</span>
+				</div>
+				</td>
+				<td>
+				<div class="input-append">
+					<input name="data[Commission][miman][]" value="<?=$row['Commission']['miman']?>" class="input-mini" id="miman" type="text" maxlength="4">
+					<span class="add-on">人</span>
+				</div>
+				</td>
+				<td>
+				<div class="input-append">
+					<input name="data[Commission][first_rate][]" value="<?=$row['Commission']['first_rate']?>" class="input-mini" id="first_rate" type="text" maxlength="4">
+					<span class="add-on">％</span>
+				</div>
+				</td>
+				<td>
+				<div class="input-append">
+					<input name="data[Commission][after_rate][]" value="<?=$row['Commission']['after_rate']?>" class="input-mini" id="after_rate" type="text" maxlength="4">
+					<span class="add-on">％</span>
+				</div>
+				</td>
+				<td>
+				<div class="input-append">
+					<input name="data[Commission][unit_price][]" value="<?=$row['Commission']['unit_price']?>" class="input-mini" id="unit_price" type="text">
+					<span class="add-on">円</span>
+				</div>
+				</td>
+				<td>
+				<div class="input-append">
+					<input name="data[Commission][tax_rate][]" value="<?=$row['Commission']['tax_rate']?>" class="input-mini" id="tax_rate" type="text">
+					<span class="add-on">％</span>
+				</div>
+				</td>
+				<td>
+					<?=$row['Commission']['modified_user_id']?>
+				</td>
+				<td>
+					<?=substr($row['Commission']['modified'],0,10)?>
+				</td>
+				<td><a class="btn btn-danger btn-small" onClick="deleteComRow(this)"><i class="icon-remove"></i></a></td>
+			</tr>
+			<?}?>
+			</tbody>
+			
+		</table>
+
+	  </div>
+	</div>
+
+<div class="btn-toolbar">
+    <button class="btn btn-primary"><i class="icon-save"></i> 保存</button>
+</div>
+
+<?php echo $this->Form->end(); ?>
+
+

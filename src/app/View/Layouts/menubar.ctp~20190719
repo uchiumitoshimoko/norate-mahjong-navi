@@ -1,0 +1,44 @@
+<?php
+	$current_list = array();
+	$current_list['TopPages'] = "";
+	$current_list['Prefs'] = "";
+	$current_list['Search'] = "";
+	$current_list['Contacts'] = "";
+	$current_list['GoogleMaps'] = "";
+	$current_list['Links'] = "";
+	
+	$current_list[$this->name] = "class='current'";
+?>
+<!--PC用（901px以上端末）メニュー-->
+<nav id="menubar" class="nav-fix-pos">
+<ul class="inner">
+<li <?=$current_list['TopPages']?>><a href="<?=TEST?>/">ホーム<span>Home</span></a></li>
+<li <?=$current_list['Prefs']?>><a href="<?=TEST?>/prefs/pref_list">都道府県一覧<span>Prefectures</span></a>
+    <ul class="ddmenu">
+
+<?
+	foreach($prefs_count as $row) {
+?>
+    <li><a href="<?=TEST?>/prefs/list/<?=$row['Prefs']['pref_id']?>"><?=$row['Prefs']['pref_name']?>（<?=$row['Prefs']['count']?>件）</a></li>
+<?
+	}
+?>
+	</ul>
+</li>
+<li <?=$current_list['Search']?>><a href="<?=TEST?>/search/">店舗検索<span>Information</span></a></li>
+<li <?=$current_list['Links']?>><a href="<?=TEST?>/links">リンク<span>Link</span></a></li>
+<li <?=$current_list['GoogleMaps']?>><a href="<?=TEST?>/google_maps">GoogleMap検索<span>GoogleMap</span></a></li>
+<li <?=$current_list['Contacts']?>><a href="<?=TEST?>/contacts">お問い合わせ<span>Contact</span></a></li>
+</ul>
+</nav>
+<!--小さな端末用（900px以下端末）メニュー-->
+<nav id="menubar-s">
+<ul>
+<li <?=$current_list['TopPages']?>><a href="<?=TEST?>/">ホーム<span>Home</span></a></li>
+<li <?=$current_list['Prefs']?>><a href="<?=TEST?>/prefs/pref_list">都道府県一覧<span>Prefectures</span></a></li>
+<li <?=$current_list['Search']?>><a href="<?=TEST?>/search/">店舗検索<span>Search</span></a></li>
+<li <?=$current_list['Links']?>><a href="<?=TEST?>/links">リンク<span>Link</span></a></li>
+<li <?=$current_list['GoogleMaps']?>><a href="<?=TEST?>/google_maps">GoogleMap検索<span>GoogleMap</span></a></li>
+<li <?=$current_list['Contacts']?>><a href="<?=TEST?>/contacts">お問い合わせ<span>Contact</span></a></li>
+</ul>
+</nav>

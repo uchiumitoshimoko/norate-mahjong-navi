@@ -1,0 +1,97 @@
+<?php
+
+App::uses('ComponentCollection', 'Controller');
+
+/*
+ * 月額固定（当月）の請求データを抽出して、本システムの請求テーブルに登録する。
+ */
+class BillMonthlyThisShell extends Shell {
+
+	var $Controller;
+	
+	/**
+	 * 初期化処理
+	 */
+	function startup(){
+
+		$collection = new ComponentCollection();
+		//$this->Karte = new KarteComponent($collection);
+		parent::startup();
+	
+	}
+
+	/**
+	 * メイン処理
+	 */
+	function main() {
+		
+		$Customer = ClassRegistry::init('Customer');
+		$Bill = ClassRegistry::init('Bill');
+		
+		/*
+		月額固定（当月払い）
+		　→支払い方法が、月額で当月払いの顧客
+		　→解約届出日が、当月１日以降の会員
+		　→解約届出日が設定されていない会員
+　		*/
+		
+		$sql = "SELECT * FROM m_customers, m_contractors WHERE";
+		$sql.= " m_customers.ccd=m_contractors.ccd";
+		$sql.= " AND m_contractors.account_type='MONTHLY'";
+		$sql.= " AND m_contractors.debit_type='THIS'";
+		
+		// 解約届出日が設定されてないか、当月１日以降
+		$sql.= " AND (";
+		
+		// $this_month = date("Y-m");
+		$this_month = (!empty($this->args[0])) ? date('Y-m',mktime(0,0,0,substr($this->args[0],4,2),1,substr($this->args[0],0,4))) : date("Y-m");
+		$sql.= " m_customers.cancel_date IS NULL OR m_customers.cancel_date = ''";
+		$sql.= " OR m_customers.cancel_date>='" . $this_month . "-01'";
+		
+		$sql.= " )";
+		
+		//$sql.= " limit 1";
+		
+		//print $sql;
+		
+		$result = $Customer->query($sql);
+
+		$start_date = (!empty($this->args[0])) ? date('Y-m-d',mktime(0,0,0,substr($this->args[0],4,2),1,substr($this->args[0],0,4))) : date("Y-m-d");
+		
+		foreach($result as $data) {
+			
+			// 現在有効な、代理店の月額単価を求める。
+			// 当月分なので、本日のシステム日を含む開始日の中で、一番最近の「m_commissions」の単価を取得する。
+			
+			$sql = "SELECT * FROM m_commissions WHERE ccd='" . $data['m_customers']['ccd'] . "'";
+			// $sql.= " AND start_date<='" . date("Y-m-d") . "'";
+			$sql.= " AND start_date<='" . $start_date . "'";
+			$sql.= " ORDER BY start_date DESC LIMIT 1";
+			
+			$buf = $Customer->query($sql);
+			
+			$unit_price = $buf[0]['m_commissions']['unit_price'];
+			
+			$Bill->create();
+			
+			$saveData['Bill']['customer_cd'] = $data['m_customers']['customer_cd'];
+		    $saveData['Bill']['ccd'] = $data['m_customers']['ccd'];
+		    $saveData['Bill']['account_type'] = "MONTHLY";
+		    $saveData['Bill']['payment_type'] = $data['m_customers']['payment_type'];
+		    $saveData['Bill']['bill_yyyymm'] = (!empty($this->args[0])) ? date('Ym',mktime(0,0,0,substr($this->args[0],4,2),1,substr($this->args[0],0,4))) : date("Ym");
+		    $saveData['Bill']['bill_price'] = $unit_price;
+		    $saveData['Bill']['receipt_price'] = "0";
+		    $saveData['Bill']['status'] = "0";
+		    
+		    $Bill->set($saveData);
+			$Bill->save();
+			
+			
+		}
+		
+
+	}
+}
+
+
+?>

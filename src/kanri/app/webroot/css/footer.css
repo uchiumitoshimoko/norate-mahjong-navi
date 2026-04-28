@@ -1,0 +1,23 @@
+/* ===============================================
+	▼FOOTER CSS設定
+=============================================== */
+#footer {
+	width: 100%;
+	height: 89px;
+	background: url(/mypage/img/common/footer_bk.png) repeat-x center top;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+#footer #footLogo {
+	text-align: center;
+	padding: 40px 0 0;
+}
+#footer #copy {
+	font-size: 10px;
+	text-align: center;
+	padding: 6px 0 0;
+}
+* html #footer {
+	bottom:expression(document.getElementById("wrapper").offsetHeight % 2 == 0 ? 0 : -1);
+}

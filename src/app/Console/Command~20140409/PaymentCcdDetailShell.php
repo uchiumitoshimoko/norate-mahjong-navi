@@ -1,0 +1,237 @@
+<?php
+
+App::uses('ComponentCollection', 'Controller');
+App::uses('UtilityComponent', 'Controller/Component');
+
+/*
+ * 当月分の代理店（初回収分）への請求明細データを作成する。
+ */
+class PaymentCcdDetailShell extends Shell {
+	
+	
+	var $Controller;
+	
+	/**
+	 * 初期化処理
+	 */
+	function startup(){
+
+		$collection = new ComponentCollection();
+		$this->Utility = new UtilityComponent($collection);
+		parent::startup();
+	
+	}
+
+	/**
+	 * メイン処理
+	 */
+	function main() {
+		
+		// 初回収分については、先月の入会人数に応じてボリュームカウントをとる。（入金確定等はないため）
+		
+		/**** 処理手順 *****************************************/
+		// ①代理店マスタから、初回収済フラグ（initial_payed_flg）が１の代理店を取得
+		// ②代理店の引き落とし方法（THIS or NEXT）を取得する。
+		// 　→THISであれば、当月の前月の入会者者を取得する
+		// 　→NEXTであれば、当月の先々月の入会者を取得する。
+		// ③代理店手数料をボリュームも加味した形で取得する。
+		// ④入会者をループして、明細テーブル（t_ccd_payment_details）に出力する。
+		$Contractor = ClassRegistry::init('Contractor');
+		$cond = array('initial_payed_flg'=>'TRUE');
+		$contractor_data = $Contractor->find('all', array('conditions'=>$cond));
+		
+		//print_r($contractor_data);
+		
+		$PaymentDetail = ClassRegistry::init('CcdPaymentDetail');
+		
+		foreach($contractor_data as $contractor) {
+			
+			//print_r($contractor);
+			
+			// 対象月
+			$target_month = "";
+			
+			if($contractor['Contractor']['debit_type'] == "THIS") {
+				$target_month = (!empty($this->args[0])) ? date('Y-m',mktime(0,0,0,substr($this->args[0],4,2)-1,1,substr($this->args[0],0,4))) : date("Y-m",strtotime("-1 month"));
+			}
+			else {
+				$target_month = (!empty($this->args[0])) ? date('Y-m',mktime(0,0,0,substr($this->args[0],4,2)-2,1,substr($this->args[0],0,4))) : date("Y-m",strtotime("-2 month"));
+			}
+			
+			// 対象月の入会者を取得する。
+			$Customer = ClassRegistry::init('Customer');
+			$cond = array('ccd'=>$contractor['Contractor']['ccd'],
+							'application_date LIKE'=>$target_month . '%');
+							
+			
+			$customers = $Customer->find("all", array('conditions'=>$cond));
+			
+			$kakutei_ninzu = "0";
+			
+			if(!empty($customers)) {
+				$kakutei_ninzu = count($customers);
+			}
+			
+			//print "count= ". count($customers);
+			
+			$sql = "SELECT * FROM m_commissions WHERE ccd='" . $contractor['Contractor']['ccd'] . "' AND start_date<='" . $target_month . "-01' AND ijo<=" . $kakutei_ninzu . " AND " . $kakutei_ninzu . "<miman ORDER BY start_date DESC limit 1";
+			
+			$Commission = ClassRegistry::init('Commission');
+			$commission_data = $Commission->query($sql, false);
+			
+			$rate = $commission_data[0]['m_commissions']['first_rate'];
+			
+			//print_r($commission_data);
+			
+			// ループ処理を行い、明細テーブルに出力する。
+			foreach($customers as $customer) {
+				
+				if($rate == "0") continue;
+				
+				// 入会月に、顧客返金がなかったった場合は、まだ請求を代理店にあげていないので、ここでは請求明細には含めない。
+				// 違約金以外で、入会月に返金があった場合は無視
+				$sql = "SELECT * FROM t_cancels WHERE customer_cd='" . $customer['Customer']['customer_cd'] . "' AND repayment_date!='' AND ( repayment_date NOT LIKE '" . $target_month . "%' OR cancel_pattern!=1 )";
+				
+				$result = $Commission->query($sql);
+				if(!empty($result)) continue;
+				
+				$PaymentDetail->create();
+				$saveData = array();
+				
+				//print_r($customer);
+
+
+				$saveData['CcdPaymentDetail']['ccd'] = $contractor['Contractor']['ccd'];	// 代理店コード
+				
+				// 支払書まとめ先コード
+				if(empty($contractor['Contractor']['pay_matome_ccd'])) {
+					$saveData['CcdPaymentDetail']['pay_matome_ccd'] = $contractor['Contractor']['ccd'];
+				}
+				else {
+					$saveData['CcdPaymentDetail']['pay_matome_ccd'] = $contractor['Contractor']['pay_matome_ccd'];
+				}
+				
+				$saveData['CcdPaymentDetail']['type'] = "1";	// 初年度しかないので１固定
+				$saveData['CcdPaymentDetail']['customer_cd'] = $customer['Customer']['customer_cd'];	// 顧客コード
+				
+				$saveData['CcdPaymentDetail']['pay_month'] = (!empty($this->args[0])) ? date('Y-m',mktime(0,0,0,substr($this->args[0],4,2),1,substr($this->args[0],0,4))) : date('Y-m');	// 支払書発行月
+				
+				$saveData['CcdPaymentDetail']['use_month'] = $target_month;	// 利用月
+				$saveData['CcdPaymentDetail']['application_date'] = $customer['Customer']['application_date'];	// 会員登録日（申込日）
+				$saveData['CcdPaymentDetail']['name_kana'] = $customer['Customer']['name_kana'];	// 顧客名（カナ）
+				$saveData['CcdPaymentDetail']['price'] = $commission_data[0]['m_commissions']['unit_price'];	// 入金額＝単価
+				$saveData['CcdPaymentDetail']['rate'] = $rate;	// 手数料率
+				$saveData['CcdPaymentDetail']['tax_rate'] = $commission_data[0]['m_commissions']['tax_rate'];	// 消費税率
+				$saveData['CcdPaymentDetail']['pay_price'] = ceil(intval($commission_data[0]['m_commissions']['unit_price']) / (($commission_data[0]['m_commissions']['tax_rate']+100)/100) * ($rate/100));	// 支払い金額
+				
+				// 単価の税抜から、支払手数料の税抜を引いた金額を入れる。
+				//$saveData['CcdPaymentDetail']['pay_price'] = ceil(intval($commission_data[0]['m_commissions']['unit_price']) / (($commission_data[0]['m_commissions']['tax_rate']+100)/100)) - ceil(intval($commission_data[0]['m_commissions']['unit_price']) / (($commission_data[0]['m_commissions']['tax_rate']+100)/100) * ($rate/100));	// 支払い金額
+				
+				//print_r($saveData);
+				
+				$PaymentDetail->save($saveData);
+
+				
+			}
+			
+		}
+		
+		/************************************************************************************************/
+		/** 解約テーブル（t_cancels）から、先月が解約手続き完了日の人の「調整金額」を取得して登録する。**/
+		/************************************************************************************************/
+		// $cancel_month = date("Y-m",strtotime("-1 month"));
+		$cancel_month = (!empty($this->args[0])) ? date('Y-m',mktime(0,0,0,substr($this->args[0],4,2)-1,1,substr($this->args[0],0,4))) : date("Y-m",strtotime("-1 month"));
+		
+		//print "cancel_month=" . $cancel_month;
+		
+		
+		/*
+		$cond = array('status'=>'1',
+						'cancel_date LIKE'=>$cancel_month . '%'
+						);
+		*/
+		
+		$Cancel = ClassRegistry::init('Cancel');
+		
+		//print_r($contractor_data);
+
+		$CancelPatternArr = array('通常','違約金','全額返金','クーリングオフ','利用停止');
+		
+		// 初回収フラグがたっている代理店
+		foreach($contractor_data as $contractor) {
+			
+			// その代理店の解約者で、解約日が先月で、調整金額があって、それが初年度の場合
+			/*
+			$cond = array('ccd'=>$contractor['Contractor']['ccd'],
+							'cancel_date LIKE'=>$cancel_month . '%',
+							'offset_price>'=>'0'
+							);
+			*/
+			
+			$cond = array('ccd'=>$contractor['Contractor']['ccd'],
+							'cancel_date LIKE'=>$cancel_month . '%'
+							);
+
+			$sql = "SELECT * FROM t_cancels, m_customers WHERE t_cancels.customer_cd=m_customers.customer_cd AND m_customers.ccd='" . $contractor['Contractor']['ccd'] . "' AND t_cancels.cancel_date LIKE '" . $cancel_month . "%' AND t_cancels.offset_price IS NOT NULL AND t_cancels.offset_price != 0";
+			
+			//print $sql;
+			
+			$result = $Cancel->query($sql, false);
+			
+			//$result = $Cancel->find('all', array('conditions'=>$cond));
+		
+			//print_r($result);
+			
+		
+			foreach($result as $data) {
+				
+				//print_r($data);
+				//exit;
+				
+				$cond = array('customer_cd'=>$data['t_cancels']['customer_cd']);
+				$customer_data = $Customer->find('first', array('conditions'=>$cond));
+				
+				// 解約月が、そのユーザの初年度中の場合
+				if($this->Utility->isFirstNendo($customer_data['Customer']['application_date'], $cancel_month . "-01")) {
+					$PaymentDetail->create();
+					$saveData = array();
+
+					$saveData['CcdPaymentDetail']['ccd'] = $customer_data['Customer']['ccd'];	// 代理店コード
+					
+					// 支払書まとめ先コード
+					if(empty($contractor['Contractor']['pay_matome_ccd'])) {
+						$saveData['CcdPaymentDetail']['pay_matome_ccd'] = $contractor['Contractor']['ccd'];
+					}
+					else {
+						$saveData['CcdPaymentDetail']['pay_matome_ccd'] = $contractor['Contractor']['pay_matome_ccd'];
+					}
+					
+					$saveData['CcdPaymentDetail']['type'] = "3";	// 解約調整額
+					$saveData['CcdPaymentDetail']['customer_cd'] = $customer_data['Customer']['customer_cd'];	// 顧客コード
+					
+					$saveData['CcdPaymentDetail']['pay_month'] = (!empty($this->args[0])) ? date('Y-m',mktime(0,0,0,substr($this->args[0],4,2),1,substr($this->args[0],0,4))) : date('Y-m');	// 支払書発行月
+					
+					$cancel_month = substr($data['t_cancels']['cancel_date'], 0, 4) . "-" . substr($data['t_cancels']['cancel_date'], 5, 2);
+					$saveData['CcdPaymentDetail']['use_month'] = $cancel_month;	// 解約月
+					$saveData['CcdPaymentDetail']['application_date'] = $customer_data['Customer']['application_date'];	// 会員登録日（申込日）
+					// $saveData['CcdPaymentDetail']['name_kana'] = $customer_data['Customer']['name_kana'];	// 顧客名（カナ）
+					$saveData['CcdPaymentDetail']['name_kana'] = $customer_data['Customer']['name_kana']."(".$CancelPatternArr[$data['t_cancels']['cancel_pattern']].")"; // 顧客名（カナ）
+					$saveData['CcdPaymentDetail']['price'] = 0;
+					$saveData['CcdPaymentDetail']['rate'] = 0;	// 手数料率
+					$saveData['CcdPaymentDetail']['tax_rate'] = 0; // 消費税率
+					$saveData['CcdPaymentDetail']['pay_price'] = intval($data['t_cancels']['offset_price']);	// 入金額
+					// print_r($saveData);exit;
+					
+					$PaymentDetail->save($saveData);
+			
+				}
+			}
+		}
+
+		//debug($PaymentDetail->getDataSource()->getLog());
+
+	}
+}
+
+
+?>
