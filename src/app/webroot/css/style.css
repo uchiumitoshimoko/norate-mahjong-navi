@@ -3751,3 +3751,39 @@ body.top-page #main .rn-section-title {
    renewal Phase15 OUTLINE BUTTONS end
    ================================================================ */
 
+
+/* ================================================================
+   renewal Phase16 DETAIL VISIT DATE & NOTICE
+   ================================================================ */
+
+/* 店舗名直下・タグの上の訪問日ラベル */
+/* padding は #main p { padding: 0 10px 15px } (詳細度101) に負けるため !important で上書き */
+.rn-detail__visit-date {
+    display: block;
+    width: fit-content;
+    margin: 0 0 8px 0 !important;
+    padding: 2px 10px !important;
+    border-radius: 999px;
+    background: rgba(46, 125, 50, 0.1);
+    color: #1b5e20;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* 訪問日時点の情報注意文 */
+.rn-detail__visit-notice {
+    font-size: 12px;
+    color: #555;
+    background: #f8f8f8;
+    border-left: 3px solid #aaa;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* ================================================================
+   renewal Phase16 DETAIL VISIT DATE & NOTICE end
+   ================================================================ */
+

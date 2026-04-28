@@ -70,6 +70,10 @@ if(!empty($row['twitter'])) {
             </h1>
         </header>
 
+        <?php if($row['visit_flg'] && !empty($row['visit_date'])): ?>
+        <p class="rn-detail__visit-date">訪問日：<?php echo date('Y年n月j日', strtotime($row['visit_date'])); ?></p>
+        <?php endif; ?>
+
         <div class="rn-detail__tags store-tags">
             <?php if($row['new_flg']):    ?><span class="icon color7">NEW</span><?php endif; ?>
             <?php if($row['pickup_flg']): ?><span class="icon color1">ピックアップ</span><?php endif; ?>
@@ -80,6 +84,11 @@ if(!empty($row['twitter'])) {
             <?php if($row['visit_flg']):  ?><span class="icon color4">訪問済み</span><?php endif; ?>
         </div>
     </div>
+
+    <!-- 訪問日注意文 -->
+    <?php if($row['visit_flg'] && !empty($row['visit_date'])): ?>
+    <p class="rn-detail__visit-notice">※ 本記事の内容は<?php echo date('Y年n月j日', strtotime($row['visit_date'])); ?>訪問時点の情報です。最新の営業状況・料金・ルール等は店舗へご確認ください。</p>
+    <?php endif; ?>
 
     <!-- 3. メイン画像 -->
     <?php if(!empty($row['store_mime_1'])): ?>
