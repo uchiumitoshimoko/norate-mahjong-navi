@@ -31,6 +31,9 @@
 
 
 	Router::connect('/', array('controller' => 'TopPages', 'action' => 'index'));
+
+	// --- API v1 ---
+	Router::connect('/api/v1/prefectures', array('controller' => 'Api', 'action' => 'prefectures'));
 	
 
 	
