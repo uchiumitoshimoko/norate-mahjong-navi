@@ -35,6 +35,7 @@
 	// --- API v1 ---
 	Router::connect('/api/v1/prefectures', array('controller' => 'Api', 'action' => 'prefectures'));
 	Router::connect('/api/v1/cities',      array('controller' => 'Api', 'action' => 'cities'));
+	Router::connect('/api/v1/stores',      array('controller' => 'Api', 'action' => 'stores'));
 	
 
 	
