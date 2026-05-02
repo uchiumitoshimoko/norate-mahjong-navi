@@ -19,6 +19,38 @@ class ApiController extends AppController {
         }
     }
 
+    // GET /api/v1/cities?pref_id={id}
+    public function cities() {
+        $pref_id = (int)$this->request->query('pref_id');
+
+        if (!$pref_id) {
+            $this->response->statusCode(400);
+            echo json_encode(array('status' => 'error', 'message' => 'pref_id is required'), JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $this->loadModel('Matis');
+
+        $matis = $this->Matis->find('all', array(
+            'conditions' => array('pref_id' => $pref_id, 'count >' => 0),
+            'order'      => array('count' => 'desc'),
+            'fields'     => array('mati', 'count'),
+        ));
+
+        $result = array();
+        foreach ($matis as $row) {
+            $result[] = array(
+                'mati'  => $row['Matis']['mati'],
+                'count' => (int)$row['Matis']['count'],
+            );
+        }
+
+        echo json_encode(
+            array('status' => 'ok', 'pref_id' => $pref_id, 'cities' => $result),
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
     // GET /api/v1/prefectures
     public function prefectures() {
         $this->loadModel('Prefs');
