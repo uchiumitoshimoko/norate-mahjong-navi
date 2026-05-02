@@ -51,6 +51,89 @@ class ApiController extends AppController {
         );
     }
 
+    // GET /api/v1/store?id={id}
+    public function store() {
+        $id = (int)$this->request->query('id');
+
+        if (!$id) {
+            $this->response->statusCode(400);
+            echo json_encode(array('status' => 'error', 'message' => 'id is required'), JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $this->loadModel('Stores');
+
+        $result = $this->Stores->find('first', array(
+            'conditions' => array(
+                'Stores.id'     => $id,
+                'Stores.status' => 1,
+            ),
+            'fields' => array(
+                'id', 'store_name', 'address', 'station', 'comment',
+                'visit_date', 'visit_flg', 'close_flg',
+                'store_mime_1', 'store_mime_2', 'store_mime_3', 'store_mime_4',
+                'kenko_flg', 'norate_flg', 'kyogi_flg', 'yoyaku_flg',
+                'new_flg', 'pickup_flg',
+                'homepage_1_title', 'homepage_1_url',
+                'homepage_2_title', 'homepage_2_url',
+                'homepage_3_title', 'homepage_3_url',
+                'twitter', 'blog_url',
+            ),
+        ));
+
+        if (!$result) {
+            $this->response->statusCode(404);
+            echo json_encode(array('status' => 'error', 'message' => 'store not found'), JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $s = $result['Stores'];
+
+        $image_nos = array();
+        for ($i = 1; $i <= 4; $i++) {
+            if (!empty($s['store_mime_' . $i])) $image_nos[] = $i;
+        }
+
+        $tags = array();
+        if ($s['kenko_flg'])  $tags[] = '健康麻雀';
+        if ($s['norate_flg']) $tags[] = 'ノーレートフリー';
+        if ($s['kyogi_flg'])  $tags[] = '競技麻雀';
+        if ($s['yoyaku_flg']) $tags[] = '要電話';
+        if ($s['new_flg'])    $tags[] = 'NEW';
+        if ($s['pickup_flg']) $tags[] = 'ピックアップ';
+        if ($s['visit_flg'])  $tags[] = '訪問済み';
+
+        $homepages = array();
+        for ($i = 1; $i <= 3; $i++) {
+            if (!empty($s['homepage_' . $i . '_url'])) {
+                $homepages[] = array(
+                    'title' => !empty($s['homepage_' . $i . '_title']) ? $s['homepage_' . $i . '_title'] : $s['homepage_' . $i . '_url'],
+                    'url'   => $s['homepage_' . $i . '_url'],
+                );
+            }
+        }
+
+        $store = array(
+            'id'         => (int)$s['id'],
+            'store_name' => $s['store_name'],
+            'address'    => (string)$s['address'],
+            'station'    => !empty($s['station'])  ? $s['station']  : null,
+            'comment'    => !empty($s['comment'])  ? $s['comment']  : null,
+            'visit_date' => ($s['visit_flg'] && !empty($s['visit_date'])) ? $s['visit_date'] : null,
+            'close_flg'  => (int)$s['close_flg'],
+            'image_nos'  => $image_nos,
+            'tags'       => $tags,
+            'homepages'  => $homepages,
+            'twitter'    => !empty($s['twitter'])  ? $s['twitter']  : null,
+            'blog_url'   => !empty($s['blog_url']) ? $s['blog_url'] : null,
+        );
+
+        echo json_encode(
+            array('status' => 'ok', 'store' => $store),
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
     // GET /api/v1/stores?pref_id={id}&mati={mati}
     public function stores() {
         $pref_id = (int)$this->request->query('pref_id');
