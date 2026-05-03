@@ -37,6 +37,7 @@
 	Router::connect('/api/v1/cities',      array('controller' => 'Api', 'action' => 'cities'));
 	Router::connect('/api/v1/stores',      array('controller' => 'Api', 'action' => 'stores'));
 	Router::connect('/api/v1/store',       array('controller' => 'Api', 'action' => 'store'));
+	Router::connect('/api/v1/search',      array('controller' => 'Api', 'action' => 'search'));
 	
 
 	

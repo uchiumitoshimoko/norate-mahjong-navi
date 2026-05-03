@@ -51,6 +51,69 @@ class ApiController extends AppController {
         );
     }
 
+    // GET /api/v1/search?keyword={kw}&pref_id={id}
+    public function search() {
+        $keyword = trim((string)$this->request->query('keyword'));
+        $pref_id = (int)$this->request->query('pref_id');
+
+        if (empty($keyword) && !$pref_id) {
+            $this->response->statusCode(400);
+            echo json_encode(array('status' => 'error', 'message' => 'keyword or pref_id is required'), JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $this->loadModel('Stores');
+
+        $cond = array('Stores.status' => 1);
+
+        if ($pref_id) {
+            $cond['Stores.pref_id'] = $pref_id;
+        }
+
+        if (!empty($keyword)) {
+            $_search_cols = array('store_name', 'address', 'mati', 'station', 'comment', 'free_word_text');
+            $_keywords    = preg_split('/[\s\x{3000}]+/u', $keyword, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($_keywords as $_kw) {
+                $_or = array();
+                foreach ($_search_cols as $_col) {
+                    $_or['Stores.' . $_col . ' LIKE'] = '%' . $_kw . '%';
+                }
+                $cond[] = array('OR' => $_or);
+            }
+        }
+
+        $stores = $this->Stores->find('all', array(
+            'conditions' => $cond,
+            'order'      => 'Stores.visit_date DESC, Stores.id DESC',
+            'fields'     => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'store_mime_1', 'close_flg'),
+            'limit'      => 100,
+        ));
+
+        $result = array();
+        foreach ($stores as $row) {
+            $s = $row['Stores'];
+            $result[] = array(
+                'id'         => (int)$s['id'],
+                'store_name' => $s['store_name'],
+                'address'    => $s['address'],
+                'visit_date' => ($s['visit_flg'] && !empty($s['visit_date'])) ? $s['visit_date'] : null,
+                'has_image'  => !empty($s['store_mime_1']),
+                'close_flg'  => (int)$s['close_flg'],
+            );
+        }
+
+        echo json_encode(
+            array(
+                'status'  => 'ok',
+                'keyword' => $keyword,
+                'pref_id' => $pref_id ?: null,
+                'count'   => count($result),
+                'stores'  => $result,
+            ),
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
     // GET /api/v1/store?id={id}
     public function store() {
         $id = (int)$this->request->query('id');
