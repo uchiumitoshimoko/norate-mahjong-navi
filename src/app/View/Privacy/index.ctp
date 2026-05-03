@@ -19,7 +19,9 @@
 
         <div class="rn-contact-card">
             <h2 class="rn-contact-card__heading">広告について</h2>
-            <p>本サイトは現在広告を掲載していません。</p>
+            <p>本ウェブサイトでは、Google AdSenseによる広告を掲載する場合があります。Google AdSenseは、適切な広告を表示するためにCookieを使用し、利用者のウェブサイト訪問情報を収集することがあります。このデータは個人を特定するものではありません。</p>
+            <p>Cookieの使用を無効にする方法や、Google による広告のオプトアウトについては、<a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google のポリシーと規約</a>をご確認ください。</p>
+            <p>なお、本サイトのスマートフォンアプリ版では現在広告を表示していません。</p>
         </div>
 
         <div class="rn-contact-card">
