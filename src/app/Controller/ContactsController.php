@@ -1,17 +1,10 @@
 <?php
 App::uses('AppController', 'Controller');
 
-/**
- * Cancels Controller
- *
- * @property Cancel $Customer
- */
 class ContactsController extends AppController {
 
-	public function index() {
-		
-		$this->set('sub_title', "���₢���킹");
-		
-	}
+    public function index() {
+        $this->set('page_title', 'ノーレート麻雀ナビ | お問い合わせ');
+    }
 
 }
