@@ -52,6 +52,8 @@ if (!empty($page_title)) {
 <title><?=$title?></title>
 <link rel="canonical" href="<?php echo h($_page_url); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="<?=TEST?>/favicon.png">
+<link rel="apple-touch-icon" href="<?=TEST?>/apple-touch-icon.png">
 
 <?php if(!empty($noindex)): ?>
 <meta name="robots" content="noindex, follow">
@@ -70,6 +72,7 @@ $_desc = !empty($meta_description) ? $meta_description : $_template_desc;
 <meta property="og:description" content="<?php echo h($_desc); ?>">
 <meta property="og:type" content="website">
 <meta property="og:url" content="<?php echo h($_page_url); ?>">
+<meta property="og:image" content="https://kenko-norate-mahjong.com/img/ogp.png">
 
 <link rel="stylesheet" href="<?=TEST?>/css/style.css?<?=date('YmdHis')?>">
 <script src="<?=TEST?>/js/openclose.js"></script>
