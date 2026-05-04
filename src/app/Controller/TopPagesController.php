@@ -69,10 +69,14 @@ class TopPagesController extends AppController {
 		$cacheFile = $cacheDir . DS . $id . '_' . $no . '.jpg';
 
 		if (file_exists($cacheFile)) {
-			header('Content-Type: image/jpeg');
-			header('Cache-Control: public, max-age=604800');
-			readfile($cacheFile);
-			exit;
+			if (filesize($cacheFile) > 0) {
+				header('Content-Type: image/jpeg');
+				header('Cache-Control: public, max-age=604800');
+				readfile($cacheFile);
+				exit;
+			}
+			// 0バイトの壊れたキャッシュは削除して再生成する
+			@unlink($cacheFile);
 		}
 
 		$row = $this->Stores->find('first', array(
