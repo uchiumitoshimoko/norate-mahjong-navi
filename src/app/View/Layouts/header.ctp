@@ -2,7 +2,7 @@
 <div class="inner">
 <a href="<?=TEST?>/">
 
-<h1 id="logo" style="font-weight:bold;">ノーレート麻雀ナビ</h1>
+<h1 id="logo" style="font-weight:bold;"><img src="<?=TEST?>/favicon.png" alt="" class="rn-header-logo-icon">ノーレート麻雀ナビ</h1>
 
 
 

@@ -3787,3 +3787,33 @@ body.top-page #main .rn-section-title {
    renewal Phase16 DETAIL VISIT DATE & NOTICE end
    ================================================================ */
 
+
+
+/* ================================================================
+   renewal Phase17 HEADER LOGO ICON
+   ================================================================ */
+
+header #logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.rn-header-logo-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .rn-header-logo-icon {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* ================================================================
+   renewal Phase17 HEADER LOGO ICON end
+   ================================================================ */
