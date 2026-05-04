@@ -24,6 +24,21 @@
             </div>
         </div>
 
+        <div class="rn-contact-card">
+            <h2 class="rn-contact-card__heading">掲載情報の修正・削除依頼</h2>
+            <p>掲載している店舗情報について、以下のご要望はお気軽にご連絡ください。いただいたご連絡には速やかに対応いたします。</p>
+            <ul>
+                <li>掲載情報の修正（住所・営業時間・写真など）</li>
+                <li>掲載の停止・削除</li>
+                <li>閉店情報のご連絡</li>
+            </ul>
+            <div class="rn-contact-card__btn-wrap">
+                <a href="https://twitter.com/messages/compose?recipient_id=toshi_tenho" target="_blank" rel="noopener" class="rn-contact-card__btn">
+                    Twitter(@toshi_tenho)へDMを送る
+                </a>
+            </div>
+        </div>
+
     </div>
 
 </section>
