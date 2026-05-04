@@ -51,6 +51,13 @@ class ApiController extends AppController {
         );
     }
 
+    private function _firstImageNo($s) {
+        for ($i = 1; $i <= 4; $i++) {
+            if (!empty($s['store_mime_' . $i])) return $i;
+        }
+        return 0;
+    }
+
     // GET /api/v1/search?keyword={kw}&pref_id={id}
     public function search() {
         $keyword = trim((string)$this->request->query('keyword'));
@@ -85,19 +92,22 @@ class ApiController extends AppController {
         $stores = $this->Stores->find('all', array(
             'conditions' => $cond,
             'order'      => 'Stores.visit_date DESC, Stores.id DESC',
-            'fields'     => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'store_mime_1', 'close_flg'),
+            'fields'     => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'close_flg',
+                                  'store_mime_1', 'store_mime_2', 'store_mime_3', 'store_mime_4'),
             'limit'      => 100,
         ));
 
         $result = array();
         foreach ($stores as $row) {
-            $s = $row['Stores'];
+            $s      = $row['Stores'];
+            $img_no = $this->_firstImageNo($s);
             $result[] = array(
                 'id'         => (int)$s['id'],
                 'store_name' => $s['store_name'],
                 'address'    => $s['address'],
                 'visit_date' => ($s['visit_flg'] && !empty($s['visit_date'])) ? $s['visit_date'] : null,
-                'has_image'  => !empty($s['store_mime_1']),
+                'has_image'  => $img_no > 0,
+                'image_no'   => $img_no,
                 'close_flg'  => (int)$s['close_flg'],
             );
         }
@@ -216,18 +226,21 @@ class ApiController extends AppController {
                 'Stores.status'  => 1,
             ),
             'order'  => 'Stores.visit_date DESC, Stores.id DESC',
-            'fields' => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'store_mime_1', 'close_flg'),
+            'fields' => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'close_flg',
+                              'store_mime_1', 'store_mime_2', 'store_mime_3', 'store_mime_4'),
         ));
 
         $result = array();
         foreach ($stores as $row) {
-            $s = $row['Stores'];
+            $s      = $row['Stores'];
+            $img_no = $this->_firstImageNo($s);
             $result[] = array(
                 'id'         => (int)$s['id'],
                 'store_name' => $s['store_name'],
                 'address'    => $s['address'],
                 'visit_date' => ($s['visit_flg'] && !empty($s['visit_date'])) ? $s['visit_date'] : null,
-                'has_image'  => !empty($s['store_mime_1']),
+                'has_image'  => $img_no > 0,
+                'image_no'   => $img_no,
                 'close_flg'  => (int)$s['close_flg'],
             );
         }
@@ -245,19 +258,22 @@ class ApiController extends AppController {
         $stores = $this->Stores->find('all', array(
             'conditions' => array('Stores.status' => 1),
             'order'      => 'Stores.create_date DESC, Stores.id DESC',
-            'fields'     => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'store_mime_1', 'close_flg'),
+            'fields'     => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'close_flg',
+                                  'store_mime_1', 'store_mime_2', 'store_mime_3', 'store_mime_4'),
             'limit'      => 20,
         ));
 
         $result = array();
         foreach ($stores as $row) {
-            $s = $row['Stores'];
+            $s      = $row['Stores'];
+            $img_no = $this->_firstImageNo($s);
             $result[] = array(
                 'id'         => (int)$s['id'],
                 'store_name' => $s['store_name'],
                 'address'    => $s['address'],
                 'visit_date' => ($s['visit_flg'] && !empty($s['visit_date'])) ? $s['visit_date'] : null,
-                'has_image'  => !empty($s['store_mime_1']),
+                'has_image'  => $img_no > 0,
+                'image_no'   => $img_no,
                 'close_flg'  => (int)$s['close_flg'],
             );
         }
