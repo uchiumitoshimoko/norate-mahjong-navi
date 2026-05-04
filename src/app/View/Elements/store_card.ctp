@@ -15,7 +15,6 @@ $_yoyaku   = $row['Stores']['yoyaku_flg'];
 $_visit      = $row['Stores']['visit_flg'];
 $_visit_date = $row['Stores']['visit_date'];
 $_pickup     = $row['Stores']['pickup_flg'];
-$_new        = $row['Stores']['new_flg'];
 ?>
 <article class="store-card<?php echo $_close ? ' store-card--closed' : ''; ?>">
     <a href="<?php echo TEST; ?>/stores/detail/<?php echo h($_id); ?>" class="store-card__link">
@@ -35,7 +34,6 @@ $_new        = $row['Stores']['new_flg'];
         <div class="store-card__body">
 
             <div class="store-card__tags">
-                <?php if($_new):    ?><span class="icon color7">NEW</span><?php endif; ?>
                 <?php if($_pickup): ?><span class="icon color1">ピックアップ</span><?php endif; ?>
                 <?php if($_kenko):  ?><span class="icon color3">健康麻雀</span><?php endif; ?>
                 <?php if($_norate): ?><span class="icon color2">ノーレートフリー</span><?php endif; ?>

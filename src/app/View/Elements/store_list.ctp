@@ -21,15 +21,6 @@
 	<div class="text">
 	
 	<?
-		// NEW
-		if($row['Stores']['new_flg'] == "1") {
-	?>
-			<span class="new">new</span>
-	<?
-		}
-	?>
-	
-	<?
 		// ピックアップ
 		if($row['Stores']['pickup_flg'] == "1") {
 	?>

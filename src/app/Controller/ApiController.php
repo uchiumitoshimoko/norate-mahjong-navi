@@ -136,7 +136,7 @@ class ApiController extends AppController {
                 'visit_date', 'visit_flg', 'close_flg',
                 'store_mime_1', 'store_mime_2', 'store_mime_3', 'store_mime_4',
                 'kenko_flg', 'norate_flg', 'kyogi_flg', 'yoyaku_flg',
-                'new_flg', 'pickup_flg',
+                'pickup_flg',
                 'homepage_1_title', 'homepage_1_url',
                 'homepage_2_title', 'homepage_2_url',
                 'homepage_3_title', 'homepage_3_url',
@@ -162,7 +162,6 @@ class ApiController extends AppController {
         if ($s['norate_flg']) $tags[] = 'ノーレートフリー';
         if ($s['kyogi_flg'])  $tags[] = '競技麻雀';
         if ($s['yoyaku_flg']) $tags[] = '要電話';
-        if ($s['new_flg'])    $tags[] = 'NEW';
         if ($s['pickup_flg']) $tags[] = 'ピックアップ';
         if ($s['visit_flg'])  $tags[] = '訪問済み';
 
@@ -235,6 +234,36 @@ class ApiController extends AppController {
 
         echo json_encode(
             array('status' => 'ok', 'pref_id' => $pref_id, 'mati' => $mati, 'stores' => $result),
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
+    // GET /api/v1/new_stores
+    public function new_stores() {
+        $this->loadModel('Stores');
+
+        $stores = $this->Stores->find('all', array(
+            'conditions' => array('Stores.status' => 1),
+            'order'      => 'Stores.create_date DESC, Stores.id DESC',
+            'fields'     => array('id', 'store_name', 'address', 'visit_date', 'visit_flg', 'store_mime_1', 'close_flg'),
+            'limit'      => 20,
+        ));
+
+        $result = array();
+        foreach ($stores as $row) {
+            $s = $row['Stores'];
+            $result[] = array(
+                'id'         => (int)$s['id'],
+                'store_name' => $s['store_name'],
+                'address'    => $s['address'],
+                'visit_date' => ($s['visit_flg'] && !empty($s['visit_date'])) ? $s['visit_date'] : null,
+                'has_image'  => !empty($s['store_mime_1']),
+                'close_flg'  => (int)$s['close_flg'],
+            );
+        }
+
+        echo json_encode(
+            array('status' => 'ok', 'count' => count($result), 'stores' => $result),
             JSON_UNESCAPED_UNICODE
         );
     }

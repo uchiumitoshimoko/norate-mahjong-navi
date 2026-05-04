@@ -76,15 +76,13 @@ class AppController extends Controller
     $this->prefs_count = $this->Utility->getPrefsCount();
     $this->set('prefs_count', $this->prefs_count);
 
-    // 新着店舗を取得する（訪問日降順）。
+    // 新着店舗を取得する（登録日降順）。
     $cond_n = array();
-    $cond_n['new_flg'] = "1";
     $cond_n['status'] = "1";
-    $cond_n['store_mime_1 !='] = null;
     $this->new_store_list = $this->Utility->getStores(
       $cond_n,
-      'Stores.visit_date DESC, Stores.id DESC',
-      "10"
+      'Stores.create_date DESC, Stores.id DESC',
+      "20"
     );
 
     $this->set('new_store_list', $this->new_store_list);
