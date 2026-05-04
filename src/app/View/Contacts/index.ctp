@@ -15,8 +15,7 @@
         <div class="rn-contact-card">
             <h2 class="rn-contact-card__heading">情報提供のお願い</h2>
             <p>このホームページは自分ひとりで運営しているもので、どうしてもお店が閉店したなどの情報が追い付かない場合が多々あるかと思います。</p>
-            <p>「この場所に新しいお店ができたよ」「あのお店閉店してたよ」などの情報があれば教えていただけると幸いです。</p>
-            <p>連絡手段はツイッターアカウントへの「DM」にてお願いできればと思います。</p>
+            <p>「この場所に新しいお店ができたよ」「あのお店閉店してたよ」などの気軽な情報提供はTwitter DMでもお気軽にどうぞ。</p>
             <div class="rn-contact-card__btn-wrap">
                 <a href="https://twitter.com/messages/compose?recipient_id=toshi_tenho" target="_blank" rel="noopener" class="rn-contact-card__btn">
                     Twitter(@toshi_tenho)へDMを送る
@@ -33,10 +32,11 @@
                 <li>閉店情報のご連絡</li>
             </ul>
             <div class="rn-contact-card__btn-wrap">
-                <a href="https://twitter.com/messages/compose?recipient_id=toshi_tenho" target="_blank" rel="noopener" class="rn-contact-card__btn">
-                    Twitter(@toshi_tenho)へDMを送る
+                <a href="https://forms.gle/JuFvszfjUujBqxbk8" target="_blank" rel="noopener" class="rn-contact-card__btn">
+                    お問い合わせフォームへ
                 </a>
             </div>
+            <p class="rn-contact-card__sub-link">または <a href="https://twitter.com/messages/compose?recipient_id=toshi_tenho" target="_blank" rel="noopener">Twitter(@toshi_tenho)へDM</a> でもご連絡いただけます。</p>
         </div>
 
     </div>

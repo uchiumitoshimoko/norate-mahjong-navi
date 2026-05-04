@@ -3817,3 +3817,23 @@ header #logo {
 /* ================================================================
    renewal Phase17 HEADER LOGO ICON end
    ================================================================ */
+
+
+/* ================================================================
+   renewal Phase18 CONTACT SUB LINK
+   ================================================================ */
+
+.rn-contact-card__sub-link {
+    margin-top: 10px !important;
+    font-size: 13px !important;
+    color: #666 !important;
+    text-align: center;
+}
+
+.rn-contact-card__sub-link a {
+    color: var(--rn-green);
+}
+
+/* ================================================================
+   renewal Phase18 CONTACT SUB LINK end
+   ================================================================ */
